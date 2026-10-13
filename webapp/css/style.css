@@ -1,0 +1,517 @@
+.kpiCardsRow {    margin: 0.75rem 0 1rem 0 !important;    gap: 12px;}
+.kpiCard {    background: #ffffff !important;    border: 1px solid #d9d9d9 !important;    border-radius: 6px !important;    min-height: 90px;    padding: 14px 20px !important;    box-sizing: border-box;    transition: all 0.2s ease-in-out;}
+.kpiCard:first-child {    border-left: 4px solid #111827 !important;}
+.kpiCard:hover {    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);}
+.kpiCardTitle,.kpiTitle {    font-size: 0.75rem !important;    font-weight: 600 !important;    color: #5f6368 !important;    text-transform: uppercase;    letter-spacing: 0.3px;    margin-bottom: 6px !important;}
+.kpiCardValue .sapMObjectNumberText,.kpiNumber .sapMObjectNumberText {    font-size: 2rem !important;    font-weight: 700 !important;    color: #111827 !important;    line-height: 1.1 !important;}
+.kpiCardValue,.kpiNumber {    margin-top: 0 !important;}
+@media (max-width: 1200px) {    .kpiCardsRow {        flex-wrap: wrap;        gap: 10px;    }
+    .kpiCard {        width: calc(50% - 5px) !important;    }}
+@media (max-width: 700px) {    .kpiCard {        width: 100% !important;    }}
+.comparisonGrid {    width: 100%;}
+.comparisonCard {    width: 100% !important;    background: #ffffff !important;    border: 1px solid #dfe3e8 !important;    border-radius: 14px !important;    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.07);    overflow: hidden;    transition: transform 0.25s ease, box-shadow 0.25s ease !important;}
+.comparisonCard:hover {    transform: translateY(-2px);    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08) !important;}
+.comparisonCard .sapMPanelHdr {    background: #f7f8fa !important;}
+.comparisonCard .sapMPanelContent {    padding: 0 !important;}
+.comparisonCard .sapMTB {    background: #f8fafc !important;    min-height: 3rem;}
+.comparisonLegend {    display: flex;    gap: 16px;    padding: 12px 16px;    border-bottom: 1px solid #e5e5e5;}
+/* ------------------------------------------------------------   Comparison rows (Sales Order | Quotation cards)   LABEL (fixed) | VALUE (takes the rest, wraps) | MATCH DOT (far right)   ------------------------------------------------------------ */.comparisonRow {    display: grid !important;    grid-template-columns: 240px minmax(0, 1fr);    column-gap: 12px;    align-items: start;    height: auto !important;    min-height: 56px;    padding: 12px 16px;    box-sizing: border-box;    border-bottom: 1px solid #eeeeee;    border-radius: 8px !important;    transition: filter 0.15s ease, box-shadow 0.15s ease;}
+.comparisonRow > * {    min-width: 0;}
+.comparisonRow > :nth-child(1),.comparisonRow > :nth-child(1).sapMText {    font-weight: 600;    color: #374151;    white-space: nowrap;    width: auto;}
+.comparisonValue,.comparisonRow .sapMText.comparisonValue,.comparisonRow > :nth-child(2) .sapMText {    text-align: left !important;    width: auto !important;    font-weight: 400;    color: #1f2937;    white-space: pre-line !important;    word-break: break-word;    overflow-wrap: anywhere;    overflow: visible !important;    text-overflow: unset !important;    line-height: 1.4;}
+.comparisonRow > :nth-child(3) {    justify-self: end;    text-align: right;}
+.comparisonRow .matchIndicator {    margin-top: 2px;}
+/* Value + match dot grouped together on the right (label | value + dot) */.comparisonRow > .comparisonValueGroup {    display: grid !important;    grid-template-columns: minmax(0, 1fr) 16px;    column-gap: 8px;    align-items: start;    justify-items: end;    width: 100% !important;    min-width: 0;    justify-self: stretch;    box-sizing: border-box;}
+.comparisonRow .comparisonValueGroup .sapMText.comparisonValue {    text-align: right !important;    width: auto !important;    justify-self: end;}
+.comparisonRow .comparisonValueGroup .matchIndicator {    margin: 2px 0 0 0 !important;    justify-self: end;}
+/* date rows have no dot: value runs flush to the right edge, where the dot column ends */.comparisonRow > .comparisonValueGroup.comparisonValueGroupNoDot {    grid-template-columns: minmax(0, 1fr);}
+.docNumber {    font-weight: 700;    font-size: 1rem;    color: #1d5fd1;}
+/* ------------------------------------------------------------   Sales Order / Quotation number = "open in S/4HANA" link chip.   [VA03] 12807 ↗   |   [VA43] 30000041 ↗   - tag on the left says WHICH transaction opens   - arrow on the right says "opens in a new tab"   - chip fills with its accent colour on hover/focus   ------------------------------------------------------------.docNumberLink {    --doc-accent: #0a6ed1;    display: inline-flex !important;    align-items: center;    gap: 8px;    padding: 3px 12px 3px 4px;    border: 1px solid var(--doc-accent);    border-radius: 999px;    background: #ffffff;    color: var(--doc-accent) !important;    font-size: 1rem !important;    font-weight: 700 !important;    line-height: 1.4;    text-decoration: none !important;    cursor: pointer;    transition: background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;} */
+
+/*change#4*/ .docNumberLink {
+    --doc-accent: #0a6ed1;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    gap: 6px;
+    padding: 3px 12px !important;
+
+    border: 1px solid var(--doc-accent);
+    border-radius: 999px;
+    background: #ffffff;
+    color: var(--doc-accent) !important;
+
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    line-height: 1.4;
+}
+
+.docNumberLink.docLinkQuotation {    --doc-accent: #7c3aed;}
+/* transaction tag */ /*change#4*/.docNumberLink::before {
+    display: none !important;
+}
+
+.docNumberLink.docLinkQuotation {    --doc-accent: #7c3aed;}
+/* transaction tag */.docNumberLink::before {    content: "VA03";    padding: 2px 8px;    border-radius: 999px;    background: var(--doc-accent);    color: #ffffff;    font-size: 0.625rem;    font-weight: 700;    letter-spacing: 0.6px;    transition: background-color 0.15s ease, color 0.15s ease;}
+.docNumberLink.docLinkQuotation::before {    content: "VA43";}
+/* "opens in new tab" arrow */.docNumberLink::after {    content: "\2197";    font-size: 1rem;    font-weight: 700;    transition: transform 0.15s ease;}
+.docNumberLink:hover,.docNumberLink:focus-visible {    background: var(--doc-accent);    color: #ffffff !important;    text-decoration: none !important;    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);    outline: none;}
+.docNumberLink:hover::before,.docNumberLink:focus-visible::before {    background: #ffffff;    color: var(--doc-accent);}
+.docNumberLink:hover::after,.docNumberLink:focus-visible::after {    transform: translate(2px, -2px);}
+.docNumberLink:active {    box-shadow: none;    filter: brightness(0.92);}
+@media (max-width: 700px) {    /* keep the chip compact on phones: hide the tag, keep number + arrow */    .docNumberLink::before {        display: none;    }
+    .docNumberLink {        padding-left: 12px;    }}
+/* ------------------------------------------------------------   Row-level match highlighting (Soft rounded card appearance)   Label  = neutral dark gray (unchanged)   Value  = match colour, bold   Dot    = same match colour (ObjectStatus state)   Row    = soft pastel background of the same colour   ------------------------------------------------------------ */.matchRowSuccess,.comparisonRow[data-rowmatch="Success"] {    background-color: #eef8ef !important;    border-radius: 8px !important;}
+.matchRowWarning,.comparisonRow[data-rowmatch="Warning"] {    background-color: #fff9e8 !important;    border-radius: 8px !important;}
+.matchRowError,.comparisonRow[data-rowmatch="Error"] {    background-color: #fff0f0 !important;    border-radius: 8px !important;}
+.matchRowInfo,.comparisonRow[data-rowmatch="Information"] {    background-color: #eef5ff !important;    border-radius: 8px !important;}
+/* value text follows the match colour */.comparisonRow[data-rowmatch="Success"] .comparisonValue {    color: #2e7d32 !important;    font-weight: 700 !important;}
+.comparisonRow[data-rowmatch="Warning"] .comparisonValue {    color: #b26a00 !important;    font-weight: 700 !important;}
+.comparisonRow[data-rowmatch="Error"] .comparisonValue {    color: #c62828 !important;    font-weight: 700 !important;}
+.comparisonRow[data-rowmatch="Information"] .comparisonValue {    color: #1565c0 !important;    font-weight: 700 !important;}
+/* rows without a match state (DATE, VALID FROM, VALID UNTIL):   same weight and size as the match-coloured values, neutral dark colour */.comparisonRow .comparisonValueGroupNoDot .comparisonValue {    color: #1f2937 !important;    font-weight: 700 !important;    font-size: inherit !important;}
+.comparisonRow:hover {    filter: brightness(0.98);}
+.comparisonLegend .sapMObjStatus {    font-size: 0.8125rem;}
+.comparisonGrid .sapUiRespGridSpanXL6,.comparisonGrid .sapUiRespGridSpanL6 {    display: flex;}
+.comparisonCard {    flex: 1;}
+.comparisonRow .sapMObjStatus,.matchIndicator {    margin-left: 12px;}
+.comparisonRow .sapMObjStatusIcon,.matchIndicator .sapMObjStatusIcon {    font-size: 0.875rem;}
+/* Action Buttons */button[id*="Reject_link"] .sapMBtnInner {    background: #ffffff !important;    border: 1px solid #d92d20 !important;    color: #d92d20 !important;    border-radius: 8px !important;}
+button[id*="Reject_link"] .sapMBtnContent {    color: #d92d20 !important;    font-weight: 600 !important;}
+button[id*="Linkdocs"] .sapMBtnInner {    background: #188038 !important;    border: 1px solid #188038 !important;    color: #ffffff !important;    border-radius: 8px !important;}
+button[id*="Linkdocs"] .sapMBtnContent {    color: #ffffff !important;    font-weight: 600 !important;}
+button[id*="Return_to_list"] .sapMBtnInner {    border: none !important;    background: transparent !important;    box-shadow: none !important;}
+button[id*="Return_to_list"] .sapMBtnContent {    color: #0a6ed1 !important;    font-weight: 600 !important;}
+button[id*="Return_to_list"] .sapMBtnContent::before {    content: "←";    margin-right: 0.5rem;    font-weight: 700;}
+button[id*="Return_to_list"] {    margin-right: auto !important;}
+#backBtn {    display: none !important;}
+.confidenceBadge {    display: inline-block;    border: 1px solid #cfdcf5;    border-radius: 20px;    padding: 4px 14px;    background: #ffffff;    color: #1f2937;    font-weight: 600;    font-size: 1rem;    line-height: 1.4;}
+.statusBadge {    display: inline-block;    border: 1px solid #d6e4ff;    border-radius: 20px;    padding: 4px 14px;    background: #edf4ff;    color: #4f6fff;    font-weight: 600;    font-size: 1rem;    line-height: 1.4;}
+button[id*="Linkdocs"] .sapUiIcon,button[id*="Linkdocs"] .sapMBtnIcon {    color: white !important;}
+button[id*="Reject_link"] .sapUiIcon,button[id*="Reject_link"] .sapMBtnIcon {    color: #d32f2f !important;}
+*[id*="template::Share"] {    order: 10 !important;}
+*[id*="VA03"] {    order: 20 !important;}
+*[id*="VA23"] {    order: 25 !important;}
+*[id*="VA43"] {    order: 30 !important;}
+/* VA03 / VA23 toolbar actions are no longer shown: navigation now starts   from the Sales Order / Quotation number links. (Safety net in case   Fiori Elements re-renders the buttons after the controller hides them.) */*[id*="::VA03"],*[id*="::VA23"] {    display: none !important;}
+/* ============================================================   CONFIRM DOCUMENT LINK DIALOG   ============================================================ */.confirmLinkContent {    padding: 8px 22px 18px 22px !important;}
+.confirmDialogTitleRow {    margin-bottom: 5px !important;}
+.confirmDialogTitleIcon {    color: #188038 !important;    font-size: 1.2rem !important;}
+.confirmDialogTitle {    color: #1f2937 !important;    font-weight: 700 !important;}
+.confirmDialogDescription {    font-size: 1rem !important;    color: #334155 !important;}
+.confirmDialogIntro {    font-weight: 700 !important;    color: #1f2937 !important;}
+.confirmSectionTitle {    color: #4f6f9f !important;    font-weight: 700 !important;}
+.confirmHeaderFieldsContainer {    width: 100% !important;}
+.confirmHeaderRow {    min-height: 52px !important;    padding: 5px 4px !important;    border-bottom: 1px solid #eeeeee !important;}
+.confirmFieldLabel {    width: 210px !important;    min-width: 210px !important;    font-weight: 700 !important;    color: #334155 !important;}
+.confirmValueBox {    flex: 1 !important;    justify-content: center !important;}
+.confirmOldValue {    color: #9b4d78 !important;    text-decoration: line-through !important;}
+.confirmNewValue {    color: #166534 !important;    font-weight: 700 !important;}
+.confirmValueArrow {    color: #7c9bc4 !important;    margin: 0 10px !important;}
+.confirmFieldCheckBox {    margin-left: 15px !important;}
+.confirmLineItemsContainer {    width: 100% !important;}
+.confirmLineItemRow {    min-height: 48px !important;    padding: 5px 4px !important;    border-bottom: 1px solid #eeeeee !important;}
+.confirmLineItemNumber {    width: 55px !important;    min-width: 55px !important;    color: #7890ad !important;    font-weight: 600 !important;}
+.confirmLineItemMaterial {    width: 140px !important;    min-width: 140px !important;    color: #536b8c !important;    font-weight: 600 !important;}
+.confirmLineItemField {    width: 120px !important;    min-width: 120px !important;    font-weight: 700 !important;}
+.confirmLineOldValue {    width: 140px !important;    min-width: 140px !important;    color: #9b4d78 !important;    text-decoration: line-through !important;}
+.confirmLineNewValue {    width: 140px !important;    min-width: 140px !important;    color: #166534 !important;    font-weight: 700 !important;}
+.confirmLineArrow {    color: #7c9bc4 !important;    margin: 0 8px !important;}
+.confirmLinkContent ~ .sapMDialogFooter .sapMBtnEmphasized,.linkDocsSelectionDialog .sapMBtnEmphasized {    border-radius: 7px !important;}
+@media (max-width: 700px) {    .confirmFieldLabel {        width: 120px !important;        min-width: 120px !important;    }
+    .confirmValueBox {        justify-content: flex-start !important;    }
+    .confirmHeaderRow {        gap: 8px !important;    }
+    .confirmLineItemMaterial {        width: 100px !important;        min-width: 100px !important;    }
+    .confirmLineItemField {        width: 90px !important;        min-width: 90px !important;    }
+    .confirmLineOldValue,    .confirmLineNewValue {        width: 100px !important;        min-width: 100px !important;    }}
+/* ============================================================   LINE ITEM MATCHING (Matched / Unmatched cards)   ============================================================ */.lineMatchCard {    background: #ffffff;    border: 1px solid #d7dce3;    border-radius: 10px;    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);    margin-bottom: 1.5rem;    overflow: hidden;    transition: transform 0.2s ease, box-shadow 0.2s ease;}
+.lineMatchCard:hover {    transform: translateY(-1px);    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);}
+.lineMatchHeader {    padding: 14px 20px;    background: #f8f9fb;    border-bottom: 1px solid #e3e7ed;}
+.lineMatchHeader .sapMTitle {    font-size: 1rem;    font-weight: 600;    color: #1f2937;}
+.lineMatchLegend {    gap: 18px;    flex-wrap: wrap;}
+.lineMatchLegend .sapMObjStatusText {    font-size: 0.75rem;    color: #4b5563;}
+.lineMatchGroupRow,.lineMatchRow {    display: grid !important;    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);    column-gap: 40px;    align-items: center;    padding: 8px 20px;    box-sizing: border-box;    min-width: 0;    transition: filter 0.15s ease, background-color 0.15s ease;}
+.lineMatchGroupRow > *,.lineMatchRow > * {    min-width: 0;}
+.lineMatchGroupRow {    padding-top: 16px;    padding-bottom: 0;}
+.lineMatchGroup {    display: block;    font-weight: 600;    font-size: 0.75rem;    letter-spacing: 0.6px;    text-transform: uppercase;    padding-bottom: 6px;    border-bottom: 2px solid currentColor;}
+.lineMatchGroupSO {    color: #1d5fd1 !important;}
+.lineMatchGroupQT {    color: #7c3aed !important;}
+.lineMatchGroupUnmatched {    color: #c026d3 !important;}
+.lineMatchColHead {    background: #f3f4f6;    border-top: 1px solid #e5e7eb;    border-bottom: 1px solid #e5e7eb;    margin-top: 8px;}
+.lineMatchColHead .sapMText {    font-size: 0.6875rem;    font-weight: 600;    letter-spacing: 0.4px;    text-transform: uppercase;    color: #8a94a3;    white-space: normal !important;    overflow-wrap: anywhere;    word-break: break-word;    line-height: 1.25;}
+.lineMatchList .sapMLIB {    height: auto !important;}
+.lineMatchList .sapMLIBContent {    padding: 0 !important;}
+.lineMatchList .sapMLIB:hover {    background: #fafbfc;}
+.lineMatchList .sapMText {    color: #1f2937;    font-size: 0.875rem;}
+.lineMatchRow:hover {    filter: brightness(0.98);}
+.lineMatchHalf {    display: grid !important;    column-gap: 10px;    align-items: center;    width: 100%;    min-width: 0;}
+.lineMatchHalf > * {    min-width: 0;    overflow: hidden;}
+.lineMatchHalf .sapMText {    min-width: 0;    max-width: 100%;    white-space: normal;    overflow-wrap: anywhere;    word-break: break-word;}
+.lmCols5,.lmColsU {    grid-template-columns: minmax(40px, 0.45fr) minmax(110px, 1.25fr) minmax(120px, 3fr) minmax(90px, 1.1fr) minmax(120px, 1.4fr);}
+/* Badge hugs its content (same behaviour for Material, Qty, Unit Price).   The grid column decides WHERE the badge sits; the badge never stretches.   NOTE: the old "width:100%", "justify-content:space-between" and   "justify-self:stretch" rules were removed on purpose. */.lmCell {    display: inline-flex !important;    align-items: center;    justify-content: flex-start;    gap: 12px;    padding: 4px 10px;    min-height: 30px;    width: fit-content !important;    max-width: 100%;    min-width: 0;    justify-self: start;    border-radius: 6px;    box-sizing: border-box;    transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;}
+/* keeps the hover shadow from being clipped by ".lineMatchHalf > *" */.lineMatchHalf > .lmCell {    overflow: visible;}
+.lmCell:hover {    transform: translateY(-1px);    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);}
+/* Text keeps its natural width; truncates only if the column is too narrow */.lmCell .sapMText {    flex: 0 1 auto;    min-width: 0;    white-space: nowrap;    overflow: hidden;    text-overflow: ellipsis;}
+.lmMatchSuccess,.lmCell[data-match="lmMatchSuccess"] {    background-color: #eef8ef !important;}
+.lmMatchWarning,.lmCell[data-match="lmMatchWarning"] {    background-color: #fff9e8 !important;}
+.lmMatchError,.lmCell[data-match="lmMatchError"] {    background-color: #fff0f0 !important;}
+.lmMatchInfo,.lmCell[data-match="lmMatchInfo"] {    background-color: #eef5ff !important;}
+/* ------------------------------------------------------------   MATCH-COLOUR TEXT STYLING (Added per requirements)   ------------------------------------------------------------ */
+/* SUCCESS */.lmCell[data-match="lmMatchSuccess"] .sapMText {    color: #2e7d32 !important;    font-weight: 700 !important;}
+/* WARNING */.lmCell[data-match="lmMatchWarning"] .sapMText {    color: #b26a00 !important;    font-weight: 700 !important;}
+/* ERROR */.lmCell[data-match="lmMatchError"] .sapMText {    color: #c62828 !important;    font-weight: 700 !important;}
+/* INFORMATION */.lmCell[data-match="lmMatchInfo"] .sapMText {    color: #1565c0 !important;    font-weight: 700 !important;}
+/* Explicitly preserve Description columns with default contextual color */.lmCell:nth-child(3) .sapMText {    color: #1f2937 !important;}
+/* Status dot: separate indicator, spacing comes from .lmCell gap.   The dot is centred on the text line explicitly: ObjectStatus and the   icon font each add their own line-height / vertical-align / margin,   which is what pushed the dot below the text. */.lmCell .lmDot {    display: inline-flex !important;    align-items: center;    justify-content: center;    align-self: center;    flex: none;    margin: 0 !important;    padding: 0 !important;    height: 1em;    font-size: 0.9rem;    line-height: 1 !important;}
+.lmCell .lmDot .sapMObjStatusIcon,.lmCell .lmDot .sapUiIcon {    display: flex !important;    align-items: center;    justify-content: center;    width: 1em;    height: 1em;    margin: 0 !important;    padding: 0 !important;    font-size: 0.9rem !important;    line-height: 1em !important;    vertical-align: middle !important;    transform: translateY(0);}
+/* same line-height box for the value text, so both are centred on one line */.lmCell .sapMText {    line-height: 1.2;}
+/* Grid decides the position, the badge only sits inside its column:   Material = left edge of column, Qty + Unit Price = right edge. */.lmCols5,.lmColsU {    align-items: center;}
+.lmCols5 > .lmCell:nth-child(2),.lmColsU > .lmCell:nth-child(2) {    justify-self: start;}
+.lmCols5 > .lmCell:nth-child(4),.lmCols5 > .lmCell:nth-child(5),.lmColsU > .lmCell:nth-child(4),.lmColsU > .lmCell:nth-child(5) {    justify-self: end;}
+/* Headers share the exact column edges of the badges */.lineMatchColHead .sapMText {    width: 100%;}
+.lineMatchColHead .sapMText:nth-child(4),.lineMatchColHead .sapMText:nth-child(5) {    text-align: right !important;}
+@media (max-width: 1700px) {    .lmCols5,    .lmColsU {        }
+    .lineMatchGroupRow,    .lineMatchRow {        column-gap: 24px;    }}
+@media (max-width: 1400px) {    .lmCols5,    .lmColsU {        }
+    .lineMatchGroupRow,    .lineMatchRow {        column-gap: 18px;    }
+    .lmCell {        gap: 8px;        padding: 4px 8px;    }}
+@media (max-width: 1200px) {    .lineMatchGroupRow,    .lineMatchRow {        grid-template-columns: 1fr !important;        row-gap: 12px;    }
+    .lineMatchGroupRow {        row-gap: 8px;    }
+    .lineMatchHalf {        width: 100%;    }
+    .lmCols5,    .lmColsU {        grid-template-columns: 60px 150px minmax(0, 1fr) 108px 134px;    }
+    .lineMatchList .lineMatchRow > .lineMatchHalf::before {        grid-column: 1 / -1;        display: flex;        align-items: center;        margin-bottom: 4px;        padding: 3px 10px;        border-left: 3px solid var(--side-accent);        border-radius: 4px;        background: var(--side-bg);        color: var(--side-accent);        font-size: 0.6875rem;        font-weight: 700;        letter-spacing: 0.6px;        line-height: 1.4;        text-transform: uppercase;    }
+    .lineMatchList .lineMatchRow > .lineMatchHalf:nth-child(1) {        --side-accent: #1d5fd1;        --side-bg: #e8f0fe;    }
+    .lineMatchList .lineMatchRow > .lineMatchHalf:nth-child(1)::before {        content: "Sales Order";    }
+    .lineMatchList .lineMatchRow > .lmCols5:nth-child(2) {        --side-accent: #7c3aed;        --side-bg: #f3e8ff;    }
+    .lineMatchList .lineMatchRow > .lmCols5:nth-child(2)::before {        content: "Matched Quote";    }
+    .lineMatchList .lineMatchRow > .lmColsU:nth-child(2) {        --side-accent: #c026d3;        --side-bg: #fdf2f8;    }
+    .lineMatchList .lineMatchRow > .lmColsU:nth-child(2)::before {        content: "Unmatched Quote";    }
+    .lineMatchGroupRow {        display: none !important;    }
+    .lineMatchColHead > .lineMatchHalf:nth-child(2) {        display: none !important;    }}
+@media (max-width: 700px) {    .lineMatchHeader {        padding: 12px 14px;    }
+    .lineMatchLegend {        gap: 8px 12px;    }
+    .lineMatchGroupRow,    .lineMatchRow {        padding-left: 14px;        padding-right: 14px;    }
+    .lmCols5,    .lmColsU {        grid-template-columns: 50px 110px minmax(0, 1fr) 92px 116px;        column-gap: 6px;    }
+    .lmCell {        gap: 6px;        padding: 4px 6px;    }}
+/* ============================================================   OBJECT PAGE HEADER TOOLBAR OVERFLOW FIXES   ============================================================ */.sapMOverflowToolbar {    flex-wrap: nowrap !important;}
+button[id*="Reject_link"] .sapMBtnInner,button[id*="Linkdocs"] .sapMBtnInner {    padding-left: 8px !important;    padding-right: 8px !important;    min-width: auto !important;}
+/* ============================================================   CONFIRM DOCUMENT LINK DIALOG - FLAT ROW LAYOUT (v3)   Header rows : LABEL | old -> new | checkbox   Line rows   : #ITEM | MATERIAL | Unit Price | old -> new | locked checkbox   ============================================================ */
+.linkDocsSelectionDialog .sapMDialogScrollCont {    background: #ffffff;}
+.confirmLinkContent {    padding: 4px 18px 16px 18px !important;}
+.confirmSectionTitle,.confirmSectionTitle .sapMTitle {    text-transform: uppercase !important;    font-weight: 700 !important;    font-size: 0.8125rem !important;    letter-spacing: 0.6px;    color: #1d5fd1 !important;    padding-bottom: 6px;    margin-bottom: 4px !important;    border-bottom: 2px solid #1d5fd1;}
+.clSelectAllRow {    width: 100%;    margin-bottom: 4px;    padding: 2px 4px;}
+.clSelectAllCheckBox .sapMCbLabel {    font-weight: 700;    color: #1f2937;}
+.clRow {    width: 100% !important;    box-sizing: border-box;    min-height: 52px;    padding: 6px 4px;    border-bottom: 1px solid #eeeeee;}
+.clLabelBox {    flex: 0 0 260px;    min-width: 160px;}
+.clFieldLabel {    font-weight: 700 !important;    color: #334155 !important;}
+.clValueBox {    flex: 1 1 auto;    min-width: 0;}
+/* old value that gets replaced: red + strike-through */.clOldValue {    color: #d92d20 !important;    text-decoration: line-through !important;    overflow-wrap: anywhere;}
+/* old value that already equals the quotation value: green, no strike-through */.clOldValueMatch {    color: #166534 !important;    font-weight: 700 !important;    overflow-wrap: anywhere;}
+.clNewValue {    color: #166534 !important;    font-weight: 700 !important;    overflow-wrap: anywhere;}
+.clArrow {    color: #7c9bc4 !important;    margin: 0 12px !important;    flex: none;}
+.clCheckBox {    margin-left: 16px !important;    flex: none;}
+/* line item checkbox: ticked + locked */.clCheckBoxLocked {    cursor: default;}
+.clLineNo {    flex: 0 0 55px;    color: #7890ad !important;    font-weight: 600 !important;}
+.clLineMaterial {    flex: 0 0 140px;    color: #536b8c !important;    font-weight: 600 !important;}
+.clLineField {    flex: 0 0 140px;    font-weight: 700 !important;    color: #1f2937 !important;}
+@media (max-width: 700px) {    .clLabelBox {        flex-basis: 120px;        min-width: 100px;    }
+    .clLineMaterial,    .clLineField {        flex-basis: 90px;    }}
+
+
+/* 1st page kpi colour*/
+
+
+/* Total Matches */
+.kpiTotalCard {
+    border-left: 4px solid #111827 !important;
+}
+
+
+/* New */
+.kpiNewCard {
+    border-left: 4px solid #1a73e8 !important;
+}
+
+
+/* Reviewed */
+.kpiReviewedCard {
+    border-left: 4px solid #9aa0a6 !important;
+}
+
+
+/* 1st page confidence bubble */
+ /* Confidence bubble */
+td[data-sap-ui-column*="Confidence"] .sapMText {
+    display: inline-block !important;
+    padding: 4px 14px !important;
+    border-radius: 16px !important;
+    background: #f3f4f6 !important;
+    border: 1px solid #d1d5db !important;
+    color: #4b5563 !important;
+    font-weight: 600 !important;
+}
+
+
+/* 1st page status change */
+
+
+/* Status pill */
+td[data-sap-ui-column*="status"] .sapMText {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+
+    min-width: 110px !important;
+    padding: 0 12px !important;
+    height: 30px !important;
+
+
+    white-space: nowrap !important;
+
+
+    border-radius: 16px !important;
+    font-weight: 600 !important;
+    box-sizing: border-box !important;
+}
+
+
+
+/* Status column width */
+th[data-sap-ui-column*="status"],
+td[data-sap-ui-column*="status"] {
+    min-width: 140px !important;
+    width: 140px !important;
+}
+
+
+
+/* 1st page status bubble */
+/* New */
+.statusNew {
+    background: #edf4ff !important;
+    border: 1px solid #c7dcff !important;
+    color: #2563eb !important;
+}
+
+
+/* 1st page status bubble */
+/* Reviewed */
+.statusReviewed {
+    background: #f3f4f6 !important;
+    border: 1px solid #d1d5db !important;
+    color: #6b7280 !important;
+}
+
+
+.statusRejected {
+    background: #fff1f2 !important;
+    border: 1px solid #fecdd3 !important;
+    color: #dc2626 !important;
+}
+/* 1st page kpi colour*/
+
+
+/* Total Matches */
+.kpiTotalCard {
+    border-left: 4px solid #111827 !important;
+}
+
+
+/* New */
+.kpiNewCard {
+    border-left: 4px solid #1a73e8 !important;
+}
+
+
+/* Reviewed */
+.kpiReviewedCard {
+    border-left: 4px solid #9aa0a6 !important;
+}
+
+
+/* 1st page confidence bubble this */
+/* this block I have to past in p file*/
+ /* Confidence bubble */
+td[data-sap-ui-column*="Confidence"] .sapMText {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    min-width: 54px !important;
+    height: 28px !important;
+
+    background: #ffffff !important;
+    border: 1px solid #d1d5db !important;
+    border-radius: 14px !important;
+
+    color: #5f6368 !important;
+    font-weight: 600 !important;
+}
+
+/* this block I have to past in p file*/
+td[data-sap-ui-column*="Confidence"] .sapMText::after {
+    content: "%";
+}
+
+/* this block I have to past in p file*/
+td[data-sap-ui-column*="Confidence"] {
+    text-align: center !important;
+}
+
+/* this block I have to past in p file*/
+td[data-sap-ui-column*="Confidence"] .sapMText {
+    margin: 0 auto !important;
+}
+
+/* 1st page status change */
+
+/* Status pill */
+td[data-sap-ui-column*="status"] .sapMText {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    min-width: 110px !important;
+    padding: 0 12px !important;
+    height: 30px !important;
+
+    white-space: nowrap !important;
+
+    border-radius: 16px !important;
+    font-weight: 600 !important;
+    box-sizing: border-box !important;
+}
+
+
+/* Status column width */
+th[data-sap-ui-column*="status"],
+td[data-sap-ui-column*="status"] {
+    min-width: 140px !important;
+    width: 140px !important;
+}
+
+/* this block I have to past in p file*/
+/* Center Confidence header */
+th[data-sap-ui-column*="Confidence"] .sapMColumnHeader {
+    justify-content: center !important;
+}
+
+/* this block I have to past in p file*/
+th[data-sap-ui-column*="Confidence"] .sapMLabelInner {
+    justify-content: center !important;
+}
+
+/* this block I have to past in p file*/
+th[data-sap-ui-column*="status"] .sapMColumnHeader {
+    justify-content: center !important;
+}
+
+/* this block I have to past in p file*/
+th[data-sap-ui-column*="status"] .sapMLabelInner {
+    justify-content: center !important;
+}
+
+/* this block I have to past in p file*/
+/* Customer column */
+th[data-sap-ui-column$="customerIdName"],
+td[data-sap-ui-column$="customerIdName"] {
+    width: 160px !important;
+    min-width: 160px !important;
+    max-width: 160px !important;
+}
+
+/* this block I have to past in p file*/
+/* Order Value column */
+th[data-sap-ui-column$="so_total_value"],
+td[data-sap-ui-column$="so_total_value"] {
+    width: 150px !important;
+    min-width: 150px !important;
+}
+
+/* this block I have to past in p file*/
+/* Quotation Value column */
+th[data-sap-ui-column$="qt_total_value"],
+td[data-sap-ui-column$="qt_total_value"] {
+    width: 170px !important;
+    min-width: 170px !important;
+}
+
+
+
+
+/* 1st page status bubble */
+/* New */
+.statusNew {
+    background: #edf4ff !important;
+    border: 1px solid #c7dcff !important;
+    color: #2563eb !important;
+}
+
+
+/* 1st page status bubble */
+/* Reviewed */
+.statusReviewed {
+    background: #f3f4f6 !important;
+    border: 1px solid #d1d5db !important;
+    color: #6b7280 !important;
+}
+
+
+.statusRejected {
+    background: #fff1f2 !important;
+    border: 1px solid #fecdd3 !important;
+    color: #dc2626 !important;
+}
+
+/* ============================================================
+   OBJECT PAGE HEADER ACTIONS - narrow screens / high browser zoom
+   Below ~1100px of CSS width (e.g. 150% zoom) the text labels are
+   dropped and only the icons stay, so Reject Link / Link Docs
+   never shrink, clip or disappear into the "..." menu.
+   (Tooltips are set in the controller.)
+   ============================================================ */
+@media (max-width: 1100px) {
+    button[id*="Reject_link"] .sapMBtnContent,
+    button[id*="Linkdocs"] .sapMBtnContent {
+        display: none !important;
+    }
+
+    button[id*="Reject_link"],
+    button[id*="Linkdocs"] {
+        min-width: 2.25rem !important;
+        width: auto !important;
+        flex: 0 0 auto !important;
+    }
+
+    button[id*="Reject_link"] .sapMBtnInner,
+    button[id*="Linkdocs"] .sapMBtnInner {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        min-width: 2.25rem !important;
+    }
+
+    /* Return to List: keep only the arrow */
+    button[id*="Return_to_list"] .sapMBtnContent {
+        font-size: 0 !important;
+    }
+
+    button[id*="Return_to_list"] .sapMBtnContent::before {
+        font-size: 1.125rem !important;
+        margin-right: 0 !important;
+    }
+}
+
+
+/* ============================================================
+   OPEN THE APP AT ~90% OF THE NORMAL SIZE
+   UI5 sizes nearly everything in rem, so a smaller root font size
+   scales the whole app. The class is added when the app opens and
+   removed when it is left (CustomTilesController).
+   To change the size: 14.4px = 90%, 16px = 100%, 13.6px = 85%.
+   ============================================================ */
+html.orderLinkScale {
+    font-size: 14.4px;
+}

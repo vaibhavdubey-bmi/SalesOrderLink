@@ -1,0 +1,15 @@
+general:
+  buildTool: "npm"                 # Targets your Node.js/package.json setup
+
+stages:
+  Build:
+    npmExecuteLint: true           # Activates ESLint automated checks
+    failOnError: true              # Fails the pipeline if linting issues are found
+
+  # Explicitly disable all cloud deployment stages
+  Acceptance:
+    cloudFoundryDeploy: false      # Disables testing space deployments
+
+  Release:
+    cloudFoundryDeploy: false      # Disables production space deployments
+    tmsUpload: false               # Disables SAP Transport Management Service upload

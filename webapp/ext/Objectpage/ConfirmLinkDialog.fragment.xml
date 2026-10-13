@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <Dialog
+        id="confirmLinkDialog"
+        title="Confirm Document Link"
+        class="linkDocsSelectionDialog"
+        contentWidth="900px"
+        contentHeight="600px"
+        draggable="true"
+        resizable="true"
+        stretchOnPhone="true">
+
+        <content>
+
+            <VBox class="confirmLinkContent sapUiMediumMargin">
+
+                <HBox
+                    alignItems="Center"
+                    class="confirmDialogTitleRow">
+
+                    <core:Icon
+                        src="sap-icon://accept"
+                        class="confirmDialogTitleIcon"/>
+
+                    <Title
+                        text="Confirm Document Link"
+                        level="H3"
+                        class="confirmDialogTitle sapUiTinyMarginBegin"/>
+
+                </HBox>
+
+                <Text
+                    text="{= 'Linking Sales Order ' + ${salesDoc} + ' with Quotation ' + ${qt_salesDoc} + '.'}"
+                    class="confirmDialogDescription sapUiSmallMarginTop"/>
+
+                <!-- SUMMARY (values are filled by the controller) -->
+                <VBox
+                    id="summaryBox"
+                    visible="false"
+                    class="clSummaryBox">
+
+                    <Text
+                        text="Changes to be applied"
+                        class="clSummaryTitle"/>
+
+                    <Text
+                        id="summaryHeaderText"
+                        text="&#8226; Header Fields: 0"
+                        class="clSummaryLine"/>
+
+                    <Text
+                        id="summaryLineText"
+                        text="&#8226; Line Item Fields: 0"
+                        class="clSummaryLine"/>
+
+                    <Text
+                        id="summaryTotalText"
+                        text="&#8226; Total Selected: 0"
+                        class="clSummaryTotal"/>
+
+                </VBox>
+
+                <Text
+                    text="The following fields on the sales order will be updated:"
+                    class="confirmDialogIntro sapUiMediumMarginTop sapUiSmallMarginBottom"/>
+
+                <!-- SELECT ALL (hidden by the controller when there is nothing to select) -->
+                <HBox
+                    id="selectAllRow"
+                    alignItems="Center"
+                    justifyContent="End"
+                    visible="false"
+                    class="clSelectAllRow">
+
+                    <CheckBox
+                        id="selectAllCheckBox"
+                        text="Select All"
+                        selected="false"
+                        select=".onSelectAllChange"
+                        class="clSelectAllCheckBox"/>
+
+                </HBox>
+
+                <Title
+                    id="headerFieldsTitle"
+                    text="HEADER FIELDS"
+                    level="H5"
+                    class="confirmSectionTitle"/>
+
+                <VBox
+                    id="headerFieldsContainer"
+                    class="confirmHeaderFieldsContainer"/>
+
+                <Title
+                    id="lineItemsTitle"
+                    text="LINE ITEM FIELDS"
+                    level="H5"
+                    class="confirmSectionTitle sapUiMediumMarginTop"/>
+
+                <VBox
+                    id="lineItemsContainer"
+                    class="confirmLineItemsContainer"/>
+
+                <Text
+                    id="noChangesText"
+                    text="No field differences found. Only the documents will be linked."
+                    visible="false"
+                    class="sapUiMediumMarginTop"/>
+
+            </VBox>
+
+        </content>
+
+        <beginButton>
+            <Button
+                id="linkDocumentsButton"
+                text="Link Documents"
+                type="Accept"
+                icon="sap-icon://chain-link"
+                press=".onConfirmLinkDocuments"/>
+        </beginButton>
+
+        <endButton>
+            <Button
+                text="Cancel"
+                press=".onCloseConfirmDialog"/>
+        </endButton>
+
+    </Dialog>
+
+</core:FragmentDefinition>

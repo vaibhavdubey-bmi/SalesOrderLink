@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<core:FragmentDefinition xmlns:m="sap.m" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout">
+    <m:VBox width="100%">
+
+
+        <!-- ===================================================== -->
+        <!-- CONFIDENCE + STATUS                                   -->
+        <!-- ===================================================== -->
+        <m:HBox justifyContent="SpaceBetween" alignItems="Center" width="100%" class="sapUiMediumMarginBottom sapUiTinyMarginBegin sapUiTinyMarginEnd">
+            <m:HBox alignItems="Center">
+                <m:Text text="{= ${Confidence} + '%'}" class="confidenceBadge"/>
+                <m:Text text="{status}" class="statusBadge sapUiTinyMarginBegin"/>
+            </m:HBox>
+        </m:HBox>
+
+
+        <!-- ===================================================== -->
+        <!-- COMPARISON GRID                                       -->
+        <!-- ===================================================== -->
+        <l:Grid width="100%" defaultSpan="XL6 L6 M12 S12" hSpacing="1" vSpacing="1" class="comparisonGrid">
+
+
+            <!-- ================================================= -->
+            <!-- SALES ORDER PANEL                                 -->
+            <!-- ================================================= -->
+            <m:Panel class="comparisonCard">
+                <m:headerToolbar>
+                    <m:Toolbar>
+                        <m:Title text="Sales Order"/>
+                        <m:ToolbarSpacer/>
+                        <!-- clickable: opens the former VA03 navigation -->
+                        <m:Link text="{salesDoc}"
+                                tooltip="{= 'Open Sales Order ' + ${salesDoc} + ' in S/4HANA (VA03) - opens in a new tab'}"
+                                press=".onSalesOrderLinkPress"
+                                class="docNumberLink docLinkSalesOrder"/>
+                    </m:Toolbar>
+                </m:headerToolbar>
+
+
+                <m:VBox>
+                    <m:HBox class="comparisonLegend">
+                        <m:ObjectStatus text="Exact match" icon="sap-icon://circle-task-2" state="Success"/>
+                        <m:ObjectStatus text="Possible match" icon="sap-icon://circle-task-2" state="Warning"/>
+                        <m:ObjectStatus text="No match" icon="sap-icon://circle-task-2" state="Error"/>
+                        <m:ObjectStatus text="Not maintained" icon="sap-icon://circle-task-2" state="Information"/>
+                    </m:HBox>
+
+
+                    <m:HBox class="comparisonRow">
+                        <m:customData>
+                            <core:CustomData key="rowmatch" value="{match>/soldToState}" writeToDom="true"/>
+                        </m:customData>
+                        <m:Text text="SOLD-TO"/>
+                        <m:HBox class="comparisonValueGroup" alignItems="Center" justifyContent="End">
+                            <m:Text text="{= ${customerIdName} || '-'}" class="comparisonValue"/>
+                            <m:ObjectStatus icon="sap-icon://circle-task-2" state="{match>/soldToState}" class="matchIndicator"/>
+                        </m:HBox>
+                    </m:HBox>
+
+
+                    <m:HBox class="comparisonRow">
+                        <m:customData>
+                            <core:CustomData key="rowmatch" value="{match>/shipToState}" writeToDom="true"/>
+                        </m:customData>
+                        <m:Text text="SHIP-TO"/>
+                        <m:HBox class="comparisonValueGroup" alignItems="Center" justifyContent="End">
+                            <m:Text text="{= ${so_shipToIdName} || '-'}" class="comparisonValue"/>
+                            <m:ObjectStatus icon="sap-icon://circle-task-2" state="{match>/shipToState}" class="matchIndicator"/>
+                        </m:HBox>
+                    </m:HBox>
+
+
+                    <m:HBox id="paymentTermsRow" class="comparisonRow">
+                        <m:customData>
+                            <core:CustomData key="rowmatch" value="{match>/paymentTermState}" writeToDom="true"/>
+                        </m:customData>
+                        <m:Text text="PAYMENT TERMS"/>
+                        <m:HBox class="comparisonValueGroup" alignItems="Center" justifyContent="End">
+                            <m:Text text="{= ${so_paymentTermDescp} || '-'}" class="comparisonValue"/>
+                            <m:ObjectStatus icon="sap-icon://circle-task-2" state="{match>/paymentTermState}" class="matchIndicator"/>
+                        </m:HBox>
+                    </m:HBox>
+
+
+                    <m:HBox class="comparisonRow">
+                        <m:customData>
+                            <core:CustomData key="rowmatch" value="{match>/incoTermState}" writeToDom="true"/>
+                        </m:customData>
+                        <m:Text text="INCOTERMS"/>
+                        <m:HBox class="comparisonValueGroup" alignItems="Center" justifyContent="End">
+                            <m:Text text="{= ${so_incoTermDescp} || '-'}" class="comparisonValue"/>
+                            <m:ObjectStatus icon="sap-icon://circle-task-2" state="{match>/incoTermState}" class="matchIndicator"/>
+                        </m:HBox>
+                    </m:HBox>
+
+
+                    <m:HBox class="comparisonRow">
+                        <m:customData>
+                            <core:CustomData key="rowmatch" value="{match>/salesResponsibleState}" writeToDom="true"/>
+                        </m:customData>
+                        <m:Text text="SALES RESPONSIBLE"/>
+                        <m:HBox class="comparisonValueGroup" alignItems="Center" justifyContent="End">
+                            <m:Text text="{= ${so_salesResponsibleIdName} || '-'}" class="comparisonValue"/>
+                            <m:ObjectStatus icon="sap-icon://circle-task-2" state="{match>/salesResponsibleState}" class="matchIndicator"/>
+                        </m:HBox>
+                    </m:HBox>
+
+
+                    <m:HBox class="comparisonRow">
+                        <m:Text text="DATE"/>
+                        <m:HBox class="comparisonValueGroup comparisonValueGroupNoDot" alignItems="Center" justifyContent="End">
+                            <m:Text text="{ path: 'docDate', formatter: '.formatter.formatDate' }" class="comparisonValue"/>
+                        </m:HBox>
+                    </m:HBox>
+
+
+                    <m:HBox id="currencySoRow" class="comparisonRow">
+                        <m:customData>
+                            <core:CustomData key="rowmatch" value="{match>/currencyState}" writeToDom="true"/>
+                        </m:customData>
+                        <m:Text text="CURRENCY"/>
+                        <m:HBox class="comparisonValueGroup" alignItems="Center" justifyContent="End">
+                            <m:Text text="{= ${so_currency} || '-'}" class="comparisonValue"/>
+                            <m:ObjectStatus icon="sap-icon://circle-task-2" state="{match>/currencyState}" class="matchIndicator"/>
+                        </m:HBox>
+                    </m:HBox>
+
+
+                    <m:HBox class="comparisonRow">
+                        <m:customData>
+                            <core:CustomData key="rowmatch" value="{match>/valueWithoutTaxState}" writeToDom="true"/>
+                        </m:customData>
+                        <m:Text text="VALUE WITHOUT TAX"/>
+                        <m:HBox class="comparisonValueGroup" alignItems="Center" justifyContent="End">
+                            <m:Text text="{= ${so_netValue} || '-'}" class="comparisonValue"/>
+                            <m:ObjectStatus icon="sap-icon://circle-task-2" state="{match>/valueWithoutTaxState}" class="matchIndicator"/>
+                        </m:HBox>
+                    </m:HBox>
+
+
+                    <m:HBox class="comparisonRow">
+                        <m:customData>
+                            <core:CustomData key="rowmatch" value="{match>/taxValueState}" writeToDom="true"/>
+                        </m:customData>
+                        <m:Text text="TAX VALUE"/>
+                        <m:HBox class="comparisonValueGroup" alignItems="Center" justifyContent="End">
+                            <m:Text text="{= ${so_tax_value} || '-'}" class="comparisonValue"/>
+                            <m:ObjectStatus icon="sap-icon://circle-task-2" state="{match>/taxValueState}" class="matchIndicator"/>
+                        </m:HBox>
+                    </m:HBox>
+
+
+                    <m:HBox class="comparisonRow">
+                        <m:customData>
+                            <core:CustomData key="rowmatch" value="{match>/totalValueState}" writeToDom="true"/>
+                        </m:customData>
+                        <m:Text text="TOTAL VALUE"/>
+                        <m:HBox class="comparisonValueGroup" alignItems="Center" justifyContent="End">
+                            <m:Text text="{= ${so_total_value} || '-'}" class="comparisonValue"/>
+                            <m:ObjectStatus icon="sap-icon://circle-task-2" state="{match>/totalValueState}" class="matchIndicator"/>
+                        </m:HBox>
+                    </m:HBox>
+
+
+                    <!-- Kept from code 1: PO TYPE row (no match backend counterpart, no indicator) -->
+                    <m:HBox class="comparisonRow">
+                        <m:Text text=" "/>
+                        <m:Text text=" "/>
+                    </m:HBox>
+
+
+                    <m:HBox class="comparisonRow">
+                        <m:Text text=" "/>
+                        <m:Text text=" "/>
+                    </m:HBox>
+                </m:VBox>
+            </m:Panel>
+
+
+           <!-- ================================================= -->
+            <!-- QUOTATION PANEL                                   -->
+            <!-- ================================================= -->
+            <m:Panel class="comparisonCard">
+                <m:headerToolbar>
+                    <m:Toolbar>
+                        <m:Title text="Quotation"/>
+                        <m:ToolbarSpacer/>
+                        <!-- change#1 -->
+                        <!-- clickable: opens the former VA23 navigation (now _openVA43) -->
+                        <m:Link text="{qt_salesDoc}"
+                                tooltip="{= 'Open Quotation ' + ${qt_salesDoc} + ' in S/4HANA (VA23) - opens in a new tab'}"
+                                press=".onQuotationLinkPress"
+                                class="docNumberLink docLinkQuotation"/>
+                    </m:Toolbar>
+                </m:headerToolbar>
+
+
+                <m:VBox>
+                    <m:HBox class="comparisonLegend">
+                        <m:ObjectStatus text="Exact match" icon="sap-icon://circle-task-2" state="Success"/>
+                        <m:ObjectStatus text="Possible match" icon="sap-icon://circle-task-2" state="Warning"/>
+                        <m:ObjectStatus text="No match" icon="sap-icon://circle-task-2" state="Error"/>
+                        <m:ObjectStatus text="Not maintained" icon="sap-icon://circle-task-2" state="Information"/>
+                    </m:HBox>
+
+
+                    <m:HBox class="comparisonRow">
+                        <m:customData>
+                            <core:CustomData key="rowmatch" value="{match>/soldToState}" writeToDom="true"/>
+                        </m:customData>
+                        <m:Text text="SOLD-TO"/>
+                        <m:HBox class="comparisonValueGroup" alignItems="Center" justifyContent="End">
+                            <m:Text text="{= ${qt_CustomerIdName} || '-'}" class="comparisonValue"/>
+                            <m:ObjectStatus icon="sap-icon://circle-task-2" state="{match>/soldToState}" class="matchIndicator"/>
+                        </m:HBox>
+                    </m:HBox>
+
+
+                    <m:HBox class="comparisonRow">
+                        <m:customData>
+                            <core:CustomData key="rowmatch" value="{match>/shipToState}" writeToDom="true"/>
+                        </m:customData>
+                        <m:Text text="SHIP-TO"/>
+                        <m:HBox class="comparisonValueGroup" alignItems="Center" justifyContent="End">
+                            <m:Text text="{= ${qt_shipToIdName} || '-'}" class="comparisonValue"/>
+                            <m:ObjectStatus icon="sap-icon://circle-task-2" state="{match>/shipToState}" class="matchIndicator"/>
+                        </m:HBox>
+                    </m:HBox>
+
+
+                    <m:HBox id="paymentTermsQtRow" class="comparisonRow">
+                        <m:customData>
+                            <core:CustomData key="rowmatch" value="{match>/paymentTermState}" writeToDom="true"/>
+                        </m:customData>
+                        <m:Text text="PAYMENT TERMS"/>
+                        <m:HBox class="comparisonValueGroup" alignItems="Center" justifyContent="End">
+                            <m:Text text="{= ${qt_paymentTermDescp} || '-'}" class="comparisonValue"/>
+                            <m:ObjectStatus icon="sap-icon://circle-task-2" state="{match>/paymentTermState}" class="matchIndicator"/>
+                        </m:HBox>
+                    </m:HBox>
+
+
+                    <m:HBox class="comparisonRow">
+                        <m:customData>
+                            <core:CustomData key="rowmatch" value="{match>/incoTermState}" writeToDom="true"/>
+                        </m:customData>
+                        <m:Text text="INCOTERMS"/>
+                        <m:HBox class="comparisonValueGroup" alignItems="Center" justifyContent="End">
+                            <m:Text text="{= ${qt_incoTermDescp} || '-'}" class="comparisonValue"/>
+                            <m:ObjectStatus icon="sap-icon://circle-task-2" state="{match>/incoTermState}" class="matchIndicator"/>
+                        </m:HBox>
+                    </m:HBox>
+
+
+                    <m:HBox class="comparisonRow">
+                        <m:customData>
+                            <core:CustomData key="rowmatch" value="{match>/salesResponsibleState}" writeToDom="true"/>
+                        </m:customData>
+                        <m:Text text="SALES RESPONSIBLE"/>
+                        <m:HBox class="comparisonValueGroup" alignItems="Center" justifyContent="End">
+                            <m:Text text="{= ${qt_salesResponsibleIdName} || '-'}" class="comparisonValue"/>
+                            <m:ObjectStatus icon="sap-icon://circle-task-2" state="{match>/salesResponsibleState}" class="matchIndicator"/>
+                        </m:HBox>
+                    </m:HBox>
+
+
+                    <m:HBox class="comparisonRow">
+                        <m:Text text="DATE"/>
+                        <m:HBox class="comparisonValueGroup comparisonValueGroupNoDot" alignItems="Center" justifyContent="End">
+                            <m:Text text="{ path: 'qt_docDate', formatter: '.formatter.formatDate' }" class="comparisonValue"/>
+                        </m:HBox>
+                    </m:HBox>
+
+
+                    <m:HBox id="currencyQtRow" class="comparisonRow">
+                        <m:customData>
+                            <core:CustomData key="rowmatch" value="{match>/currencyState}" writeToDom="true"/>
+                        </m:customData>
+                        <m:Text text="CURRENCY"/>
+                        <m:HBox class="comparisonValueGroup" alignItems="Center" justifyContent="End">
+                            <m:Text text="{= ${qt_currency} || '-'}" class="comparisonValue"/>
+                            <m:ObjectStatus icon="sap-icon://circle-task-2" state="{match>/currencyState}" class="matchIndicator"/>
+                        </m:HBox>
+                    </m:HBox>
+
+
+                    <m:HBox class="comparisonRow">
+                        <m:customData>
+                            <core:CustomData key="rowmatch" value="{match>/valueWithoutTaxState}" writeToDom="true"/>
+                        </m:customData>
+                        <m:Text text="VALUE WITHOUT TAX"/>
+                        <m:HBox class="comparisonValueGroup" alignItems="Center" justifyContent="End">
+                            <m:Text text="{= ${qt_netValue} || '-'}" class="comparisonValue"/>
+                            <m:ObjectStatus icon="sap-icon://circle-task-2" state="{match>/valueWithoutTaxState}" class="matchIndicator"/>
+                        </m:HBox>
+                    </m:HBox>
+
+
+                    <m:HBox class="comparisonRow">
+                        <m:customData>
+                            <core:CustomData key="rowmatch" value="{match>/taxValueState}" writeToDom="true"/>
+                        </m:customData>
+                        <m:Text text="TAX VALUE"/>
+                        <m:HBox class="comparisonValueGroup" alignItems="Center" justifyContent="End">
+                            <m:Text text="{= ${qt_tax_value} || '-'}" class="comparisonValue"/>
+                            <m:ObjectStatus icon="sap-icon://circle-task-2" state="{match>/taxValueState}" class="matchIndicator"/>
+                        </m:HBox>
+                    </m:HBox>
+
+
+                    <m:HBox class="comparisonRow">
+                        <m:customData>
+                            <core:CustomData key="rowmatch" value="{match>/totalValueState}" writeToDom="true"/>
+                        </m:customData>
+                        <m:Text text="TOTAL VALUE"/>
+                        <m:HBox class="comparisonValueGroup" alignItems="Center" justifyContent="End">
+                            <m:Text text="{= ${qt_total_value} || '-'}" class="comparisonValue"/>
+                            <m:ObjectStatus icon="sap-icon://circle-task-2" state="{match>/totalValueState}" class="matchIndicator"/>
+                        </m:HBox>
+                    </m:HBox>
+
+
+                    <m:HBox class="comparisonRow">
+                        <m:Text text="VALID FROM"/>
+                        <m:HBox class="comparisonValueGroup comparisonValueGroupNoDot" alignItems="Center" justifyContent="End">
+                            <m:Text text="{ path: 'validFrom', formatter: '.formatter.formatDate' }" class="comparisonValue"/>
+                        </m:HBox>
+                    </m:HBox>
+
+
+                    <m:HBox class="comparisonRow">
+                        <m:Text text="VALID UNTIL"/>
+                        <m:HBox class="comparisonValueGroup comparisonValueGroupNoDot" alignItems="Center" justifyContent="End">
+                            <m:Text text="{ path: 'validTo', formatter: '.formatter.formatDate' }" class="comparisonValue"/>
+                        </m:HBox>
+                    </m:HBox>
+                </m:VBox>
+            </m:Panel>
+
+
+        </l:Grid>
+    </m:VBox>
+</core:FragmentDefinition>
