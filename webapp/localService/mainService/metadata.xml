@@ -1,110 +1,189 @@
 <?xml version="1.0" encoding="utf-8"?>
 <edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
-    <edmx:Reference Uri="./sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_AGGREGATION',Version='0001',SAP__Origin='')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://something.sap.bmigroup.com/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_AGGREGATION',Version='0001',SAP__Origin='')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
         <edmx:Include Namespace="Org.OData.Aggregation.V1" Alias="Aggregation"/>
     </edmx:Reference>
-    <edmx:Reference Uri="./sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_ANALYTICS',Version='0001',SAP__Origin='')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://something.sap.bmigroup.com/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_ANALYTICS',Version='0001',SAP__Origin='')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
         <edmx:Include Namespace="com.sap.vocabularies.Analytics.v1" Alias="Analytics"/>
     </edmx:Reference>
-    <edmx:Reference Uri="./sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CAPABILITIES',Version='0001',SAP__Origin='')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://something.sap.bmigroup.com/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CAPABILITIES',Version='0001',SAP__Origin='')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
         <edmx:Include Namespace="Org.OData.Capabilities.V1" Alias="Capabilities"/>
     </edmx:Reference>
-    <edmx:Reference Uri="./sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CODELIST',Version='0001',SAP__Origin='')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://something.sap.bmigroup.com/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CODELIST',Version='0001',SAP__Origin='')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
         <edmx:Include Namespace="com.sap.vocabularies.CodeList.v1" Alias="SAP__CodeList"/>
     </edmx:Reference>
-    <edmx:Reference Uri="./sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://something.sap.bmigroup.com/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
         <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
         <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="SAP__common"/>
     </edmx:Reference>
-    <edmx:Reference Uri="./sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMUNICATION',Version='0001',SAP__Origin='')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://something.sap.bmigroup.com/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMUNICATION',Version='0001',SAP__Origin='')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
         <edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication"/>
     </edmx:Reference>
-    <edmx:Reference Uri="./sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CORE',Version='0001',SAP__Origin='')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://something.sap.bmigroup.com/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CORE',Version='0001',SAP__Origin='')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
         <edmx:Include Namespace="Org.OData.Core.V1" Alias="SAP__core"/>
     </edmx:Reference>
-    <edmx:Reference Uri="./sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_MEASURES',Version='0001',SAP__Origin='')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://something.sap.bmigroup.com/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_MEASURES',Version='0001',SAP__Origin='')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
         <edmx:Include Namespace="Org.OData.Measures.V1" Alias="Measures"/>
     </edmx:Reference>
-    <edmx:Reference Uri="./sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_PDF',Version='0001',SAP__Origin='')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://something.sap.bmigroup.com/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_PDF',Version='0001',SAP__Origin='')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
         <edmx:Include Namespace="com.sap.vocabularies.PDF.v1" Alias="SAP__PDF"/>
     </edmx:Reference>
-    <edmx:Reference Uri="./sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_PERSONALDATA',Version='0001',SAP__Origin='')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://something.sap.bmigroup.com/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_PERSONALDATA',Version='0001',SAP__Origin='')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
         <edmx:Include Namespace="com.sap.vocabularies.PersonalData.v1" Alias="PersonalData"/>
     </edmx:Reference>
-    <edmx:Reference Uri="./sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_UI',Version='0001',SAP__Origin='')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://something.sap.bmigroup.com/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_UI',Version='0001',SAP__Origin='')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
         <edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI"/>
     </edmx:Reference>
-    <edmx:Reference Uri="./sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_VALIDATION',Version='0001',SAP__Origin='')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://something.sap.bmigroup.com/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_VALIDATION',Version='0001',SAP__Origin='')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
         <edmx:Include Namespace="Org.OData.Validation.V1" Alias="Validation"/>
     </edmx:Reference>
     <edmx:DataServices m:DataServiceVersion="2.0">
         <Schema Namespace="cds_zsd_qto_so_qt" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
-            <EntityType Name="ZC_QTO_SO_QTType" sap:label="Projection view for SO and QT" sap:content-version="1">
+            <EntityType Name="ZC_QTO_FILTER_QT_UNMATCHType" sap:label="Projection view for QT unmatch" sap:content-version="1">
                 <Key>
-                    <PropertyRef Name="material"/>
+                    <PropertyRef Name="item"/>
+                    <PropertyRef Name="qt_salesDoc"/>
+                    <PropertyRef Name="salesDoc"/>
+                </Key>
+                <Property Name="item" Type="Edm.String" Nullable="false" MaxLength="6" sap:display-format="NonNegative" sap:label="Quotation item" sap:quickinfo="Sales Document Item"/>
+                <Property Name="qt_salesDoc" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="Quotation" sap:quickinfo="Sales Document"/>
+                <Property Name="salesDoc" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="Sales Document"/>
+                <Property Name="material" Type="Edm.String" MaxLength="18" sap:display-format="UpperCase" sap:label="Quotation Material" sap:quickinfo="Material Number"/>
+                <Property Name="material_Description" Type="Edm.String" MaxLength="40" sap:label="Quotation Material Description" sap:quickinfo="Short text for sales order item"/>
+                <Property Name="value" Type="Edm.Decimal" Precision="15" Scale="3" sap:unit="currency" sap:variable-scale="true" sap:label="Net Value" sap:quickinfo="Net Value of the Document Item in Document Currency"/>
+                <Property Name="currency" Type="Edm.String" MaxLength="5" sap:display-format="UpperCase" sap:label="Document Currency" sap:quickinfo="SD Document Currency" sap:semantics="currency-code"/>
+                <Property Name="unit_Price" Type="Edm.Decimal" Precision="11" Scale="3" sap:unit="currency" sap:variable-scale="true" sap:label="Net Price"/>
+                <Property Name="remainingQty" Type="Edm.Decimal" Precision="16" Scale="3" sap:unit="baseUom" sap:label="Remaining Quantity"/>
+                <Property Name="baseUom" Type="Edm.String" MaxLength="3" sap:label="Base Unit of Measure" sap:semantics="unit-of-measure"/>
+                <Property Name="qt_convert_Qty" Type="Edm.Decimal" Precision="15" Scale="3" sap:unit="qt_baseUoM" sap:label="QT Base Quantity" sap:quickinfo="Requested Order Quantity in Base Unit"/>
+                <Property Name="qt_baseUoM" Type="Edm.String" MaxLength="3" sap:label="Base Unit of Measure" sap:semantics="unit-of-measure"/>
+                <NavigationProperty Name="to_ZI_QTO_SO_QT" Relationship="cds_zsd_qto_so_qt.assoc_BA3377DB19ED7B7C3AFDD747D4827FEC" FromRole="FromRole_assoc_BA3377DB19ED7B7C3AFDD747D4827FEC" ToRole="ToRole_assoc_BA3377DB19ED7B7C3AFDD747D4827FEC"/>
+            </EntityType>
+            <EntityType Name="ZC_QTO_FILTER_SO_UNMATCHType" sap:label="Projection for ZI_QTO_FILTER_SO_UNMATCH" sap:content-version="1">
+                <Key>
                     <PropertyRef Name="item"/>
                     <PropertyRef Name="salesDoc"/>
                     <PropertyRef Name="qt_salesDoc"/>
-                    <PropertyRef Name="qt_item"/>
+                </Key>
+                <Property Name="item" Type="Edm.String" Nullable="false" MaxLength="6" sap:display-format="NonNegative" sap:label="Sales Order item" sap:quickinfo="Sales Document Item"/>
+                <Property Name="salesDoc" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="Sales Order" sap:quickinfo="Sales Document"/>
+                <Property Name="qt_salesDoc" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="Sales Document"/>
+                <Property Name="material" Type="Edm.String" MaxLength="18" sap:display-format="UpperCase" sap:label="Sales Order Material" sap:quickinfo="Material Number"/>
+                <Property Name="material_Description" Type="Edm.String" MaxLength="40" sap:label="Sales Order Material Despcription" sap:quickinfo="Short text for sales order item"/>
+                <Property Name="so_convert_Qty" Type="Edm.Decimal" Precision="15" Scale="3" sap:unit="so_baseUoM" sap:label="SO Base Quantity" sap:quickinfo="Requested Order Quantity in Base Unit"/>
+                <Property Name="so_baseUoM" Type="Edm.String" MaxLength="3" sap:label="Base Unit of Measure" sap:semantics="unit-of-measure"/>
+                <Property Name="value" Type="Edm.Decimal" Precision="15" Scale="3" sap:unit="currency" sap:variable-scale="true" sap:label="Net Value" sap:quickinfo="Net Value of the Document Item in Document Currency"/>
+                <Property Name="currency" Type="Edm.String" MaxLength="5" sap:display-format="UpperCase" sap:label="Document Currency" sap:quickinfo="SD Document Currency" sap:semantics="currency-code"/>
+                <Property Name="unitQty" Type="Edm.Decimal" Precision="15" Scale="3" sap:unit="unitQtyUom" sap:label="Order Quantity" sap:quickinfo="Cumulative order quantity in sales units"/>
+                <Property Name="unitQtyUom" Type="Edm.String" MaxLength="3" sap:label="Sales Unit" sap:semantics="unit-of-measure"/>
+                <Property Name="unit_Price" Type="Edm.Decimal" Precision="11" Scale="3" sap:unit="currency" sap:variable-scale="true" sap:label="Net Price"/>
+                <NavigationProperty Name="to_ZI_QTO_SO_QT" Relationship="cds_zsd_qto_so_qt.assoc_A3DABD2763B68C6A8A7BA90CEBE92BF0" FromRole="FromRole_assoc_A3DABD2763B68C6A8A7BA90CEBE92BF0" ToRole="ToRole_assoc_A3DABD2763B68C6A8A7BA90CEBE92BF0"/>
+            </EntityType>
+            <EntityType Name="ZC_QTO_SO_QTType" sap:label="Projection view for SO and QT" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="salesDoc"/>
+                    <PropertyRef Name="qt_salesDoc"/>
                 </Key>
                 <Property Name="Linkdocs_ac" Type="Edm.Boolean" sap:label="Dyn. Action Control" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <Property Name="Reject_link_ac" Type="Edm.Boolean" sap:label="Dyn. Action Control" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Reset_ac" Type="Edm.Boolean" sap:label="Dyn. Action Control" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <Property Name="Return_to_list_ac" Type="Edm.Boolean" sap:label="Dyn. Action Control" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
-                <Property Name="material" Type="Edm.String" Nullable="false" MaxLength="18" sap:display-format="UpperCase" sap:label="Material Code" sap:quickinfo="Material Number" sap:creatable="false" sap:updatable="false"/>
-                <Property Name="item" Type="Edm.String" Nullable="false" MaxLength="6" sap:display-format="NonNegative" sap:label="Sales Order item" sap:quickinfo="Sales Document Item" sap:creatable="false" sap:updatable="false"/>
-                <Property Name="salesDoc" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="Sales Order" sap:quickinfo="Sales Document" sap:creatable="false" sap:updatable="false"/>
-                <Property Name="qt_salesDoc" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="Quotation number" sap:quickinfo="Sales Document" sap:creatable="false" sap:updatable="false"/>
-                <Property Name="qt_item" Type="Edm.String" Nullable="false" MaxLength="6" sap:display-format="NonNegative" sap:label="Quotation item" sap:quickinfo="Sales Document Item" sap:creatable="false" sap:updatable="false"/>
-                <Property Name="Confidence" Type="Edm.Int32"/>
-                <Property Name="customer" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Order Sold-To" sap:quickinfo="Sold-to Party"/>
-                <Property Name="so_salesResponsible" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Order Sales Responsible" sap:quickinfo="Customer Number"/>
-                <Property Name="qt_soldTo" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Quotation Sold-To" sap:quickinfo="Sold-to Party"/>
-                <Property Name="qt_salesResponsible" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Quotation Sales Responsible" sap:quickinfo="Customer Number"/>
-                <Property Name="so_paymentTerm" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Sales Order Payment Terms" sap:quickinfo="Terms of Payment Key"/>
-                <Property Name="so_incoTerm" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="Sales Order Inco Terms" sap:quickinfo="Incoterms (Part 1)"/>
+                <Property Name="Va03_ac" Type="Edm.Boolean" sap:label="Dyn. Action Control" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Va23_ac" Type="Edm.Boolean" sap:label="Dyn. Action Control" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="salesDoc" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="Sales Order" sap:quickinfo="Sales Document"/>
+                <Property Name="qt_salesDoc" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="Quotation" sap:quickinfo="Sales Document"/>
+                <Property Name="Confidence" Type="Edm.Byte" sap:label="Confidence ( % )" sap:quickinfo="Number of lenght 3 digit"/>
+                <Property Name="Confidence_band" Type="Edm.String" MaxLength="30" sap:display-format="UpperCase" sap:filter-restriction="single-value" sap:required-in-filter="false" sap:label="Confidence Band" sap:quickinfo="30 Characters" sap:value-list="fixed-values"/>
+                <Property Name="customerIdName" Type="Edm.String" MaxLength="93" sap:label="Customer (Sold-To)"/>
+                <Property Name="customer" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Sold-To" sap:quickinfo="Sold-to Party"/>
+                <Property Name="so_salesResponsibleIdName" Type="Edm.String" MaxLength="93" sap:label="Order Sales Responsible"/>
+                <Property Name="qt_CustomerIdName" Type="Edm.String" MaxLength="93" sap:label="Quotation Customer"/>
+                <Property Name="qt_salesResponsibleIdName" Type="Edm.String" MaxLength="93" sap:label="Quotation Sales Responsible"/>
+                <Property Name="so_paymentTerm" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Order Payment Terms" sap:quickinfo="Terms of Payment Key"/>
+                <Property Name="so_paymentTermDescp" Type="Edm.String" MaxLength="43" sap:label="Order Payment Terms with Description"/>
+                <Property Name="so_incoTermDescp" Type="Edm.String" MaxLength="83" sap:label="Order Inco Terms"/>
                 <Property Name="qt_paymentTerm" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Quotation Payment Terms" sap:quickinfo="Terms of Payment Key"/>
-                <Property Name="qt_incoTerm" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="Quotation Inco Terms" sap:quickinfo="Incoterms (Part 1)"/>
-                <Property Name="status" Type="Edm.String" MaxLength="20" sap:label="status"/>
-                <Property Name="orderQty" Type="Edm.Decimal" Precision="15" Scale="3" sap:unit="salesUnit" sap:label="Sales Order Quantity" sap:quickinfo="Cumulative order quantity in sales units"/>
-                <Property Name="salesUnit" Type="Edm.String" MaxLength="3" sap:label="Sales Unit" sap:semantics="unit-of-measure"/>
-                <Property Name="remainingQty" Type="Edm.Decimal" Precision="16" Scale="3" sap:unit="baseUom"/>
-                <Property Name="baseUom" Type="Edm.String" MaxLength="3" sap:label="Base Unit of Measure" sap:semantics="unit-of-measure"/>
-                <Property Name="docDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date" sap:filter-restriction="interval" sap:label="Sale Order Date" sap:quickinfo="Document Date (Date Received/Sent)"/>
+                <Property Name="qt_paymentTermDescp" Type="Edm.String" MaxLength="43" sap:label="Quotation Payment Terms with Description"/>
+                <Property Name="qt_incoTermDescp" Type="Edm.String" MaxLength="83" sap:label="Quotation Inco Terms"/>
+                <Property Name="status" Type="Edm.String" MaxLength="10" sap:filter-restriction="single-value" sap:required-in-filter="false" sap:label="Status" sap:value-list="fixed-values"/>
+                <Property Name="docDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date" sap:filter-restriction="interval" sap:label="Order Date" sap:quickinfo="Document Date (Date Received/Sent)"/>
                 <Property Name="qt_docDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date" sap:label="Quotation Date" sap:quickinfo="Document Date (Date Received/Sent)"/>
-                <Property Name="so_value" Type="Edm.Decimal" Precision="15" Scale="3" sap:unit="so_currency" sap:variable-scale="true" sap:label="Sales Order Value" sap:quickinfo="Net Value of the Document Item in Document Currency"/>
+                <Property Name="so_total_value" Type="Edm.Decimal" Precision="16" Scale="3" sap:unit="docCurrency" sap:variable-scale="true" sap:label="Order Value"/>
+                <Property Name="docCurrency" Type="Edm.String" MaxLength="5" sap:display-format="UpperCase" sap:label="Document Currency" sap:quickinfo="SD Document Currency" sap:semantics="currency-code"/>
                 <Property Name="so_currency" Type="Edm.String" MaxLength="5" sap:display-format="UpperCase" sap:label="Document Currency" sap:quickinfo="SD Document Currency" sap:semantics="currency-code"/>
-                <Property Name="qt_value" Type="Edm.Decimal" Precision="15" Scale="3" sap:unit="qt_currency" sap:variable-scale="true" sap:label="Quotation Value" sap:quickinfo="Net Value of the Document Item in Document Currency"/>
+                <Property Name="qt_total_value" Type="Edm.Decimal" Precision="16" Scale="3" sap:unit="qt_docCurrency" sap:variable-scale="true" sap:label="Quotation Value"/>
+                <Property Name="qt_docCurrency" Type="Edm.String" MaxLength="5" sap:display-format="UpperCase" sap:label="Document Currency" sap:quickinfo="SD Document Currency" sap:semantics="currency-code"/>
                 <Property Name="qt_currency" Type="Edm.String" MaxLength="5" sap:display-format="UpperCase" sap:label="Document Currency" sap:quickinfo="SD Document Currency" sap:semantics="currency-code"/>
                 <Property Name="validFrom" Type="Edm.DateTime" Precision="0" sap:display-format="Date" sap:label="Valid From" sap:quickinfo="Valid-From Date (Outline Agreements, Product Proposals)"/>
                 <Property Name="validTo" Type="Edm.DateTime" Precision="0" sap:display-format="Date" sap:label="Valid Until" sap:quickinfo="Valid-To Date (Outline Agreements, Product Proposals)"/>
-                <Property Name="so_shipTo" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Customer" sap:quickinfo="Customer Number"/>
-                <Property Name="qt_shipTo" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Customer" sap:quickinfo="Customer Number"/>
-                <Property Name="pricingPartner" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Customer" sap:quickinfo="Customer Number"/>
-                <Property Name="qt_pricingPartner" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Customer" sap:quickinfo="Customer Number"/>
-                <Property Name="objectPartner" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Customer" sap:quickinfo="Customer Number"/>
-                <Property Name="qt_objectPartner" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Customer" sap:quickinfo="Customer Number"/>
+                <Property Name="so_shipToIdName" Type="Edm.String" MaxLength="93" sap:label="Order ship-To"/>
+                <Property Name="so_shipToIdAddress" Type="Edm.String" MaxLength="318" sap:label="Order ship-To with Address"/>
+                <Property Name="qt_shipToIdName" Type="Edm.String" MaxLength="93" sap:label="Quotation Ship-To"/>
+                <Property Name="qt_shipToIdAddress" Type="Edm.String" MaxLength="318" sap:label="Quotation Ship-To with Address"/>
+                <Property Name="pricingPartner" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Order Pricing Partner" sap:quickinfo="Customer Number"/>
+                <Property Name="qt_pricingPartner" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Quotation Pricing Partner" sap:quickinfo="Customer Number"/>
+                <Property Name="objectPartner" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Order Object Partner" sap:quickinfo="Customer Number"/>
+                <Property Name="qt_objectPartner" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Quotation Object Partner" sap:quickinfo="Customer Number"/>
                 <Property Name="customerReference" Type="Edm.String" MaxLength="20" sap:label="Customer Reference"/>
-                <Property Name="qt_customerReference" Type="Edm.String" MaxLength="20" sap:label="Customer Reference"/>
-                <Property Name="shippingCondition" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase" sap:label="Shipping Conditions"/>
-                <Property Name="qt_shippingCondition" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase" sap:label="Shipping Conditions"/>
-                <Property Name="FieldA" Type="Edm.String" MaxLength="10" sap:label="Virtual Status" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
-                <Property Name="FieldB" Type="Edm.Int32" sap:label="Confidence ( % )" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
-                <NavigationProperty Name="to_ZI_QTO_SO_QT_1" Relationship="cds_zsd_qto_so_qt.assoc_48E6B4CC16BE8A7309197933152B02EC" FromRole="FromRole_assoc_48E6B4CC16BE8A7309197933152B02EC" ToRole="ToRole_assoc_48E6B4CC16BE8A7309197933152B02EC"/>
+                <Property Name="so_CustomerServiceResponsible" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Customer Service Responsible" sap:quickinfo="Customer Number"/>
+                <Property Name="salesOrg" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Sales Organization"/>
+                <Property Name="qt_customerReference" Type="Edm.String" MaxLength="20" sap:label="Quotation Customer Reference" sap:quickinfo="Customer Reference"/>
+                <Property Name="shippingCondition" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase" sap:label="Order Shipping Condition" sap:quickinfo="Shipping Conditions"/>
+                <Property Name="qt_shippingCondition" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase" sap:label="Quotation Shipping Condition" sap:quickinfo="Shipping Conditions"/>
+                <Property Name="so_ref_customerIdName" Type="Edm.String" MaxLength="93" sap:label="Order Reference Customer"/>
+                <Property Name="qt_ref_customerIdName" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Quotation Reference Customer" sap:quickinfo="Customer Number"/>
+                <Property Name="so_distributionChannel" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase" sap:label="Distribution Channel"/>
+                <Property Name="so_docBrand" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="Document Brand" sap:quickinfo="Brand"/>
+                <NavigationProperty Name="to_ZI_QTO_FILTER_QT_UNMATCH" Relationship="cds_zsd_qto_so_qt.assoc_0525B376170F6E785ACEC4CC92757F8C" FromRole="FromRole_assoc_0525B376170F6E785ACEC4CC92757F8C" ToRole="ToRole_assoc_0525B376170F6E785ACEC4CC92757F8C"/>
+                <NavigationProperty Name="to_ZI_QTO_FILTER_SO_UNMATCH" Relationship="cds_zsd_qto_so_qt.assoc_3D76B291E1401F7BBCFBCE0A8B25FBBD" FromRole="FromRole_assoc_3D76B291E1401F7BBCFBCE0A8B25FBBD" ToRole="ToRole_assoc_3D76B291E1401F7BBCFBCE0A8B25FBBD"/>
+                <NavigationProperty Name="to_ZI_QTO_SO_QT_MATCHED" Relationship="cds_zsd_qto_so_qt.assoc_D3AD5F350FC8747E93894901276AB9C8" FromRole="FromRole_assoc_D3AD5F350FC8747E93894901276AB9C8" ToRole="ToRole_assoc_D3AD5F350FC8747E93894901276AB9C8"/>
             </EntityType>
-            <EntityType Name="ZC_QTO_SO_QT_1Type" sap:label="Projection view for 2nd Fiori page" sap:content-version="1">
+            <EntityType Name="ZC_QTO_SO_QT_MATCHEDType" sap:label="Projection view for matched" sap:content-version="1">
                 <Key>
                     <PropertyRef Name="item"/>
                     <PropertyRef Name="salesDoc"/>
                     <PropertyRef Name="qt_salesDoc"/>
                     <PropertyRef Name="qt_item"/>
+                    <PropertyRef Name="material"/>
                 </Key>
                 <Property Name="item" Type="Edm.String" Nullable="false" MaxLength="6" sap:display-format="NonNegative" sap:label="Sales Order item" sap:quickinfo="Sales Document Item"/>
                 <Property Name="salesDoc" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="Sales Order" sap:quickinfo="Sales Document"/>
                 <Property Name="qt_salesDoc" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="Quotation number" sap:quickinfo="Sales Document"/>
                 <Property Name="qt_item" Type="Edm.String" Nullable="false" MaxLength="6" sap:display-format="NonNegative" sap:label="Quotation item" sap:quickinfo="Sales Document Item"/>
-                <Property Name="material" Type="Edm.String" MaxLength="18" sap:display-format="UpperCase" sap:label="Material Code" sap:quickinfo="Material Number"/>
-                <Property Name="Confidence" Type="Edm.Int32" sap:label="Confidence ( % )"/>
-                <NavigationProperty Name="to_ZI_QTO_SO_QT" Relationship="cds_zsd_qto_so_qt.assoc_C20B102E7F36251AB7BD2111D7E1370D" FromRole="FromRole_assoc_C20B102E7F36251AB7BD2111D7E1370D" ToRole="ToRole_assoc_C20B102E7F36251AB7BD2111D7E1370D"/>
+                <Property Name="material" Type="Edm.String" Nullable="false" MaxLength="18" sap:display-format="UpperCase" sap:label="Sales Order Material" sap:quickinfo="Material Number"/>
+                <Property Name="param_value" Type="Edm.Int32"/>
+                <Property Name="so_material_Description" Type="Edm.String" MaxLength="40" sap:label="Sales Order Material Description" sap:quickinfo="Short text for sales order item"/>
+                <Property Name="qt_material" Type="Edm.String" MaxLength="18" sap:display-format="UpperCase" sap:label="Quotation Material" sap:quickinfo="Material Number"/>
+                <Property Name="qt_material_Description" Type="Edm.String" MaxLength="40" sap:label="Quotation Material Description" sap:quickinfo="Short text for sales order item"/>
+                <Property Name="so_unitQty" Type="Edm.Decimal" Precision="15" Scale="3" sap:unit="so_unitQtyUom" sap:label="Sales Order Unit Quantity" sap:quickinfo="Cumulative order quantity in sales units"/>
+                <Property Name="so_unitQtyUom" Type="Edm.String" MaxLength="3" sap:label="Sales Unit" sap:semantics="unit-of-measure"/>
+                <Property Name="so_unit_Price" Type="Edm.Decimal" Precision="11" Scale="3" sap:unit="so_currency" sap:variable-scale="true" sap:label="Sales Order Unit Price" sap:quickinfo="Net Price"/>
+                <Property Name="so_currency" Type="Edm.String" MaxLength="5" sap:display-format="UpperCase" sap:label="Document Currency" sap:quickinfo="SD Document Currency" sap:semantics="currency-code"/>
+                <Property Name="so_convert_Qty" Type="Edm.Decimal" Precision="15" Scale="3" sap:unit="so_baseUoM" sap:label="SO Base Quantity" sap:quickinfo="Requested Order Quantity in Base Unit"/>
+                <Property Name="so_baseUoM" Type="Edm.String" MaxLength="3" sap:label="Base Unit of Measure" sap:semantics="unit-of-measure"/>
+                <Property Name="qt_unitQty" Type="Edm.Decimal" Precision="13" Scale="3" sap:unit="qt_unitQtyUom" sap:label="Quotation Unit Quantity" sap:quickinfo="Target Quantity in Sales Units"/>
+                <Property Name="qt_unitQtyUom" Type="Edm.String" MaxLength="3" sap:label="Target Quantity UoM" sap:semantics="unit-of-measure"/>
+                <Property Name="qt_unit_price" Type="Edm.Decimal" Precision="11" Scale="3" sap:unit="qt_currency" sap:variable-scale="true" sap:label="Quotation Unit Price" sap:quickinfo="Net Price"/>
+                <Property Name="qt_currency" Type="Edm.String" MaxLength="5" sap:display-format="UpperCase" sap:label="Document Currency" sap:quickinfo="SD Document Currency" sap:semantics="currency-code"/>
+                <Property Name="remainingQty" Type="Edm.Decimal" Precision="16" Scale="3" sap:unit="baseUom" sap:label="Remaining Quantity"/>
+                <Property Name="baseUom" Type="Edm.String" MaxLength="3" sap:label="Base Unit of Measure" sap:semantics="unit-of-measure"/>
+                <Property Name="qt_convert_Qty" Type="Edm.Decimal" Precision="15" Scale="3" sap:unit="qt_baseUoM" sap:label="QT Base Quantity" sap:quickinfo="Requested Order Quantity in Base Unit"/>
+                <Property Name="qt_baseUoM" Type="Edm.String" MaxLength="3" sap:label="Base Unit of Measure" sap:semantics="unit-of-measure"/>
+                <NavigationProperty Name="to_ZI_QTO_SO_QT" Relationship="cds_zsd_qto_so_qt.assoc_D3AD5F350FC8747E93894901276AB9C8" FromRole="ToRole_assoc_D3AD5F350FC8747E93894901276AB9C8" ToRole="FromRole_assoc_D3AD5F350FC8747E93894901276AB9C8"/>
+            </EntityType>
+            <EntityType Name="ZI_QTO_HELPVIEW_CONFD_BANDType" sap:label="CDS view for Confidence Band SearchBar" sap:value-list="true" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Band"/>
+                </Key>
+                <Property Name="Band" Type="Edm.String" Nullable="false" MaxLength="100" sap:display-format="UpperCase" sap:label="Value 1" sap:quickinfo="Value1"/>
+                <Property Name="description" Type="Edm.String" MaxLength="100" sap:display-format="UpperCase" sap:label="Description"/>
+            </EntityType>
+            <EntityType Name="ZI_QTO_HELPVIEW_STATUSType" sap:label="CDS view for status dropdown" sap:value-list="true" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="helpstatus"/>
+                </Key>
+                <Property Name="helpstatus" Type="Edm.String" Nullable="false" MaxLength="100" sap:display-format="UpperCase" sap:label="Status" sap:quickinfo="Value1"/>
+                <Property Name="description" Type="Edm.String" MaxLength="20"/>
             </EntityType>
             <EntityType Name="SAP__Currency" sap:content-version="1">
                 <Key>
@@ -237,6 +316,20 @@
             <ComplexType Name="SAP__HeaderFooterField">
                 <Property Name="Type" Type="Edm.String" Nullable="false" MaxLength="256" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
             </ComplexType>
+            <Association Name="assoc_A3DABD2763B68C6A8A7BA90CEBE92BF0" sap:content-version="1">
+                <End Type="cds_zsd_qto_so_qt.ZC_QTO_FILTER_SO_UNMATCHType" Multiplicity="1" Role="FromRole_assoc_A3DABD2763B68C6A8A7BA90CEBE92BF0"/>
+                <End Type="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType" Multiplicity="*" Role="ToRole_assoc_A3DABD2763B68C6A8A7BA90CEBE92BF0"/>
+                <ReferentialConstraint>
+                    <Principal Role="ToRole_assoc_A3DABD2763B68C6A8A7BA90CEBE92BF0">
+                        <PropertyRef Name="qt_salesDoc"/>
+                        <PropertyRef Name="salesDoc"/>
+                    </Principal>
+                    <Dependent Role="FromRole_assoc_A3DABD2763B68C6A8A7BA90CEBE92BF0">
+                        <PropertyRef Name="qt_salesDoc"/>
+                        <PropertyRef Name="salesDoc"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
             <Association Name="to_format" sap:content-version="1">
                 <End Type="cds_zsd_qto_so_qt.SAP__DocumentDescription" Multiplicity="1" Role="FromRole_to_format"/>
                 <End Type="cds_zsd_qto_so_qt.SAP__Format" Multiplicity="1" Role="ToRole_to_format"/>
@@ -333,13 +426,43 @@
                     </Dependent>
                 </ReferentialConstraint>
             </Association>
-            <Association Name="assoc_48E6B4CC16BE8A7309197933152B02EC" sap:content-version="1">
-                <End Type="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType" Multiplicity="1" Role="FromRole_assoc_48E6B4CC16BE8A7309197933152B02EC"/>
-                <End Type="cds_zsd_qto_so_qt.ZC_QTO_SO_QT_1Type" Multiplicity="*" Role="ToRole_assoc_48E6B4CC16BE8A7309197933152B02EC"/>
+            <Association Name="assoc_0525B376170F6E785ACEC4CC92757F8C" sap:content-version="1">
+                <End Type="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType" Multiplicity="1" Role="FromRole_assoc_0525B376170F6E785ACEC4CC92757F8C"/>
+                <End Type="cds_zsd_qto_so_qt.ZC_QTO_FILTER_QT_UNMATCHType" Multiplicity="*" Role="ToRole_assoc_0525B376170F6E785ACEC4CC92757F8C"/>
             </Association>
-            <Association Name="assoc_C20B102E7F36251AB7BD2111D7E1370D" sap:content-version="1">
-                <End Type="cds_zsd_qto_so_qt.ZC_QTO_SO_QT_1Type" Multiplicity="1" Role="FromRole_assoc_C20B102E7F36251AB7BD2111D7E1370D"/>
-                <End Type="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType" Multiplicity="0..1" Role="ToRole_assoc_C20B102E7F36251AB7BD2111D7E1370D"/>
+            <Association Name="assoc_3D76B291E1401F7BBCFBCE0A8B25FBBD" sap:content-version="1">
+                <End Type="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType" Multiplicity="1" Role="FromRole_assoc_3D76B291E1401F7BBCFBCE0A8B25FBBD"/>
+                <End Type="cds_zsd_qto_so_qt.ZC_QTO_FILTER_SO_UNMATCHType" Multiplicity="*" Role="ToRole_assoc_3D76B291E1401F7BBCFBCE0A8B25FBBD"/>
+            </Association>
+            <Association Name="assoc_D3AD5F350FC8747E93894901276AB9C8" sap:content-version="1">
+                <End Type="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType" Multiplicity="1" Role="FromRole_assoc_D3AD5F350FC8747E93894901276AB9C8">
+                    <OnDelete Action="Cascade"/>
+                </End>
+                <End Type="cds_zsd_qto_so_qt.ZC_QTO_SO_QT_MATCHEDType" Multiplicity="*" Role="ToRole_assoc_D3AD5F350FC8747E93894901276AB9C8"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_assoc_D3AD5F350FC8747E93894901276AB9C8">
+                        <PropertyRef Name="qt_salesDoc"/>
+                        <PropertyRef Name="salesDoc"/>
+                    </Principal>
+                    <Dependent Role="ToRole_assoc_D3AD5F350FC8747E93894901276AB9C8">
+                        <PropertyRef Name="qt_salesDoc"/>
+                        <PropertyRef Name="salesDoc"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="assoc_BA3377DB19ED7B7C3AFDD747D4827FEC" sap:content-version="1">
+                <End Type="cds_zsd_qto_so_qt.ZC_QTO_FILTER_QT_UNMATCHType" Multiplicity="1" Role="FromRole_assoc_BA3377DB19ED7B7C3AFDD747D4827FEC"/>
+                <End Type="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType" Multiplicity="*" Role="ToRole_assoc_BA3377DB19ED7B7C3AFDD747D4827FEC"/>
+                <ReferentialConstraint>
+                    <Principal Role="ToRole_assoc_BA3377DB19ED7B7C3AFDD747D4827FEC">
+                        <PropertyRef Name="qt_salesDoc"/>
+                        <PropertyRef Name="salesDoc"/>
+                    </Principal>
+                    <Dependent Role="FromRole_assoc_BA3377DB19ED7B7C3AFDD747D4827FEC">
+                        <PropertyRef Name="qt_salesDoc"/>
+                        <PropertyRef Name="salesDoc"/>
+                    </Dependent>
+                </ReferentialConstraint>
             </Association>
             <EntityContainer Name="cds_zsd_qto_so_qt_Entities" m:IsDefaultEntityContainer="true" sap:message-scope-supported="true" sap:supported-formats="atom json xlsx pdf">
                 <EntitySet Name="SAP__Currencies" EntityType="cds_zsd_qto_so_qt.SAP__Currency" sap:content-version="1"/>
@@ -354,8 +477,12 @@
                 <EntitySet Name="SAP__PDFHeaderSet" EntityType="cds_zsd_qto_so_qt.SAP__PDFHeader" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
                 <EntitySet Name="SAP__PDFFooterSet" EntityType="cds_zsd_qto_so_qt.SAP__PDFFooter" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/>
                 <EntitySet Name="SAP__ValueHelpSet" EntityType="cds_zsd_qto_so_qt.SAP__ValueHelp" sap:content-version="1"/>
+                <EntitySet Name="ZC_QTO_FILTER_QT_UNMATCH" EntityType="cds_zsd_qto_so_qt.ZC_QTO_FILTER_QT_UNMATCHType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <EntitySet Name="ZC_QTO_FILTER_SO_UNMATCH" EntityType="cds_zsd_qto_so_qt.ZC_QTO_FILTER_SO_UNMATCHType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
                 <EntitySet Name="ZC_QTO_SO_QT" EntityType="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
-                <EntitySet Name="ZC_QTO_SO_QT_1" EntityType="cds_zsd_qto_so_qt.ZC_QTO_SO_QT_1Type" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <EntitySet Name="ZC_QTO_SO_QT_MATCHED" EntityType="cds_zsd_qto_so_qt.ZC_QTO_SO_QT_MATCHEDType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <EntitySet Name="ZI_QTO_HELPVIEW_CONFD_BAND" EntityType="cds_zsd_qto_so_qt.ZI_QTO_HELPVIEW_CONFD_BANDType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <EntitySet Name="ZI_QTO_HELPVIEW_STATUS" EntityType="cds_zsd_qto_so_qt.ZI_QTO_HELPVIEW_STATUSType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
                 <AssociationSet Name="to_FooterSet" Association="cds_zsd_qto_so_qt.to_Footer" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
                     <End EntitySet="SAP__MyDocumentDescriptions" Role="FromRole_to_Footer"/>
                     <End EntitySet="SAP__PDFFooterSet" Role="ToRole_to_Footer"/>
@@ -368,17 +495,21 @@
                     <End EntitySet="SAP__MyDocumentDescriptions" Role="FromRole_to_format"/>
                     <End EntitySet="SAP__FormatSet" Role="ToRole_to_format"/>
                 </AssociationSet>
+                <AssociationSet Name="assoc_D3AD5F350FC8747E93894901276AB9C8" Association="cds_zsd_qto_so_qt.assoc_D3AD5F350FC8747E93894901276AB9C8" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="ZC_QTO_SO_QT" Role="FromRole_assoc_D3AD5F350FC8747E93894901276AB9C8"/>
+                    <End EntitySet="ZC_QTO_SO_QT_MATCHED" Role="ToRole_assoc_D3AD5F350FC8747E93894901276AB9C8"/>
+                </AssociationSet>
                 <AssociationSet Name="to_pdfstandardSet" Association="cds_zsd_qto_so_qt.to_pdfstandard" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
                     <End EntitySet="SAP__MyDocumentDescriptions" Role="FromRole_to_pdfstandard"/>
                     <End EntitySet="SAP__PDFStandardSet" Role="ToRole_to_pdfstandard"/>
                 </AssociationSet>
-                <AssociationSet Name="assoc_48E6B4CC16BE8A7309197933152B02EC" Association="cds_zsd_qto_so_qt.assoc_48E6B4CC16BE8A7309197933152B02EC" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
-                    <End EntitySet="ZC_QTO_SO_QT" Role="FromRole_assoc_48E6B4CC16BE8A7309197933152B02EC"/>
-                    <End EntitySet="ZC_QTO_SO_QT_1" Role="ToRole_assoc_48E6B4CC16BE8A7309197933152B02EC"/>
+                <AssociationSet Name="assoc_A3DABD2763B68C6A8A7BA90CEBE92BF0" Association="cds_zsd_qto_so_qt.assoc_A3DABD2763B68C6A8A7BA90CEBE92BF0" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="ZC_QTO_FILTER_SO_UNMATCH" Role="FromRole_assoc_A3DABD2763B68C6A8A7BA90CEBE92BF0"/>
+                    <End EntitySet="ZC_QTO_SO_QT" Role="ToRole_assoc_A3DABD2763B68C6A8A7BA90CEBE92BF0"/>
                 </AssociationSet>
-                <AssociationSet Name="assoc_C20B102E7F36251AB7BD2111D7E1370D" Association="cds_zsd_qto_so_qt.assoc_C20B102E7F36251AB7BD2111D7E1370D" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
-                    <End EntitySet="ZC_QTO_SO_QT_1" Role="FromRole_assoc_C20B102E7F36251AB7BD2111D7E1370D"/>
-                    <End EntitySet="ZC_QTO_SO_QT" Role="ToRole_assoc_C20B102E7F36251AB7BD2111D7E1370D"/>
+                <AssociationSet Name="assoc_0525B376170F6E785ACEC4CC92757F8C" Association="cds_zsd_qto_so_qt.assoc_0525B376170F6E785ACEC4CC92757F8C" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="ZC_QTO_SO_QT" Role="FromRole_assoc_0525B376170F6E785ACEC4CC92757F8C"/>
+                    <End EntitySet="ZC_QTO_FILTER_QT_UNMATCH" Role="ToRole_assoc_0525B376170F6E785ACEC4CC92757F8C"/>
                 </AssociationSet>
                 <AssociationSet Name="to_tablecolumnsSet" Association="cds_zsd_qto_so_qt.to_tablecolumns" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
                     <End EntitySet="SAP__MyDocumentDescriptions" Role="FromRole_to_tablecolumns"/>
@@ -387,6 +518,14 @@
                 <AssociationSet Name="to_signatureSet" Association="cds_zsd_qto_so_qt.to_signature" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
                     <End EntitySet="SAP__MyDocumentDescriptions" Role="FromRole_to_signature"/>
                     <End EntitySet="SAP__SignatureSet" Role="ToRole_to_signature"/>
+                </AssociationSet>
+                <AssociationSet Name="assoc_BA3377DB19ED7B7C3AFDD747D4827FEC" Association="cds_zsd_qto_so_qt.assoc_BA3377DB19ED7B7C3AFDD747D4827FEC" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="ZC_QTO_FILTER_QT_UNMATCH" Role="FromRole_assoc_BA3377DB19ED7B7C3AFDD747D4827FEC"/>
+                    <End EntitySet="ZC_QTO_SO_QT" Role="ToRole_assoc_BA3377DB19ED7B7C3AFDD747D4827FEC"/>
+                </AssociationSet>
+                <AssociationSet Name="assoc_3D76B291E1401F7BBCFBCE0A8B25FBBD" Association="cds_zsd_qto_so_qt.assoc_3D76B291E1401F7BBCFBCE0A8B25FBBD" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="ZC_QTO_SO_QT" Role="FromRole_assoc_3D76B291E1401F7BBCFBCE0A8B25FBBD"/>
+                    <End EntitySet="ZC_QTO_FILTER_SO_UNMATCH" Role="ToRole_assoc_3D76B291E1401F7BBCFBCE0A8B25FBBD"/>
                 </AssociationSet>
                 <AssociationSet Name="to_coverpageSet" Association="cds_zsd_qto_so_qt.to_coverpage" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
                     <End EntitySet="SAP__MyDocumentDescriptions" Role="FromRole_to_coverpage"/>
@@ -397,30 +536,84 @@
                     <End EntitySet="SAP__HierarchySet" Role="ToRole_to_Hierarchy"/>
                 </AssociationSet>
                 <FunctionImport Name="Linkdocs" ReturnType="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType" EntitySet="ZC_QTO_SO_QT" m:HttpMethod="POST" sap:action-for="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType" sap:applicable-path="Linkdocs_ac">
-                    <Parameter Name="material" Type="Edm.String" Mode="In" MaxLength="40" sap:label="Material"/>
-                    <Parameter Name="item" Type="Edm.String" Mode="In" MaxLength="6" sap:label="Sales Document Item"/>
                     <Parameter Name="salesDoc" Type="Edm.String" Mode="In" MaxLength="10" sap:label="Sales Document"/>
                     <Parameter Name="qt_salesDoc" Type="Edm.String" Mode="In" MaxLength="10" sap:label="Sales Document"/>
-                    <Parameter Name="qt_item" Type="Edm.String" Mode="In" MaxLength="6" sap:label="Sales Document Item"/>
+                    <Parameter Name="Payment_terms" Type="Edm.Boolean" Mode="In" Nullable="true" sap:label="Payment Terms"/>
+                    <Parameter Name="Pricing_partner" Type="Edm.Boolean" Mode="In" Nullable="true" sap:label="Pricing partner (YP)"/>
+                    <Parameter Name="Sales_representative" Type="Edm.Boolean" Mode="In" Nullable="true" sap:label="Sales representative (Z1)"/>
+                    <Parameter Name="Object_partner" Type="Edm.Boolean" Mode="In" Nullable="true" sap:label="Object partner (ZO)"/>
+                    <Parameter Name="Ref_customer" Type="Edm.Boolean" Mode="In" Nullable="true" sap:label="Ref customer (ZC)"/>
                 </FunctionImport>
                 <FunctionImport Name="Reject_link" ReturnType="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType" EntitySet="ZC_QTO_SO_QT" m:HttpMethod="POST" sap:action-for="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType" sap:applicable-path="Reject_link_ac">
-                    <Parameter Name="material" Type="Edm.String" Mode="In" MaxLength="40" sap:label="Material"/>
-                    <Parameter Name="item" Type="Edm.String" Mode="In" MaxLength="6" sap:label="Sales Document Item"/>
                     <Parameter Name="salesDoc" Type="Edm.String" Mode="In" MaxLength="10" sap:label="Sales Document"/>
                     <Parameter Name="qt_salesDoc" Type="Edm.String" Mode="In" MaxLength="10" sap:label="Sales Document"/>
-                    <Parameter Name="qt_item" Type="Edm.String" Mode="In" MaxLength="6" sap:label="Sales Document Item"/>
+                    <Parameter Name="confirmation_status" Type="Edm.Boolean" Mode="In" Nullable="true" sap:value-list="fixed-values" sap:label="Are you sure you want to reject?"/>
+                </FunctionImport>
+                <FunctionImport Name="Reset" ReturnType="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType" EntitySet="ZC_QTO_SO_QT" m:HttpMethod="POST" sap:action-for="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType" sap:applicable-path="Reset_ac">
+                    <Parameter Name="salesDoc" Type="Edm.String" Mode="In" MaxLength="10" sap:label="Sales Document"/>
+                    <Parameter Name="qt_salesDoc" Type="Edm.String" Mode="In" MaxLength="10" sap:label="Sales Document"/>
                 </FunctionImport>
                 <FunctionImport Name="Return_to_list" ReturnType="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType" EntitySet="ZC_QTO_SO_QT" m:HttpMethod="POST" sap:action-for="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType" sap:applicable-path="Return_to_list_ac">
-                    <Parameter Name="material" Type="Edm.String" Mode="In" MaxLength="40" sap:label="Material"/>
-                    <Parameter Name="item" Type="Edm.String" Mode="In" MaxLength="6" sap:label="Sales Document Item"/>
                     <Parameter Name="salesDoc" Type="Edm.String" Mode="In" MaxLength="10" sap:label="Sales Document"/>
                     <Parameter Name="qt_salesDoc" Type="Edm.String" Mode="In" MaxLength="10" sap:label="Sales Document"/>
-                    <Parameter Name="qt_item" Type="Edm.String" Mode="In" MaxLength="6" sap:label="Sales Document Item"/>
+                </FunctionImport>
+                <FunctionImport Name="VA03" ReturnType="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType" EntitySet="ZC_QTO_SO_QT" m:HttpMethod="POST" sap:action-for="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType" sap:applicable-path="Va03_ac">
+                    <Parameter Name="salesDoc" Type="Edm.String" Mode="In" MaxLength="10" sap:label="Sales Document"/>
+                    <Parameter Name="qt_salesDoc" Type="Edm.String" Mode="In" MaxLength="10" sap:label="Sales Document"/>
+                </FunctionImport>
+                <FunctionImport Name="VA23" ReturnType="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType" EntitySet="ZC_QTO_SO_QT" m:HttpMethod="POST" sap:action-for="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType" sap:applicable-path="Va23_ac">
+                    <Parameter Name="salesDoc" Type="Edm.String" Mode="In" MaxLength="10" sap:label="Sales Document"/>
+                    <Parameter Name="qt_salesDoc" Type="Edm.String" Mode="In" MaxLength="10" sap:label="Sales Document"/>
                 </FunctionImport>
             </EntityContainer>
             <Annotation Term="Core.SchemaVersion" String="1.0.0" xmlns="http://docs.oasis-open.org/odata/ns/edm"/>
+            <Annotations Target="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType/Confidence_band" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.ValueList">
+                    <Record>
+                        <PropertyValue Property="Label" String="Confidence Band"/>
+                        <PropertyValue Property="CollectionPath" String="ZI_QTO_HELPVIEW_CONFD_BAND"/>
+                        <PropertyValue Property="SearchSupported" Bool="false"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="Confidence_band"/>
+                                    <PropertyValue Property="ValueListProperty" String="Band"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="description"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Common.ValueListWithFixedValues"/>
+            </Annotations>
+            <Annotations Target="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType/status" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.ValueList">
+                    <Record>
+                        <PropertyValue Property="Label" String="Status"/>
+                        <PropertyValue Property="CollectionPath" String="ZI_QTO_HELPVIEW_STATUS"/>
+                        <PropertyValue Property="SearchSupported" Bool="false"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="status"/>
+                                    <PropertyValue Property="ValueListProperty" String="description"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="helpstatus"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Common.ValueListWithFixedValues"/>
+            </Annotations>
             <Annotations Target="cds_zsd_qto_so_qt.cds_zsd_qto_so_qt_Entities" xmlns="http://docs.oasis-open.org/odata/ns/edm">
                 <Annotation Term="Common.ApplyMultiUnitBehaviorForSortingAndFiltering" Bool="true"/>
+            </Annotations>
+            <Annotations Target="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType/to_ZI_QTO_SO_QT_MATCHED" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.Composition"/>
             </Annotations>
             <Annotations Target="cds_zsd_qto_so_qt.cds_zsd_qto_so_qt_Entities/ZC_QTO_SO_QT" xmlns="http://docs.oasis-open.org/odata/ns/edm">
                 <Annotation Term="Capabilities.FilterRestrictions">
@@ -429,13 +622,22 @@
                             <Collection>
                                 <PropertyPath>Linkdocs_ac</PropertyPath>
                                 <PropertyPath>Reject_link_ac</PropertyPath>
+                                <PropertyPath>Reset_ac</PropertyPath>
                                 <PropertyPath>Return_to_list_ac</PropertyPath>
-                                <PropertyPath>FieldA</PropertyPath>
-                                <PropertyPath>FieldB</PropertyPath>
+                                <PropertyPath>Va03_ac</PropertyPath>
+                                <PropertyPath>Va23_ac</PropertyPath>
                             </Collection>
                         </PropertyValue>
                         <PropertyValue Property="FilterExpressionRestrictions">
                             <Collection>
+                                <Record>
+                                    <PropertyValue Property="Property" PropertyPath="Confidence_band"/>
+                                    <PropertyValue Property="AllowedExpressions" String="SingleValue"/>
+                                </Record>
+                                <Record>
+                                    <PropertyValue Property="Property" PropertyPath="status"/>
+                                    <PropertyValue Property="AllowedExpressions" String="SingleValue"/>
+                                </Record>
                                 <Record>
                                     <PropertyValue Property="Property" PropertyPath="docDate"/>
                                     <PropertyValue Property="AllowedExpressions" String="SingleRange"/>
@@ -449,7 +651,23 @@
                         <PropertyValue Property="RestrictedProperties">
                             <Collection>
                                 <Record>
-                                    <PropertyValue Property="NavigationProperty" NavigationPropertyPath="to_ZI_QTO_SO_QT_1"/>
+                                    <PropertyValue Property="NavigationProperty" NavigationPropertyPath="to_ZI_QTO_FILTER_QT_UNMATCH"/>
+                                    <PropertyValue Property="InsertRestrictions">
+                                        <Record>
+                                            <PropertyValue Property="Insertable" Bool="false"/>
+                                        </Record>
+                                    </PropertyValue>
+                                </Record>
+                                <Record>
+                                    <PropertyValue Property="NavigationProperty" NavigationPropertyPath="to_ZI_QTO_FILTER_SO_UNMATCH"/>
+                                    <PropertyValue Property="InsertRestrictions">
+                                        <Record>
+                                            <PropertyValue Property="Insertable" Bool="false"/>
+                                        </Record>
+                                    </PropertyValue>
+                                </Record>
+                                <Record>
+                                    <PropertyValue Property="NavigationProperty" NavigationPropertyPath="to_ZI_QTO_SO_QT_MATCHED"/>
                                     <PropertyValue Property="InsertRestrictions">
                                         <Record>
                                             <PropertyValue Property="Insertable" Bool="false"/>
@@ -469,15 +687,52 @@
                             <Collection>
                                 <PropertyPath>Linkdocs_ac</PropertyPath>
                                 <PropertyPath>Reject_link_ac</PropertyPath>
+                                <PropertyPath>Reset_ac</PropertyPath>
                                 <PropertyPath>Return_to_list_ac</PropertyPath>
-                                <PropertyPath>FieldA</PropertyPath>
-                                <PropertyPath>FieldB</PropertyPath>
+                                <PropertyPath>Va03_ac</PropertyPath>
+                                <PropertyPath>Va23_ac</PropertyPath>
                             </Collection>
                         </PropertyValue>
                     </Record>
                 </Annotation>
             </Annotations>
-            <Annotations Target="cds_zsd_qto_so_qt.cds_zsd_qto_so_qt_Entities/ZC_QTO_SO_QT_1" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <Annotations Target="cds_zsd_qto_so_qt.cds_zsd_qto_so_qt_Entities/ZC_QTO_FILTER_QT_UNMATCH" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Capabilities.NavigationRestrictions">
+                    <Record>
+                        <PropertyValue Property="RestrictedProperties">
+                            <Collection>
+                                <Record>
+                                    <PropertyValue Property="NavigationProperty" NavigationPropertyPath="to_ZI_QTO_SO_QT"/>
+                                    <PropertyValue Property="InsertRestrictions">
+                                        <Record>
+                                            <PropertyValue Property="Insertable" Bool="false"/>
+                                        </Record>
+                                    </PropertyValue>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="cds_zsd_qto_so_qt.cds_zsd_qto_so_qt_Entities/ZC_QTO_FILTER_SO_UNMATCH" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Capabilities.NavigationRestrictions">
+                    <Record>
+                        <PropertyValue Property="RestrictedProperties">
+                            <Collection>
+                                <Record>
+                                    <PropertyValue Property="NavigationProperty" NavigationPropertyPath="to_ZI_QTO_SO_QT"/>
+                                    <PropertyValue Property="InsertRestrictions">
+                                        <Record>
+                                            <PropertyValue Property="Insertable" Bool="false"/>
+                                        </Record>
+                                    </PropertyValue>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="cds_zsd_qto_so_qt.cds_zsd_qto_so_qt_Entities/ZC_QTO_SO_QT_MATCHED" xmlns="http://docs.oasis-open.org/odata/ns/edm">
                 <Annotation Term="Capabilities.NavigationRestrictions">
                     <Record>
                         <PropertyValue Property="RestrictedProperties">

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<core:FragmentDefinition xmlns:m="sap.m" xmlns:core="sap.ui.core">
+    <!-- Intentionally empty: the quotation list is shown inside UnmatchedSOItems.fragment.xml (side by side).
+         This section is hidden by CSS ([id*="ZI_QTO_FILTER_QT_UNMATCH"]). -->
+    <m:VBox/>
+</core:FragmentDefinition>

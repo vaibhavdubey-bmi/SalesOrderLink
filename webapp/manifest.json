@@ -3,7 +3,16 @@
   "sap.app": {
     "id": "com.bmi.orderquotematch.project1",
     "type": "application",
-    "i18n": "i18n/i18n.properties",
+    "i18n": {
+      "bundleUrl": "i18n/i18n.properties",
+      "supportedLocales": [
+        "en",
+        "de",
+        "fr",
+        "pl"
+      ],
+      "fallbackLocale": "en"
+    },
     "applicationVersion": {
       "version": "0.0.1"
     },
@@ -60,46 +69,45 @@
       "phone": true
     }
   },
- "sap.ui5": {
-  "flexEnabled": false,
-
-  "extends": {
-  "extensions": {
-
-    "sap.ui.controllerExtensions": {
-      "sap.suite.ui.generic.template.ListReport.view.ListReport": {
-        "controllerName": "com.bmi.orderquotematch.project1.ext.controller.CustomTilesController"
-      },
-
-      "sap.suite.ui.generic.template.ObjectPage.view.Details": {
-      "controllerName": "com.bmi.orderquotematch.project1.ext.Objectpage.SalesQuotation"
-    }
+  "sap.ui5": {
+    "flexEnabled": false,
+    "extends": {
+      "extensions": {
+        "sap.ui.controllerExtensions": {
+          "sap.suite.ui.generic.template.ListReport.view.ListReport": {
+            "controllerName": "com.bmi.orderquotematch.project1.ext.controller.CustomTilesController"
+          },
+          "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+            "controllerName": "com.bmi.orderquotematch.project1.ext.Objectpage.SalesQuotation"
+          }
+        },
+        "sap.ui.viewExtensions": {
+          "sap.suite.ui.generic.template.ObjectPage.view.Details": {
+            "ReplaceFacet|ZC_QTO_SO_QT|QTO_SO_QT": {
+              "className": "sap.ui.core.Fragment",
+              "fragmentName": "com.bmi.orderquotematch.project1.ext.Objectpage.SalesQuotation",
+              "type": "XML"
+            },
+            "ReplaceFacet|ZC_QTO_SO_QT|ZI_QTO_SO_QT_MATCHED": {
+              "className": "sap.ui.core.Fragment",
+              "fragmentName": "com.bmi.orderquotematch.project1.ext.Objectpage.MatchedItems",
+              "type": "XML"
+            },
+            "ReplaceFacet|ZC_QTO_SO_QT|ZI_QTO_FILTER_SO_UNMATCH": {
+              "className": "sap.ui.core.Fragment",
+              "fragmentName": "com.bmi.orderquotematch.project1.ext.Objectpage.UnmatchedSOItems",
+              "type": "XML"
+            },
+            "ReplaceFacet|ZC_QTO_SO_QT|ZI_QTO_FILTER_QT_UNMATCH": {
+              "className": "sap.ui.core.Fragment",
+              "fragmentName": "com.bmi.orderquotematch.project1.ext.Objectpage.UnmatchedQTItems",
+              "type": "XML"
+            }
+          }
+        }
+      }
     },
-
-    "sap.ui.viewExtensions": {
-  "sap.suite.ui.generic.template.ObjectPage.view.Details": {
-    "ReplaceFacet|ZC_QTO_SO_QT|QTO_SO_QT": {
-      "className": "sap.ui.core.Fragment",
-      "fragmentName": "com.bmi.orderquotematch.project1.ext.Objectpage.SalesQuotation",
-      "type": "XML"
-    },
-    "ReplaceFacet|ZC_QTO_SO_QT|ZI_QTO_SO_QT_1": {
-      "className": "sap.ui.core.Fragment",
-      "fragmentName": "com.bmi.orderquotematch.project1.ext.Objectpage.MatchedItems",
-      "type": "XML"
-    },
-    "ReplaceFacet|ZC_QTO_SO_QT|ZI_QTO_SO_QT_UNMATCH": {
-      "className": "sap.ui.core.Fragment",
-      "fragmentName": "com.bmi.orderquotematch.project1.ext.Objectpage.UnmatchedItems",
-      "type": "XML"
-    }
-  }
-}
-
-  }
-},
-
-  "dependencies": {
+    "dependencies": {
       "minUI5Version": "1.120.39",
       "libs": {
         "sap.m": {},
@@ -119,7 +127,14 @@
       "i18n": {
         "type": "sap.ui.model.resource.ResourceModel",
         "settings": {
-          "bundleName": "com.bmi.orderquotematch.project1.i18n.i18n"
+          "bundleName": "com.bmi.orderquotematch.project1.i18n.i18n",
+          "supportedLocales": [
+            "en",
+            "de",
+            "fr",
+            "pl"
+          ],
+          "fallbackLocale": "en"
         }
       },
       "": {
@@ -140,12 +155,12 @@
       }
     },
     "resources": {
-  "css": [
-    {
-      "uri": "css/style.css"
-    }
-  ]
-},
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
+    },
     "routing": {
       "config": {},
       "routes": [],
@@ -188,9 +203,9 @@
               "name": "sap.suite.ui.generic.template.ObjectPage"
             },
             "pages": {
-              "ObjectPage|to_ZI_QTO_SO_QT_1": {
-                "navigationProperty": "to_ZI_QTO_SO_QT_1",
-                "entitySet": "ZC_QTO_SO_QT_1",
+              "ObjectPage|to_ZI_QTO_SO_QT_MATCHED": {
+                "navigationProperty": "to_ZI_QTO_SO_QT_MATCHED",
+                "entitySet": "ZC_QTO_SO_QT_MATCHED",
                 "defaultLayoutTypeIfExternalNavigation": "MidColumnFullScreen",
                 "component": {
                   "name": "sap.suite.ui.generic.template.ObjectPage"

@@ -8,7 +8,8 @@ sap.ui.define([
     "sap/m/MessageToast",
     "sap/m/FlexItemData",
     "sap/m/OverflowToolbarLayoutData",
-    "sap/ui/core/BusyIndicator"
+    "sap/ui/core/BusyIndicator",
+    "sap/base/strings/formatMessage"
 ], function (
     JSONModel,
     formatter,
@@ -19,15 +20,32 @@ sap.ui.define([
     MessageToast,
     FlexItemData,
     OverflowToolbarLayoutData,
-    BusyIndicator
+    BusyIndicator,
+    formatMessage
 ) {
     "use strict";
 
+   var browserBackNavigation = false;
+  var resetNavigation = false;
 
     return {
 
 
-        formatter: formatter,
+        // Existing formatter + one helper used by the XML fragments for texts with placeholders ({0}, {1}).
+        formatter: Object.assign({}, formatter, {
+            formatText: function (sPattern) {
+                return formatMessage(sPattern || "", Array.prototype.slice.call(arguments, 1));
+            }
+        }),
+
+        /* ========================================================= */
+        /* i18n helper                                               */
+        /* ========================================================= */
+        _getText: function (sKey, aArgs) {
+            var oModel = this.getView().getModel("i18n");
+            var oBundle = oModel && oModel.getResourceBundle();
+            return oBundle && oBundle.getText ? oBundle.getText(sKey, aArgs) : sKey;
+        },
 
 
         /* ========================================================= */
@@ -48,17 +66,19 @@ sap.ui.define([
 
 
             this._onDocClick = function (oEvent) {
-                if (
-                    oEvent.target &&
-                    oEvent.target.innerText === "Return to List"
-                ) {
+                // language independent: detect the standard "Return to list" button by its id, not by its text
+                var oTarget = oEvent.target;
+                var oReturnBtnDom = oTarget && oTarget.closest ? oTarget.closest('[id*="Return_to_list"]') : null;
+
+                if (oReturnBtnDom) {
+                    //Tell List Report that refresh is required
                     sessionStorage.setItem(
                         "RefreshAfterAction",
                         "X"
                     );
 
                     setTimeout(function () {
-                        that._navigateToList();
+                        that._navigateToList(); //navigateToList()
                     }, 1200);
                 }
             };
@@ -80,8 +100,9 @@ sap.ui.define([
                         return;
                     }
 
+                    //Was this completion caused by Reject?
                     if (that._rejectTriggered) {
-                        that._rejectTriggered = false;
+                        that._rejectTriggered = false; //reset flag
 
                         sessionStorage.setItem(
                             "RefreshAfterAction",
@@ -100,14 +121,71 @@ sap.ui.define([
                     console.log("REQUEST FAILED");
                     BusyIndicator.hide();
                 });
+
+                 // Browser back handling
+                this._onBrowserBack = function () {
+
+                    console.log("POPSTATE FIRED");
+
+                      //change#2                  
+                      if (resetNavigation) {
+                            resetNavigation = false;
+                            return;
+                      }
+
+                    // Tell List Report to refresh
+                    sessionStorage.setItem(
+                        "RefreshAfterAction",
+                        "X"
+                    );
+
+                    // Trigger standard FE Return To List button
+                    var oReturnBtn = sap.ui.getCore().byId(
+                        "com.bmi.orderquotematch.project1::sap.suite.ui.generic.template.ObjectPage.view.Details::ZC_QTO_SO_QT--action::cds_zsd_qto_so_qt.cds_zsd_qto_so_qt_Entities::Return_to_list"
+                    );
+
+                    if (oReturnBtn) {
+                        
+                        browserBackNavigation = true;
+
+                        oReturnBtn.firePress();
+                    }
+                };
+
+                window.addEventListener(
+                    "popstate",
+                    this._onBrowserBack
+                );
+
+                //change#2
+                // Reset button
+                var oResetBtn = sap.ui.getCore().byId(
+                    "com.bmi.orderquotematch.project1::sap.suite.ui.generic.template.ObjectPage.view.Details::ZC_QTO_SO_QT--action::cds_zsd_qto_so_qt.cds_zsd_qto_so_qt_Entities::Reset"
+                );
+
+                if (oResetBtn && !oResetBtn.data("resetAttached")) {
+
+                    oResetBtn.setIcon("sap-icon://reset");
+
+                    oResetBtn.attachPress(function () {
+
+                        sessionStorage.setItem(
+                            "RefreshAfterAction",
+                            "X"
+                        );
+
+                            resetNavigation = true;
+
+                        setTimeout(function () {
+                            window.history.go(-1);
+                        }, 2300);
+
+                    });
+
+                    oResetBtn.data("resetAttached", true);
+                }
+
             }
-
-
-            this._onBrowserBack = function () {
-                console.log("POPSTATE FIRED");
-                that._executeReturnToList();
-            };
-
 
             if (this._backHandlerAttached) {
                 return;
@@ -150,7 +228,7 @@ sap.ui.define([
                     }
                 }, 300);
 
-
+                //linkdoc button
                 var fnFindAndAttachLinkDocs = function () {
                     var oLinkDocs = null;
 
@@ -190,6 +268,7 @@ sap.ui.define([
                             oLinkDocs.mEventRegistry.press = [];
                         }
 
+                        //when press linkdoc
                         oLinkDocs.attachPress(function () {
                             that._linkTriggered = true;
                             that.onLinkDocsPress();
@@ -228,12 +307,49 @@ sap.ui.define([
                     }
                 }, 500);
 
+                  // Return To List button
+                var oReturnBtn = sap.ui.getCore().byId(
+                    "com.bmi.orderquotematch.project1::sap.suite.ui.generic.template.ObjectPage.view.Details::ZC_QTO_SO_QT--action::cds_zsd_qto_so_qt.cds_zsd_qto_so_qt_Entities::Return_to_list"
+                );
+
+                if (oReturnBtn && !oReturnBtn.data("refreshAttached")) {
+
+                    oReturnBtn.attachPress(function () {
+
+                        console.log("RETURN TO LIST PRESSED");
+
+                        sessionStorage.setItem(
+                            "RefreshAfterAction",
+                            "X"
+                        );
+
+                        
+                        if (browserBackNavigation) {
+                            
+                            browserBackNavigation = false;
+                            return;
+                            
+                        }
+                        
+                        setTimeout(function () {
+
+                              that._navigateToList();
+    
+                        }, 2300);
+
+                    });
+                    
+                    oReturnBtn.data("refreshAttached", true);
+
+                };
+
+                //taking reject button 
                 var oReject = sap.ui.getCore().byId(
                     "com.bmi.orderquotematch.project1::sap.suite.ui.generic.template.ObjectPage.view.Details::ZC_QTO_SO_QT--action::cds_zsd_qto_so_qt.cds_zsd_qto_so_qt_Entities::Reject_link"
                 );
 
                 if (oReject) {
-                    oReject.setIcon("sap-icon://sys-cancel");
+                    oReject.setIcon("sap-icon://sys-cancel"); //adding cancle icon
                     oReject.rerender();
 
                     oReject.attachPress(function () {
@@ -455,7 +571,7 @@ sap.ui.define([
             }
         },
 
-
+        //this opens after user press the button
         onLinkDocsPress: function () {
             this._openConfirmLinkDialog([
                 "paymentTerms",
@@ -545,12 +661,18 @@ sap.ui.define([
                 oDialog.open();
 
                 that._readLineItems().then(function (aItems) {
+
+                    console.log("LINE ITEMS RETURNED", aItems);
+
                     if (that._oConfirmLinkDialog !== oDialog) {
                         return;
                     }
 
                     that._fillConfirmLineItems(aItems);
                     that._bLinesLoading = false;
+
+                     console.log("SETTING LOADING FALSE");
+
                     that._updateNoChangesText();
                     that._updateSelectionState();
                 });
@@ -642,32 +764,32 @@ sap.ui.define([
 
             var oFields = {
                 paymentTerms: {
-                    label: "Payment Terms",
-                    tooltip: "Sales Order Payment Terms \u2192 Quotation Payment Terms",
+                    label: that._getText("fieldPaymentTerms"),
+                    tooltip: that._getText("fieldPaymentTermsTooltip"),
                     oldValue: that._pick(oData, ["so_paymentTerm"]),
                     newValue: that._pick(oData, ["qt_paymentTerm"])
                 },
                 pricingPartner: {
-                    label: "Pricing Partner (YP)",
-                    tooltip: "Pricing Partner (YP) \u2192 Quotation Pricing Partner (YP)",
+                    label: that._getText("fieldPricingPartner"),
+                    tooltip: that._getText("fieldPricingPartnerTooltip"),
                     oldValue: that._pick(oData, ["pricingPartner"]),
                     newValue: that._pick(oData, ["qt_pricingPartner"])
                 },
                 salesResponsible: {
-                    label: "Sales Representative (Z1)",
-                    tooltip: "Order Sales Responsible \u2192 Quotation Sales Responsible",
+                    label: that._getText("fieldSalesRep"),
+                    tooltip: that._getText("fieldSalesRepTooltip"),
                     oldValue: that._pick(oData, ["so_salesResponsibleIdName"]),
                     newValue: that._pick(oData, ["qt_salesResponsibleIdName"])
                 },
                 objectPartner: {
-                    label: "Object Partner (ZO)",
-                    tooltip: "Object Partner (ZO) \u2192 Quotation Object Partner (ZO)",
+                    label: that._getText("fieldObjectPartner"),
+                    tooltip: that._getText("fieldObjectPartnerTooltip"),
                     oldValue: that._pick(oData, ["objectPartner"]),
                     newValue: that._pick(oData, ["qt_objectPartner"])
                 },
                 refCustomer: {
-                    label: "Ref Customer (ZC)",
-                    tooltip: "Sales Order Ref Customer (ZC) \u2192 Quotation Ref Customer (ZC)",
+                    label: that._getText("fieldRefCustomer"),
+                    tooltip: that._getText("fieldRefCustomerTooltip"),
                     oldValue: that._pick(oData, ["so_ref_customerIdName"]),
                     newValue: that._pick(oData, ["qt_ref_customerIdName"])
                 }
@@ -732,10 +854,10 @@ sap.ui.define([
                 var oMatchIcon = new sap.ui.core.Icon({ src: "sap-icon://accept" });
                 oMatchIcon.addStyleClass("clMatchIcon");
 
-                var oMatchTitle = new sap.m.Text({ text: "All header fields match" });
+                var oMatchTitle = new sap.m.Text({ text: that._getText("allHeaderFieldsMatch") });
                 oMatchTitle.addStyleClass("clMatchTitle");
 
-                var oMatchSub = new sap.m.Text({ text: "No header changes are needed." });
+                var oMatchSub = new sap.m.Text({ text: that._getText("noHeaderChanges") });
                 oMatchSub.addStyleClass("clMatchSub");
 
                 var oMatchCard = new sap.m.HBox({
@@ -772,7 +894,7 @@ sap.ui.define([
                 : [];
 
             return new Promise(function (resolve) {
-                oModel.read(oContext.getPath() + "/to_ZI_QTO_SO_QT_1", {
+                oModel.read(oContext.getPath() + "/to_ZI_QTO_SO_QT_MATCHED", {
                     success: function (oResponse) {
                         var aResults = (oResponse && oResponse.results) || [];
                         resolve(aResults.length > 0 ? aResults : aFallback);
@@ -800,10 +922,27 @@ sap.ui.define([
             this._aLineRows = [];
             this._iLineChanged = 0;
 
-            var aRows = (aItems || []).filter(function (oRow) {
-                return that._pick(oRow, ["item"]) !== undefined ||
-                    that._pick(oRow, ["material"]) !== undefined;
-            });
+            // var aRows = (aItems || []).filter(function (oRow) {
+            //     return that._pick(oRow, ["item"]) !== undefined ||
+            //         that._pick(oRow, ["material"]) !== undefined;
+            // });
+
+            //change#nearmiss //Near-miss rows excluded from Link Docs popup.
+           var aRows = (aItems || []).filter(function (oRow) {
+
+            var vParamValue = Number(
+                that._pick(oRow, ["param_value"]) || 0
+            );
+
+            return (
+                (that._pick(oRow, ["item"]) !== undefined ||
+                that._pick(oRow, ["material"]) !== undefined)
+                &&
+                vParamValue === 0
+            );
+
+        });
+
 
             aRows.sort(function (a, b) {
                 return Number(that._pick(a, ["item"])) - Number(that._pick(b, ["item"]));
@@ -838,7 +977,7 @@ sap.ui.define([
                 oMaterial.addStyleClass("clLineMaterial");
 
                 var oField = new sap.m.Text({
-                    text: "Unit Price",
+                    text: that._getText("fieldUnitPrice"),
                     layoutData: new FlexItemData({ baseSize: "110px", growFactor: 0, shrinkFactor: 1 })
                 });
                 oField.addStyleClass("clLineField");
@@ -853,8 +992,9 @@ sap.ui.define([
                 });
                 oNewValue.addStyleClass(bDifferent ? "clNewValue" : "clValueNeutral");
 
+                //change updated -> update
                 var oTag = new sap.m.ObjectStatus({
-                    text: bDifferent ? "Updated" : "No Change",
+                    text: that._getText(bDifferent ? "tagUpdate" : "tagNoChange"),
                     state: bDifferent ? "Success" : "None",
                     inverted: true
                 });
@@ -867,12 +1007,29 @@ sap.ui.define([
                 });
                 oValueBox.addStyleClass("clValueBox");
 
-                var oRowBox = new sap.m.HBox({
-                    alignItems: "Center",
-                    width: "100%",
-                    items: [oNo, oMaterial, oField, oValueBox, that._createLockedCheckBox()]
-                });
-                oRowBox.addStyleClass("clRow clLineRow");
+                // var oRowBox = new sap.m.HBox({
+                //     alignItems: "Center",
+                //     width: "100%",
+                //     items: [oNo, oMaterial, oField, oValueBox, that._createLockedCheckBox()]
+                // });
+                // oRowBox.addStyleClass("clRow clLineRow");
+
+                // oContainer.addItem(oRowBox);
+
+                  //change#nearmiss
+                    var oRowBox = new sap.m.HBox({
+                        alignItems: "Center",
+                        width: "100%",
+                        items: [
+                            oNo,
+                            oMaterial,
+                            oField,
+                            oValueBox,
+                            that._createLockedCheckBox()
+                        ]
+                    });
+
+                    oRowBox.addStyleClass("clRow clLineRow");
 
                 oContainer.addItem(oRowBox);
             });
@@ -964,15 +1121,15 @@ sap.ui.define([
             var oTotalText = this._byFragId("summaryTotalText");
 
             if (oHeaderText) {
-                oHeaderText.setText("\u2022 Header Fields: " + iHeader);
+                oHeaderText.setText(this._getText("summaryHeaderFields", [iHeader]));
             }
 
             if (oLineText) {
-                oLineText.setText("\u2022 Line Item Fields: " + iLine);
+                oLineText.setText(this._getText("summaryLineFields", [iLine]));
             }
 
             if (oTotalText) {
-                oTotalText.setText("\u2022 Total Selected: " + iTotal);
+                oTotalText.setText(this._getText("summaryTotalSelected", [iTotal]));
             }
 
             if (oSummary) {
@@ -984,22 +1141,19 @@ sap.ui.define([
             }
 
             if (this._bLinesLoading) {
-                oButton.setText("Link Documents");
+                oButton.setText(this._getText("linkDocuments"));
                 oButton.setEnabled(false);
                 return;
             }
 
             if (bNothingToChange) {
-                oButton.setText("Link Documents");
+                oButton.setText(this._getText("linkDocuments"));
                 oButton.setEnabled(true);
                 return;
             }
 
-            // oButton.setText("Link Documents (" + iTotal + ")");
-            // oButton.setEnabled(iTotal > 0);
-
              //change#3
-            oButton.setText("Link Documents (" + iTotal + ")");
+            oButton.setText(this._getText("linkDocumentsCount", [iTotal]));
             oButton.setEnabled(true);
         },
 
@@ -1080,7 +1234,7 @@ sap.ui.define([
                 }
             }
 
-            return sMessage || "Linking the documents failed. Please try again.";
+            return sMessage || this._getText("linkFailed");
         },
 
 
@@ -1131,7 +1285,7 @@ sap.ui.define([
 
                     var sMessage = aMessages.length > 0
                         ? aMessages[0].message
-                        : "Documents linked successfully";
+                        : that._getText("linkSuccess");
 
                     if (that._oConfirmLinkDialog) {
                         that._oConfirmLinkDialog.setBusy(false);
@@ -1139,8 +1293,8 @@ sap.ui.define([
                     }
 
                     MessageBox.information(sMessage, {
-                        title: "Information",
-                        actions: ["Continue"],
+                        title: that._getText("information"),
+                        actions: [that._getText("continue")],
                         onClose: function () {
                             console.log("REFRESH FLAG SET FROM LINKDOCS");
 
@@ -1168,7 +1322,6 @@ sap.ui.define([
                 }
             });
         },
-
 
         onAfterRendering: function () {
             console.log("HIDING SPINNER");
@@ -1209,7 +1362,7 @@ sap.ui.define([
             }, 1000);
         },
 
-
+        //executing return to list
         _executeReturnToList: function () {
             console.log("_executeReturnToList CALLED");
 
@@ -1218,6 +1371,12 @@ sap.ui.define([
             if (!sId) {
                 return;
             }
+
+            if (this._browserBackNavigation) {
+    sessionStorage.setItem("RefreshAfterAction", "X");
+    this._browserBackNavigation = false;
+}
+
 
             var oControl = sap.ui.getCore().byId(sId);
 
@@ -1261,11 +1420,12 @@ sap.ui.define([
 
         onEditLineMatch: function (oEvent) {
             var oRow = oEvent.getSource().getBindingContext().getObject();
-            MessageToast.show("Edit line item - to be implemented");
+            MessageToast.show(this._getText("editLineItemTodo"));
         },
 
 
         onExit: function () {
+            this._browserBackHandled = false;
             window.removeEventListener("popstate", this._onBrowserBack);
             window.removeEventListener("resize", this._onResizePin);
             document.removeEventListener("click", this._onDocClick);

@@ -26,43 +26,108 @@
     </edmx:Reference>
     <edmx:DataServices>
         <Schema Namespace="zsb_qto_so_qt_van.v1" xmlns="http://docs.oasis-open.org/odata/ns/edm">
-            <Annotations Target="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType/Confidence">
+            <Annotations Target="cds_zsd_qto_so_qt.ZC_QTO_FILTER_QT_UNMATCHType/salesDoc">
                 <Annotation Term="UI.Hidden"/>
             </Annotations>
-            <Annotations Target="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType/salesUnit">
+            <Annotations Target="cds_zsd_qto_so_qt.ZC_QTO_FILTER_QT_UNMATCHType">
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="item"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="qt_salesDoc"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="material"/>
+                            <Annotation Term="HTML5.CssDefaults">
+                                <Record>
+                                    <PropertyValue Property="width" String="15rem"/>
+                                </Record>
+                            </Annotation>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="material_Description"/>
+                            <Annotation Term="HTML5.CssDefaults">
+                                <Record>
+                                    <PropertyValue Property="width" String="15rem"/>
+                                </Record>
+                            </Annotation>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="remainingQty"/>
+                            <Annotation Term="HTML5.CssDefaults">
+                                <Record>
+                                    <PropertyValue Property="width" String="15rem"/>
+                                </Record>
+                            </Annotation>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="qt_convert_Qty"/>
+                            <Annotation Term="HTML5.CssDefaults">
+                                <Record>
+                                    <PropertyValue Property="width" String="10rem"/>
+                                </Record>
+                            </Annotation>
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="cds_zsd_qto_so_qt.ZC_QTO_FILTER_SO_UNMATCHType/qt_salesDoc">
                 <Annotation Term="UI.Hidden"/>
             </Annotations>
-            <Annotations Target="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType/baseUom">
+            <Annotations Target="cds_zsd_qto_so_qt.ZC_QTO_FILTER_SO_UNMATCHType">
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="item"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="salesDoc"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="material"/>
+                            <Annotation Term="HTML5.CssDefaults">
+                                <Record>
+                                    <PropertyValue Property="width" String="15rem"/>
+                                </Record>
+                            </Annotation>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="material_Description"/>
+                            <Annotation Term="HTML5.CssDefaults">
+                                <Record>
+                                    <PropertyValue Property="width" String="15rem"/>
+                                </Record>
+                            </Annotation>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="so_convert_Qty"/>
+                            <Annotation Term="HTML5.CssDefaults">
+                                <Record>
+                                    <PropertyValue Property="width" String="10rem"/>
+                                </Record>
+                            </Annotation>
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType/docCurrency">
                 <Annotation Term="UI.Hidden"/>
             </Annotations>
-            <Annotations Target="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType/so_shipTo">
+            <Annotations Target="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType/so_currency">
                 <Annotation Term="UI.Hidden"/>
             </Annotations>
-            <Annotations Target="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType/qt_shipTo">
+            <Annotations Target="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType/qt_docCurrency">
                 <Annotation Term="UI.Hidden"/>
             </Annotations>
-            <Annotations Target="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType/pricingPartner">
+            <Annotations Target="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType/qt_currency">
                 <Annotation Term="UI.Hidden"/>
             </Annotations>
-            <Annotations Target="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType/qt_pricingPartner">
+            <Annotations Target="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType/so_shipToIdName">
                 <Annotation Term="UI.Hidden"/>
             </Annotations>
-            <Annotations Target="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType/objectPartner">
-                <Annotation Term="UI.Hidden"/>
-            </Annotations>
-            <Annotations Target="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType/qt_objectPartner">
-                <Annotation Term="UI.Hidden"/>
-            </Annotations>
-            <Annotations Target="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType/customerReference">
-                <Annotation Term="UI.Hidden"/>
-            </Annotations>
-            <Annotations Target="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType/qt_customerReference">
-                <Annotation Term="UI.Hidden"/>
-            </Annotations>
-            <Annotations Target="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType/shippingCondition">
-                <Annotation Term="UI.Hidden"/>
-            </Annotations>
-            <Annotations Target="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType/qt_shippingCondition">
+            <Annotations Target="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType/qt_shipToIdName">
                 <Annotation Term="UI.Hidden"/>
             </Annotations>
             <Annotations Target="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType/Linkdocs_ac">
@@ -71,7 +136,16 @@
             <Annotations Target="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType/Reject_link_ac">
                 <Annotation Term="UI.Hidden"/>
             </Annotations>
+            <Annotations Target="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType/Reset_ac">
+                <Annotation Term="UI.Hidden"/>
+            </Annotations>
             <Annotations Target="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType/Return_to_list_ac">
+                <Annotation Term="UI.Hidden"/>
+            </Annotations>
+            <Annotations Target="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType/Va03_ac">
+                <Annotation Term="UI.Hidden"/>
+            </Annotations>
+            <Annotations Target="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType/Va23_ac">
                 <Annotation Term="UI.Hidden"/>
             </Annotations>
             <Annotations Target="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType">
@@ -84,39 +158,40 @@
                         </Record>
                         <Record Type="UI.ReferenceFacet">
                             <PropertyValue Property="Label" String="Matched Data"/>
-                            <PropertyValue Property="ID" String="ZI_QTO_SO_QT_1"/>
-                            <PropertyValue Property="Target" AnnotationPath="to_ZI_QTO_SO_QT_1/@UI.LineItem"/>
+                            <PropertyValue Property="ID" String="ZI_QTO_SO_QT_MATCHED"/>
+                            <PropertyValue Property="Target" AnnotationPath="to_ZI_QTO_SO_QT_MATCHED/@UI.LineItem"/>
+                        </Record>
+                        <Record Type="UI.ReferenceFacet">
+                            <PropertyValue Property="Label" String="Unmatched SO Data"/>
+                            <PropertyValue Property="ID" String="ZI_QTO_FILTER_SO_UNMATCH"/>
+                            <PropertyValue Property="Target" AnnotationPath="to_ZI_QTO_FILTER_SO_UNMATCH/@UI.LineItem"/>
+                        </Record>
+                        <Record Type="UI.ReferenceFacet">
+                            <PropertyValue Property="Label" String="Unmatched QT Data"/>
+                            <PropertyValue Property="ID" String="ZI_QTO_FILTER_QT_UNMATCH"/>
+                            <PropertyValue Property="Target" AnnotationPath="to_ZI_QTO_FILTER_QT_UNMATCH/@UI.LineItem"/>
                         </Record>
                     </Collection>
                 </Annotation>
                 <Annotation Term="UI.Identification">
                     <Collection>
                         <Record Type="UI.DataField">
-                            <PropertyValue Property="Value" Path="FieldB"/>
+                            <PropertyValue Property="Value" Path="status"/>
                         </Record>
                         <Record Type="UI.DataField">
-                            <PropertyValue Property="Value" Path="FieldA"/>
+                            <PropertyValue Property="Value" Path="customerIdName"/>
                         </Record>
                         <Record Type="UI.DataField">
-                            <PropertyValue Property="Value" Path="customer"/>
+                            <PropertyValue Property="Value" Path="so_salesResponsibleIdName"/>
                         </Record>
                         <Record Type="UI.DataField">
-                            <PropertyValue Property="Value" Path="so_salesResponsible"/>
+                            <PropertyValue Property="Value" Path="qt_CustomerIdName"/>
                         </Record>
                         <Record Type="UI.DataField">
-                            <PropertyValue Property="Value" Path="qt_soldTo"/>
-                        </Record>
-                        <Record Type="UI.DataField">
-                            <PropertyValue Property="Value" Path="qt_salesResponsible"/>
+                            <PropertyValue Property="Value" Path="qt_salesResponsibleIdName"/>
                         </Record>
                         <Record Type="UI.DataField">
                             <PropertyValue Property="Value" Path="salesDoc"/>
-                        </Record>
-                        <Record Type="UI.DataField">
-                            <PropertyValue Property="Value" Path="material"/>
-                        </Record>
-                        <Record Type="UI.DataField">
-                            <PropertyValue Property="Value" Path="orderQty"/>
                         </Record>
                         <Record Type="UI.DataField">
                             <PropertyValue Property="Value" Path="docDate"/>
@@ -125,13 +200,7 @@
                             <PropertyValue Property="Value" Path="qt_docDate"/>
                         </Record>
                         <Record Type="UI.DataField">
-                            <PropertyValue Property="Value" Path="so_value"/>
-                        </Record>
-                        <Record Type="UI.DataField">
                             <PropertyValue Property="Value" Path="qt_salesDoc"/>
-                        </Record>
-                        <Record Type="UI.DataField">
-                            <PropertyValue Property="Value" Path="qt_value"/>
                         </Record>
                         <Record Type="UI.DataField">
                             <PropertyValue Property="Value" Path="validFrom"/>
@@ -140,19 +209,64 @@
                             <PropertyValue Property="Value" Path="validTo"/>
                         </Record>
                         <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="so_shipToIdName"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="qt_shipToIdName"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="pricingPartner"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="qt_pricingPartner"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="objectPartner"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="qt_objectPartner"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="customerReference"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="so_total_value"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="qt_total_value"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="so_shipToIdAddress"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="qt_shipToIdAddress"/>
+                        </Record>
+                        <Record Type="UI.DataField">
                             <PropertyValue Property="Value" Path="so_paymentTerm"/>
                         </Record>
                         <Record Type="UI.DataField">
-                            <PropertyValue Property="Value" Path="so_incoTerm"/>
+                            <PropertyValue Property="Value" Path="so_incoTermDescp"/>
                         </Record>
                         <Record Type="UI.DataField">
                             <PropertyValue Property="Value" Path="qt_paymentTerm"/>
                         </Record>
                         <Record Type="UI.DataField">
-                            <PropertyValue Property="Value" Path="qt_incoTerm"/>
+                            <PropertyValue Property="Value" Path="qt_incoTermDescp"/>
                         </Record>
                         <Record Type="UI.DataField">
-                            <PropertyValue Property="Value" Path="status"/>
+                            <PropertyValue Property="Value" Path="qt_customerReference"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="shippingCondition"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="qt_shippingCondition"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="so_ref_customerIdName"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="qt_ref_customerIdName"/>
                         </Record>
                         <Record Type="UI.DataFieldForAction">
                             <PropertyValue Property="Label" String="Return to List"/>
@@ -161,6 +275,7 @@
                         </Record>
                         <Record Type="UI.DataFieldForAction">
                             <PropertyValue Property="Label" String="Reject Link"/>
+                            <PropertyValue Property="Criticality" Path="status"/>
                             <PropertyValue Property="Action" String="cds_zsd_qto_so_qt.cds_zsd_qto_so_qt_Entities/Reject_link"/>
                             <PropertyValue Property="InvocationGrouping" EnumMember="UI.OperationGroupingType/Isolated"/>
                         </Record>
@@ -169,12 +284,28 @@
                             <PropertyValue Property="Action" String="cds_zsd_qto_so_qt.cds_zsd_qto_so_qt_Entities/Linkdocs"/>
                             <PropertyValue Property="InvocationGrouping" EnumMember="UI.OperationGroupingType/Isolated"/>
                         </Record>
+                        <Record Type="UI.DataFieldForAction">
+                            <PropertyValue Property="Label" String="VA03"/>
+                            <PropertyValue Property="Action" String="cds_zsd_qto_so_qt.cds_zsd_qto_so_qt_Entities/VA03"/>
+                            <PropertyValue Property="InvocationGrouping" EnumMember="UI.OperationGroupingType/Isolated"/>
+                        </Record>
+                        <Record Type="UI.DataFieldForAction">
+                            <PropertyValue Property="Label" String="VA23"/>
+                            <PropertyValue Property="Action" String="cds_zsd_qto_so_qt.cds_zsd_qto_so_qt_Entities/VA23"/>
+                            <PropertyValue Property="InvocationGrouping" EnumMember="UI.OperationGroupingType/Isolated"/>
+                        </Record>
+                        <Record Type="UI.DataFieldForAction">
+                            <PropertyValue Property="Label" String="Reset"/>
+                            <PropertyValue Property="Action" String="cds_zsd_qto_so_qt.cds_zsd_qto_so_qt_Entities/Reset"/>
+                            <PropertyValue Property="InvocationGrouping" EnumMember="UI.OperationGroupingType/Isolated"/>
+                        </Record>
                     </Collection>
                 </Annotation>
                 <Annotation Term="UI.LineItem">
                     <Collection>
                         <Record Type="UI.DataField">
-                            <PropertyValue Property="Value" Path="FieldB"/>
+                            <PropertyValue Property="Value" Path="Confidence"/>
+                            <Annotation Term="UI.Importance" EnumMember="UI.ImportanceType/High"/>
                             <Annotation Term="HTML5.CssDefaults">
                                 <Record>
                                     <PropertyValue Property="width" String="8rem"/>
@@ -182,7 +313,7 @@
                             </Annotation>
                         </Record>
                         <Record Type="UI.DataField">
-                            <PropertyValue Property="Value" Path="FieldA"/>
+                            <PropertyValue Property="Value" Path="status"/>
                             <Annotation Term="HTML5.CssDefaults">
                                 <Record>
                                     <PropertyValue Property="width" String="5rem"/>
@@ -190,38 +321,24 @@
                             </Annotation>
                         </Record>
                         <Record Type="UI.DataField">
-                            <PropertyValue Property="Value" Path="customer"/>
+                            <PropertyValue Property="Value" Path="customerIdName"/>
+                            <Annotation Term="HTML5.CssDefaults">
+                                <Record>
+                                    <PropertyValue Property="width" String="15rem"/>
+                                </Record>
+                            </Annotation>
                         </Record>
                         <Record Type="UI.DataField">
                             <PropertyValue Property="Value" Path="salesDoc"/>
-                        </Record>
-                        <Record Type="UI.DataField">
-                            <PropertyValue Property="Value" Path="item"/>
-                        </Record>
-                        <Record Type="UI.DataField">
-                            <PropertyValue Property="Value" Path="material"/>
-                            <Annotation Term="HTML5.CssDefaults">
-                                <Record>
-                                    <PropertyValue Property="width" String="8rem"/>
-                                </Record>
-                            </Annotation>
-                        </Record>
-                        <Record Type="UI.DataField">
-                            <PropertyValue Property="Value" Path="orderQty"/>
-                            <Annotation Term="HTML5.CssDefaults">
-                                <Record>
-                                    <PropertyValue Property="width" String="8rem"/>
-                                </Record>
-                            </Annotation>
                         </Record>
                         <Record Type="UI.DataField">
                             <PropertyValue Property="Value" Path="docDate"/>
                         </Record>
                         <Record Type="UI.DataField">
-                            <PropertyValue Property="Value" Path="so_value"/>
+                            <PropertyValue Property="Value" Path="so_total_value"/>
                             <Annotation Term="HTML5.CssDefaults">
                                 <Record>
-                                    <PropertyValue Property="width" String="8rem"/>
+                                    <PropertyValue Property="width" String="5rem"/>
                                 </Record>
                             </Annotation>
                         </Record>
@@ -229,44 +346,53 @@
                             <PropertyValue Property="Value" Path="qt_salesDoc"/>
                         </Record>
                         <Record Type="UI.DataField">
-                            <PropertyValue Property="Value" Path="qt_item"/>
+                            <PropertyValue Property="Value" Path="qt_docDate"/>
                         </Record>
                         <Record Type="UI.DataField">
-                            <PropertyValue Property="Value" Path="qt_value"/>
+                            <PropertyValue Property="Value" Path="qt_total_value"/>
                             <Annotation Term="HTML5.CssDefaults">
                                 <Record>
-                                    <PropertyValue Property="width" String="8rem"/>
+                                    <PropertyValue Property="width" String="5rem"/>
                                 </Record>
                             </Annotation>
                         </Record>
                     </Collection>
+                </Annotation>
+                <Annotation Term="UI.PresentationVariant">
+                    <Record>
+                        <PropertyValue Property="SortOrder">
+                            <Collection>
+                                <Record Type="Common.SortOrderType">
+                                    <PropertyValue Property="Property" PropertyPath="Confidence"/>
+                                    <PropertyValue Property="Descending" Bool="true"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
                 </Annotation>
                 <Annotation Term="UI.SelectionFields">
                     <Collection>
-                        <PropertyPath>FieldB</PropertyPath>
-                        <PropertyPath>FieldA</PropertyPath>
-                        <PropertyPath>customer</PropertyPath>
                         <PropertyPath>salesDoc</PropertyPath>
-                        <PropertyPath>material</PropertyPath>
-                        <PropertyPath>orderQty</PropertyPath>
-                        <PropertyPath>docDate</PropertyPath>
-                        <PropertyPath>so_value</PropertyPath>
                         <PropertyPath>qt_salesDoc</PropertyPath>
-                        <PropertyPath>qt_value</PropertyPath>
+                        <PropertyPath>customer</PropertyPath>
+                        <PropertyPath>status</PropertyPath>
+                        <PropertyPath>Confidence</PropertyPath>
+                        <PropertyPath>Confidence_band</PropertyPath>
+                        <PropertyPath>docDate</PropertyPath>
+                        <PropertyPath>customerReference</PropertyPath>
+                        <PropertyPath>so_CustomerServiceResponsible</PropertyPath>
+                        <PropertyPath>salesOrg</PropertyPath>
+                        <PropertyPath>so_distributionChannel</PropertyPath>
+                        <PropertyPath>so_docBrand</PropertyPath>
                     </Collection>
                 </Annotation>
             </Annotations>
-            <Annotations Target="cds_zsd_qto_so_qt.ZC_QTO_SO_QT_1Type">
+            <Annotations Target="cds_zsd_qto_so_qt.ZC_QTO_SO_QT_MATCHEDType/param_value">
+                <Annotation Term="UI.Hidden"/>
+            </Annotations>
+            <Annotations Target="cds_zsd_qto_so_qt.ZC_QTO_SO_QT_MATCHEDType">
                 <Annotation Term="UI.LineItem">
                     <Collection>
-                        <Record Type="UI.DataField">
-                            <PropertyValue Property="Value" Path="Confidence"/>
-                            <Annotation Term="HTML5.CssDefaults">
-                                <Record>
-                                    <PropertyValue Property="width" String="8rem"/>
-                                </Record>
-                            </Annotation>
-                        </Record>
                         <Record Type="UI.DataField">
                             <PropertyValue Property="Value" Path="salesDoc"/>
                         </Record>
@@ -277,7 +403,39 @@
                             <PropertyValue Property="Value" Path="material"/>
                             <Annotation Term="HTML5.CssDefaults">
                                 <Record>
-                                    <PropertyValue Property="width" String="8rem"/>
+                                    <PropertyValue Property="width" String="10rem"/>
+                                </Record>
+                            </Annotation>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="so_material_Description"/>
+                            <Annotation Term="HTML5.CssDefaults">
+                                <Record>
+                                    <PropertyValue Property="width" String="15rem"/>
+                                </Record>
+                            </Annotation>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="so_unitQty"/>
+                            <Annotation Term="HTML5.CssDefaults">
+                                <Record>
+                                    <PropertyValue Property="width" String="10rem"/>
+                                </Record>
+                            </Annotation>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="so_unit_Price"/>
+                            <Annotation Term="HTML5.CssDefaults">
+                                <Record>
+                                    <PropertyValue Property="width" String="10rem"/>
+                                </Record>
+                            </Annotation>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="so_convert_Qty"/>
+                            <Annotation Term="HTML5.CssDefaults">
+                                <Record>
+                                    <PropertyValue Property="width" String="10rem"/>
                                 </Record>
                             </Annotation>
                         </Record>
@@ -286,6 +444,63 @@
                         </Record>
                         <Record Type="UI.DataField">
                             <PropertyValue Property="Value" Path="qt_item"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="qt_material"/>
+                            <Annotation Term="HTML5.CssDefaults">
+                                <Record>
+                                    <PropertyValue Property="width" String="10rem"/>
+                                </Record>
+                            </Annotation>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="qt_material_Description"/>
+                            <Annotation Term="HTML5.CssDefaults">
+                                <Record>
+                                    <PropertyValue Property="width" String="15rem"/>
+                                </Record>
+                            </Annotation>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="qt_unitQty"/>
+                            <Annotation Term="HTML5.CssDefaults">
+                                <Record>
+                                    <PropertyValue Property="width" String="10rem"/>
+                                </Record>
+                            </Annotation>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="qt_unit_price"/>
+                            <Annotation Term="HTML5.CssDefaults">
+                                <Record>
+                                    <PropertyValue Property="width" String="10rem"/>
+                                </Record>
+                            </Annotation>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="remainingQty"/>
+                            <Annotation Term="HTML5.CssDefaults">
+                                <Record>
+                                    <PropertyValue Property="width" String="10rem"/>
+                                </Record>
+                            </Annotation>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="qt_convert_Qty"/>
+                            <Annotation Term="HTML5.CssDefaults">
+                                <Record>
+                                    <PropertyValue Property="width" String="10rem"/>
+                                </Record>
+                            </Annotation>
+                        </Record>
+                    </Collection>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="cds_zsd_qto_so_qt.cds_zsd_qto_so_qt_Entities/Reject_link">
+                <Annotation Term="UI.Identification">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="confirmation_status"/>
                         </Record>
                     </Collection>
                 </Annotation>

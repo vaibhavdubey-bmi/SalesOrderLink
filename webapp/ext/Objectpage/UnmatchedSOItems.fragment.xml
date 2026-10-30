@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<core:FragmentDefinition xmlns:m="sap.m" xmlns:core="sap.ui.core">
+    <!--
+        UNMATCHED DATA - ONE side-by-side card (Sales Order left | Quotation right), like the Matched card.
+        This fragment replaces facet ZI_QTO_FILTER_SO_UNMATCH and renders BOTH lists:
+          left : to_ZI_QTO_FILTER_SO_UNMATCH  (price field: unit_Price)
+          right: to_ZI_QTO_FILTER_QT_UNMATCH     (price field: unit_Price)
+        The separate facet ZI_QTO_FILTER_QT_UNMATCH is replaced by an empty fragment and hidden by CSS.
+        The lists are independent (no row pairing). No counterpart => every cell is "No match" (red).
+    -->
+    <m:VBox width="100%" class="lineMatchCard">
+        <m:HBox justifyContent="SpaceBetween" alignItems="Center" class="lineMatchHeader">
+            <m:Title text="{i18n>lineItemDetails}" level="H4"/>
+            <m:HBox class="lineMatchLegend">
+                <m:ObjectStatus text="{i18n>legendExact}" state="Success" icon="sap-icon://circle-task-2"/>
+                <m:ObjectStatus text="{i18n>legendPossible}" state="Warning" icon="sap-icon://circle-task-2"/>
+                <m:ObjectStatus text="{i18n>legendNoMatch}" state="Error" icon="sap-icon://circle-task-2"/>
+                <m:ObjectStatus text="{i18n>legendNotMaintained}" state="Information" icon="sap-icon://circle-task-2"/>
+            </m:HBox>
+        </m:HBox>
+
+        <m:HBox class="umSplit" width="100%">
+
+            <!-- UNMATCHED SALES ORDER ITEMS -->
+            <m:VBox class="umSide umSideSO">
+                <m:HBox class="umGroupHead" alignItems="End">
+                    <m:Text text="{i18n>unmatchedSalesOrderItems}" class="lineMatchGroup lineMatchGroupSO"/>
+                    <m:Text text="{= ${to_ZI_QTO_FILTER_SO_UNMATCH/$count} }" visible="{= !!${to_ZI_QTO_FILTER_SO_UNMATCH/$count} }" class="umCount"/>
+                </m:HBox>
+                <m:HBox class="umColHead" width="100%">
+                    <m:HBox class="lineMatchHalf lmColsU6" width="100%">
+                        <m:Text text="{i18n>colItem}" width="100%"/>
+                        <m:Text text="{i18n>colMaterial}" width="100%"/>
+                        <m:Text text="{i18n>colDescription}" width="100%"/>
+                        <m:Text text="{i18n>colQty}" width="100%" textAlign="End"/>
+                        <!-- <m:Text text="{i18n>colSBaseQty}" width="100%" textAlign="End"/> -->
+                        <m:Text text="{i18n>colUnitPrice}" width="100%" textAlign="End"/>
+                    </m:HBox>
+                </m:HBox>
+                <m:List items="{to_ZI_QTO_FILTER_SO_UNMATCH}" noDataText="{i18n>noUnmatchedSOItems}" showSeparators="Inner" class="lineMatchList umList">
+                    <m:CustomListItem>
+                        <m:HBox class="lineMatchHalf lmColsU6 umRow" width="100%">
+                            <m:Text text="{item}" width="100%"/>
+                            <m:HBox width="100%" alignItems="Center" class="lmCell">
+                                <m:customData>
+                                    <core:CustomData key="match" value="lmMatchError" writeToDom="true"/>
+                                </m:customData>
+                                <m:Text text="{material}"/>
+                                <m:ObjectStatus icon="sap-icon://circle-task-2" class="lmDot" state="Error"/>
+                            </m:HBox>
+                            <m:Text text="{material_Description}" wrapping="true" maxLines="3" width="100%"/>
+                            <m:HBox width="100%" alignItems="Center" justifyContent="End" class="lmCell">
+                                <m:customData>
+                                    <core:CustomData key="match" value="lmMatchError" writeToDom="true"/>
+                                </m:customData>
+                                <m:Text text="{parts: [{path: 'unitQty'}, {path: 'unitQtyUom'}], formatter: '.formatter.formatQtyUnit'}"/>
+                                <m:ObjectStatus icon="sap-icon://circle-task-2" class="lmDot" state="Error"/>
+                            </m:HBox>
+                            <!-- <m:Text text="{parts: [{path: 'so_convert_Qty'}, {path: 'so_baseUoM'}], formatter: '.formatter.formatQtyUnit'}" width="100%" textAlign="End" class="lmBaseQty"/> -->
+                            <m:HBox width="100%" alignItems="Center" justifyContent="End" class="lmCell">
+                                <m:customData>
+                                    <core:CustomData key="match" value="lmMatchError" writeToDom="true"/>
+                                </m:customData>
+                                <m:Text text="{parts: [{path: 'unit_Price'}, {path: 'currency'}], formatter: '.formatter.formatPriceCur'}"/>
+                                <m:ObjectStatus icon="sap-icon://circle-task-2" class="lmDot" state="Error"/>
+                            </m:HBox>
+                        </m:HBox>
+                    </m:CustomListItem>
+                </m:List>
+            </m:VBox>
+
+            <!-- UNMATCHED QUOTE ITEMS -->
+            <m:VBox class="umSide umSideQT">
+                <m:HBox class="umGroupHead" alignItems="End">
+                    <m:Text text="{i18n>unmatchedQuoteItems}" class="lineMatchGroup lineMatchGroupUnmatched"/>
+                    <m:Text text="{= ${to_ZI_QTO_FILTER_QT_UNMATCH/$count} }" visible="{= !!${to_ZI_QTO_FILTER_QT_UNMATCH/$count} }" class="umCount"/>
+                </m:HBox>
+                <m:HBox class="umColHead" width="100%">
+                    <m:HBox class="lineMatchHalf lmColsU6" width="100%">
+                        <!-- <m:Text text="{i18n>colQuoteItem}" width="100%"/> -->
+
+                        <!-- change#headeralign -->
+                        <m:Text text="{i18n>colQuoteItem}" width="100%" wrapping="false"/>
+
+                        <m:Text text="{i18n>colMaterial}" width="100%"/>
+                        <m:Text text="{i18n>colDescription}" width="100%"/>
+                        <m:Text text="{i18n>colQty}" width="100%" textAlign="End"/>
+                        <!-- <m:Text text="{i18n>colQBaseQty}" width="100%" textAlign="End"/> -->
+
+<m:Text text="{i18n>colOpenQty}"
+    width="100%"
+    textAlign="End"/>
+
+                        <m:Text text="{i18n>colUnitPrice}" width="100%" textAlign="End"/>
+                    </m:HBox>
+                </m:HBox>
+                <m:List items="{to_ZI_QTO_FILTER_QT_UNMATCH}" noDataText="{i18n>noUnmatchedQTItems}" showSeparators="Inner" class="lineMatchList umList">
+                    <m:CustomListItem>
+                        <m:HBox class="lineMatchHalf lmColsU6 umRow" width="100%">
+                            <m:Text text="{item}" width="100%"/>
+                            <m:HBox width="100%" alignItems="Center" class="lmCell">
+                                <m:customData>
+                                    <core:CustomData key="match" value="lmMatchError" writeToDom="true"/>
+                                </m:customData>
+                                <m:Text text="{material}"/>
+                                <m:ObjectStatus icon="sap-icon://circle-task-2" class="lmDot" state="Error"/>
+                            </m:HBox>
+                            <m:Text text="{material_Description}" wrapping="true" maxLines="3" width="100%"/>
+                            <m:HBox width="100%" alignItems="Center" justifyContent="End" class="lmCell">
+                                <m:customData>
+                                    <core:CustomData key="match" value="lmMatchError" writeToDom="true"/>
+                                </m:customData>
+                                <!-- <m:Text text="{parts: [{path: 'remainingQty'}, {path: 'baseUom'}], formatter: '.formatter.formatQtyUnit'}"/> -->
+
+<m:Text text="{parts: [{path: 'targetQty'}, {path: 'targetUom'}],
+formatter: '.formatter.formatQtyUnit'}"/>
+
+                                <m:ObjectStatus icon="sap-icon://circle-task-2" class="lmDot" state="Error"/>
+                            </m:HBox>
+                            <!-- <m:Text text="{parts: [{path: 'qt_convert_Qty'}, {path: 'qt_baseUoM'}], formatter: '.formatter.formatQtyUnit'}" width="100%" textAlign="End" class="lmBaseQty"/> -->
+
+<m:Text
+    text="{parts: [{path: 'open_Qty'}, {path: 'targetUom'}],
+    formatter: '.formatter.formatQtyUnit'}"
+    width="100%"
+    textAlign="End"
+    class="lmOpenQty"/>
+
+                            <m:HBox width="100%" alignItems="Center" justifyContent="End" class="lmCell">
+                                <m:customData>
+                                    <core:CustomData key="match" value="lmMatchError" writeToDom="true"/>
+                                </m:customData>
+                                <m:Text text="{parts: [{path: 'unit_Price'}, {path: 'currency'}], formatter: '.formatter.formatPriceCur'}"/>
+                                <m:ObjectStatus icon="sap-icon://circle-task-2" class="lmDot" state="Error"/>
+                            </m:HBox>
+                        </m:HBox>
+                    </m:CustomListItem>
+                </m:List>
+            </m:VBox>
+
+        </m:HBox>
+    </m:VBox>
+</core:FragmentDefinition>

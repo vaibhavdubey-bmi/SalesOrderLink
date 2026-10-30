@@ -13,6 +13,7 @@ builder:
     - name: deploy-to-abap
       afterTask: generateCachebusterInfo
       configuration:
+
         target:
           destination: BD4_300_HTTP
           url: http://bd4.sap.bmigroup.com:8001

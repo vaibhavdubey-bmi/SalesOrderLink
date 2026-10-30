@@ -5,14 +5,44 @@
     <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
         <edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI"/>
     </edmx:Reference>
-    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Communication.xml">
-        <edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication"/>
-    </edmx:Reference>
-    <edmx:Reference Uri="/sap/opu/odata/sap/ZSB_QTO_SO_QT/$metadata">
-        <edmx:Include Namespace="cds_zsd_qto_so_qt"/>
-    </edmx:Reference>
     <edmx:DataServices>
         <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="local">
+            <Annotations Target="cds_zsd_qto_so_qt.ZC_QTO_SO_QTType">
+                <Annotation Term="UI.Identification">
+                    <Collection>
+                        <!-- 1st: Return to List (Restored) -->
+                        <Record Type="UI.DataFieldForAction">
+                            <PropertyValue Property="Action" String="cds_zsd_qto_so_qt.cds_zsd_qto_so_qt_Entities/Return_to_list"/>
+                            <PropertyValue Property="Label" String="Return to List"/>
+                            <PropertyValue Property="Importance" EnumMember="UI.ImportanceType/HIGH"/>
+                        </Record>
+
+                        <!-- 2nd: Reset -->
+                        <Record Type="UI.DataFieldForAction">
+                            <PropertyValue Property="Action" String="cds_zsd_qto_so_qt.cds_zsd_qto_so_qt_Entities/Reset"/>
+                            <PropertyValue Property="Label" String="Reset"/>
+                            <PropertyValue Property="Importance" EnumMember="UI.ImportanceType/HIGH"/>
+                        </Record>
+
+
+                        <!-- 3rd: Link Docs -->
+                        <Record Type="UI.DataFieldForAction">
+                            <PropertyValue Property="Action" String="cds_zsd_qto_so_qt.cds_zsd_qto_so_qt_Entities/Linkdocs"/>
+                            <PropertyValue Property="Label" String="Link Docs"/>
+                            <PropertyValue Property="Importance" EnumMember="UI.ImportanceType/HIGH"/>
+                        </Record>
+
+                        <!-- 4th: Reject Link -->
+                        <Record Type="UI.DataFieldForAction">
+                            <PropertyValue Property="Action" String="cds_zsd_qto_so_qt.cds_zsd_qto_so_qt_Entities/Reject_link"/>
+                            <PropertyValue Property="Label" String="Reject Link"/>
+                            <PropertyValue Property="Criticality" EnumMember="UI.CriticalityType/Negative"/>
+                            <PropertyValue Property="Importance" EnumMember="UI.ImportanceType/HIGH"/>
+                        </Record>
+                        
+                    </Collection>
+                </Annotation>
+            </Annotations>
         </Schema>
     </edmx:DataServices>
 </edmx:Edmx>

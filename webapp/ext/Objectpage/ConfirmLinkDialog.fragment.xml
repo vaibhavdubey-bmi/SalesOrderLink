@@ -6,7 +6,7 @@
 
     <Dialog
         id="confirmLinkDialog"
-        title="Confirm Document Link"
+        title="{i18n>confirmLinkTitle}"
         class="linkDocsSelectionDialog"
         contentWidth="900px"
         contentHeight="600px"
@@ -27,14 +27,14 @@
                         class="confirmDialogTitleIcon"/>
 
                     <Title
-                        text="Confirm Document Link"
+                        text="{i18n>confirmLinkTitle}"
                         level="H3"
                         class="confirmDialogTitle sapUiTinyMarginBegin"/>
 
                 </HBox>
 
                 <Text
-                    text="{= 'Linking Sales Order ' + ${salesDoc} + ' with Quotation ' + ${qt_salesDoc} + '.'}"
+                    text="{parts: [{model: 'i18n', path: 'linkingDescription'}, {path: 'salesDoc'}, {path: 'qt_salesDoc'}], formatter: '.formatter.formatText'}"
                     class="confirmDialogDescription sapUiSmallMarginTop"/>
 
                 <!-- SUMMARY (values are filled by the controller) -->
@@ -44,7 +44,7 @@
                     class="clSummaryBox">
 
                     <Text
-                        text="Changes to be applied"
+                        text="{i18n>changesToBeApplied}"
                         class="clSummaryTitle"/>
 
                     <Text
@@ -65,7 +65,7 @@
                 </VBox>
 
                 <Text
-                    text="The following fields on the sales order will be updated:"
+                    text="{i18n>fieldsWillBeUpdated}"
                     class="confirmDialogIntro sapUiMediumMarginTop sapUiSmallMarginBottom"/>
 
                 <!-- SELECT ALL (hidden by the controller when there is nothing to select) -->
@@ -78,7 +78,7 @@
 
                     <CheckBox
                         id="selectAllCheckBox"
-                        text="Select All"
+                        text="{i18n>selectAll}"
                         selected="false"
                         select=".onSelectAllChange"
                         class="clSelectAllCheckBox"/>
@@ -87,7 +87,7 @@
 
                 <Title
                     id="headerFieldsTitle"
-                    text="HEADER FIELDS"
+                    text="{i18n>headerFieldsTitle}"
                     level="H5"
                     class="confirmSectionTitle"/>
 
@@ -97,7 +97,7 @@
 
                 <Title
                     id="lineItemsTitle"
-                    text="LINE ITEM FIELDS"
+                    text="{i18n>lineItemFieldsTitle}"
                     level="H5"
                     class="confirmSectionTitle sapUiMediumMarginTop"/>
 
@@ -107,7 +107,7 @@
 
                 <Text
                     id="noChangesText"
-                    text="No field differences found. Only the documents will be linked."
+                    text="{i18n>noFieldDifferences}"
                     visible="false"
                     class="sapUiMediumMarginTop"/>
 
@@ -118,7 +118,7 @@
         <beginButton>
             <Button
                 id="linkDocumentsButton"
-                text="Link Documents"
+                text="{i18n>linkDocuments}"
                 type="Accept"
                 icon="sap-icon://chain-link"
                 press=".onConfirmLinkDocuments"/>
@@ -126,7 +126,7 @@
 
         <endButton>
             <Button
-                text="Cancel"
+                text="{i18n>cancel}"
                 press=".onCloseConfirmDialog"/>
         </endButton>
 

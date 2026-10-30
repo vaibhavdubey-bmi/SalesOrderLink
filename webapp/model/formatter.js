@@ -131,6 +131,37 @@ sap.ui.define([
             );
         },
 
+         //matched field qty change#yellow
+        getQtyState: function (v1, v2) {
+
+            var sState = oFormatter.getMatchState(v1, v2, false);
+
+            if (sState === "Error") {
+                return "Warning";
+            }
+
+            return sState;
+        },
+
+         //matched field qty change#yellow
+            getQtyCellClass: function (v1, v2) {
+
+                var sState = oFormatter.getMatchState(v1, v2, false);
+
+                if (sState === "Error") {
+                    sState = "Warning";
+                }
+
+                var mClass = {
+                    "Success": "lmMatchSuccess",
+                    "Warning": "lmMatchWarning",
+                    "Information": "lmMatchInfo"
+                };
+
+                return mClass[sState] || "";
+            },
+
+
         /*
          * Used for Unit Price
          * Allows Possible Match / Warning

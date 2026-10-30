@@ -34,9 +34,9 @@ server:
       configuration:
         ignoreCertErrors: false # If set to true, certificate errors will be ignored. E.g. self-signed certificates will be accepted
         backend:
-        - path: /sap
-          url: https://go-s4-dev.sap.bmigroup.com
-          client: '310'
+          - path: /sap
+            url: https://go-s4-dev.sap.bmigroup.com
+            client: '300'
     - name: sap-fe-mockserver
       beforeMiddleware: csp
       configuration:
@@ -46,6 +46,7 @@ server:
             metadataPath: ./webapp/localService/mainService/metadata.xml
             mockdataPath: ./webapp/localService/mainService/data
             generateMockData: true
+            resolveExternalServiceReferences: true
         annotations:
           - localPath: ./webapp/localService/mainService/ZSB_QTO_SO_QT_VAN.xml
             urlPath: /sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='ZSB_QTO_SO_QT_VAN',Version='0001')/$value/

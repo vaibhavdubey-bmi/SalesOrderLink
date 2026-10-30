@@ -18,7 +18,7 @@ server:
         backend:
           - path: /sap
             url: https://go-s4-dev.sap.bmigroup.com
-            client: '310'
+            client: '300'
     - name: fiori-tools-appreload
       afterMiddleware: compression
       configuration:
@@ -39,6 +39,7 @@ server:
             metadataPath: ./webapp/localService/mainService/metadata.xml
             mockdataPath: ./webapp/localService/mainService/data
             generateMockData: true
+            resolveExternalServiceReferences: true
         annotations:
           - localPath: ./webapp/localService/mainService/ZSB_QTO_SO_QT_VAN.xml
             urlPath: /sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Annotations(TechnicalName='ZSB_QTO_SO_QT_VAN',Version='0001')/$value/
