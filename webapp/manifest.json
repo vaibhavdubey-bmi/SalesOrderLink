@@ -9,7 +9,8 @@
         "en",
         "de",
         "fr",
-        "pl"
+        "pl",
+        "nl"
       ],
       "fallbackLocale": "en"
     },
@@ -132,7 +133,8 @@
             "en",
             "de",
             "fr",
-            "pl"
+            "pl",
+            "nl"
           ],
           "fallbackLocale": "en"
         }

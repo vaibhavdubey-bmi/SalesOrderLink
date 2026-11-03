@@ -632,6 +632,12 @@ button[id*="Reject_link"] .sapMBtnIcon {
     min-width: 100px !important;
   }
 }
+
+/* Mobile only: show OPEN QTY label */
+.lmMobileLabel {
+    display: none;
+}
+
 /* ============================================================   LINE ITEM MATCHING (Matched / Unmatched cards)   ============================================================ */
 .lineMatchCard {
   background: #ffffff;
@@ -683,6 +689,7 @@ button[id*="Reject_link"] .sapMBtnIcon {
 .lineMatchRow > * {
   min-width: 0;
 }
+
 .lineMatchGroupRow {
   padding-top: 16px;
   padding-bottom: 0;
@@ -802,7 +809,6 @@ button[id*="Reject_link"] .sapMBtnIcon {
     minmax(80px, 1.8fr)
     minmax(88px, 1fr)
     minmax(88px, 1fr)
-    minmax(88px, 1fr)
     minmax(130px, 1.5fr);
 }
 
@@ -818,6 +824,12 @@ button[id*="Reject_link"] .sapMBtnIcon {
   justify-self: end;
   text-align: right;
 }
+
+.lmColsSO .lmSOUnitPrice {
+    grid-column: 6 / 7 !important;
+    justify-self: end;
+}
+
 .lmCell {
   display: inline-flex !important;
   align-items: center;
@@ -974,7 +986,7 @@ button[id*="Reject_link"] .sapMBtnIcon {
   justify-self: start;
 }
 .lmColsSO > .lmCell:nth-child(4),
-.lmColsSO > .lmCell:nth-child(6),
+.lmColsSO > .lmSOUnitPrice,
 .lmColsU6 > .lmCell:nth-child(4),
 .lmColsU6 > .lmCell:nth-child(6),
 .lmColsQT > .lmCell:nth-child(4),
@@ -982,6 +994,7 @@ button[id*="Reject_link"] .sapMBtnIcon {
   justify-self: end;
 }
 .lineMatchColHead .sapMText {
+  white-space: nowrap !important; /*change#align*/
   width: 100%;
 }
 .lineMatchColHead .sapMText:nth-child(4),
@@ -992,6 +1005,7 @@ button[id*="Reject_link"] .sapMBtnIcon {
 .lineMatchColHead .lmColsQT .sapMText:nth-child(7) {
   text-align: right !important;
 }
+
 @media (max-width: 1700px) {
   .lineMatchGroupRow,
   .lineMatchRow {
@@ -1003,6 +1017,7 @@ button[id*="Reject_link"] .sapMBtnIcon {
   .lineMatchRow {
     column-gap: 18px;
   }
+
   .lmCell {
     gap: 8px;
     padding: 4px 8px;
@@ -1014,6 +1029,15 @@ button[id*="Reject_link"] .sapMBtnIcon {
     grid-template-columns: 1fr !important;
     row-gap: 12px;
   }
+  
+    .lmOpenQtyPlaceholder {
+      visibility: hidden;
+  }
+
+  .lineMatchGroupRow {
+    row-gap: 8px;
+  }
+
   .lineMatchGroupRow {
     row-gap: 8px;
   }
@@ -1037,7 +1061,7 @@ button[id*="Reject_link"] .sapMBtnIcon {
 
   /* change#align */
   .lmColsQT {
-    grid-template-columns: 75px 150px minmax(0, 1fr) 108px 108px 108px 134px;
+    grid-template-columns: 75px 150px minmax(0, 1fr) 108px 108px 134px;
 }
 
   .lineMatchList .lineMatchRow > .lineMatchHalf::before {
@@ -1081,9 +1105,14 @@ button[id*="Reject_link"] .sapMBtnIcon {
     --side-accent: #7c3aed;
     --side-bg: #f3e8ff;
   }
+  /* .lineMatchList .lineMatchRow > .lmColsQT:nth-child(2)::before {
+    content: "Matched Quote";
+  } */
+
+  /* change#align */
   .lineMatchList .lineMatchRow > .lmColsQT:nth-child(2)::before {
     content: "Matched Quote";
-  }
+}
   .lineMatchList .lineMatchRow > .lmColsU:nth-child(2) {
     --side-accent: #c026d3;
     --side-bg: #fdf2f8;
@@ -1131,7 +1160,7 @@ button[id*="Reject_link"] .sapMBtnIcon {
 
   /* change#align */
   .lmColsQT {
-    grid-template-columns: 65px 110px minmax(0, 1fr) 92px 92px 92px 116px;
+    grid-template-columns: 65px 110px minmax(0, 1fr) 92px 92px 116px;
 }
 
   .lmCell {
@@ -1731,3 +1760,222 @@ button[id*="Reset"] .sapMBtnInner:hover {
     display: none !important;
 } */
 
+/* ============================================================
+   change#align-fix : Matched / Unmatched header <-> data alignment
+   (works for full screen AND split / narrow screens)
+   NOTE: sap.m.HBox wraps every sap.m.Text in a <div>, while HBox cells
+   (.lmCell) are direct grid children -> header/Text rules target the
+   grid child (":nth-child") and the inner ".sapMText" separately.
+   ============================================================ */
+
+/* Inner padding of the value cells; header / Open Qty padding follow it.
+   (.lmCell padding is 12px, 8px <=1400px, 6px <=700px) */
+.lineMatchCard {
+  --lm-pad: 12px;
+}
+@media (max-width: 1400px) {
+  .lineMatchCard { --lm-pad: 8px; }
+}
+@media (max-width: 700px) {
+  .lineMatchCard { --lm-pad: 6px; }
+}
+
+/* 1. Matched SO header: Unit Price header (5th child) goes to column 6,
+      the same column the data cell (.lmSOUnitPrice) is forced into */
+.lineMatchColHead .lmColsSO > :nth-child(5) {
+  grid-column: 6 / 7 !important;
+}
+
+/* 1b. Unmatched SO: Unit Price header + cell also in column 6 (same as matched SO);
+       this stops the price cell from overlapping the Qty cell */
+.umSideSO .umColHead .lmColsU6 > :nth-child(5) {
+  grid-column: 6 / 7;
+}
+.umSideSO .umRow.lmColsU6 > .lmCell:nth-child(5) {
+  grid-column: 6 / 7;
+  justify-self: end;
+}
+
+/* 2. Quote side data: Unit Price cell is the 6th child -> right aligned */
+.lmColsQT > .lmCell:nth-child(6) {
+  justify-self: end !important;
+}
+
+/* 3. Matched Open Qty value: fill its column and right-align (same inner padding as the cells) */
+.lmColsQT .lmRemQty {
+  display: block !important;
+  width: 100% !important;
+  text-align: right !important;
+  padding-right: var(--lm-pad);
+  box-sizing: border-box;
+}
+/* 3b. Unmatched Open Qty value: same inner padding so it matches its header */
+.umRow .lmOpenQty {
+  padding-right: var(--lm-pad);
+  box-sizing: border-box;
+}
+
+/* 4. Right-aligned column headers use the same right padding as the data cells */
+.lineMatchColHead .lmColsSO > :nth-child(4),
+.lineMatchColHead .lmColsSO > :nth-child(5),
+.lineMatchColHead .lmColsQT > :nth-child(4),
+.lineMatchColHead .lmColsQT > :nth-child(5),
+.lineMatchColHead .lmColsQT > :nth-child(6),
+.umSideSO .umColHead .lmColsU6 > :nth-child(4),
+.umSideSO .umColHead .lmColsU6 > :nth-child(5),
+.umSideQT .umColHead .lmColsU6 > :nth-child(4),
+.umSideQT .umColHead .lmColsU6 > :nth-child(5),
+.umSideQT .umColHead .lmColsU6 > :nth-child(6) {
+  padding-right: var(--lm-pad);
+  box-sizing: border-box;
+}
+
+/* 5. Unmatched Quote header "QUOTE ITEM" must not wrap ("QUOT / E ITEM") */
+.umSideQT .umColHead .lmColsU6 > :nth-child(1) .sapMText {
+  white-space: nowrap !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+}
+
+/* 6. Side-by-side layout (>1400px): same column ratios as before, but smaller
+      minimum widths, so the quote half no longer overflows / overlaps on
+      medium-wide windows (1400 - 1700px). Wide screens look exactly the same. */
+@media (min-width: 1401px) {
+  .lmColsSO,
+  .umSideSO .lmColsU6 {
+    grid-template-columns:
+      minmax(36px, 0.45fr)
+      minmax(100px, 1.2fr)
+      minmax(60px, 2fr)
+      minmax(78px, 1.05fr)
+      minmax(64px, 1.05fr)
+      minmax(120px, 1.5fr);
+  }
+  .lmColsQT,
+  .umSideQT .lmColsU6 {
+    grid-template-columns:
+      minmax(76px, 0.8fr)
+      minmax(100px, 1.15fr)
+      minmax(60px, 1.8fr)
+      minmax(78px, 1fr)
+      minmax(64px, 1fr)
+      minmax(120px, 1.5fr);
+  }
+}
+
+/* 7. Stacked layout (<=1400px, e.g. split screen): Sales Order and Quote rows
+      share ONE column grid (Quote item column was 75px vs 60px = 15px shift).
+      Same widths as before when there is room; columns shrink gently (the
+      description keeps a readable minimum) instead of squeezing the text. */
+@media (max-width: 1400px) {
+  .lmColsSO,
+  .lmColsQT,
+  .lmColsU6 {
+    grid-template-columns:
+      60px
+      minmax(104px, 150px)
+      minmax(100px, 1fr)
+      minmax(84px, 108px)
+      minmax(72px, 108px)
+      minmax(112px, 134px);
+  }
+  /* below the minimum usable width the card scrolls sideways instead of breaking */
+  .lineMatchCard {
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  .lineMatchHalf {
+    min-width: 582px; /* sum of the minimum column widths + gaps */
+  }
+  .lineMatchRow,
+  .lineMatchList,
+  .umColHead,
+  .umList {
+    min-width: min-content;
+  }
+}
+@media (max-width: 700px) {
+  .lmColsSO,
+  .lmColsQT,
+  .lmColsU6 {
+    grid-template-columns:
+      50px
+      minmax(96px, 110px)
+      minmax(80px, 1fr)
+      minmax(76px, 92px)
+      minmax(60px, 92px)
+      minmax(116px, 116px);
+    column-gap: 6px; /* the Quote side had no 6px gap here (Sales Order side did) */
+  }
+  .lineMatchHalf {
+    min-width: 508px;
+  }
+}
+
+/* change#1stpagefontsizeincrease */
+.orderLinkScale {
+  font-size: 15px;
+}
+
+.sapMListTblCell .sapMText,
+.sapMListTblCell .sapMLnk {
+    font-size: 15px !important;
+}
+
+.sapMListTblHeaderCell .sapMText,
+.sapMListTblHeaderCell .sapMLabel {
+    font-size: 15px !important;
+    font-weight: 600 !important;
+}
+
+.sapUiCompFilterBar .sapMLabel,
+.analyticsCardTitle,
+.legendItem,
+.distRow {
+    font-size: 14px !important;
+}
+
+/* 1st page only */
+ .kpiCardsRow,
+.analyticsCardsRow {
+    font-size: 1.1rem;
+}
+
+.kpiCardTitle,
+.analyticsCardTitle,
+.distRow,
+.legendItem,
+.kpiSubText {
+    font-size: 0.85rem !important;
+}
+
+.sapUiCompFilterBar .sapMLabel {
+    white-space: normal !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    line-height: 1.2 !important;
+}
+
+.legendItem {
+    white-space: normal !important;
+    overflow-wrap: break-word !important;
+}
+
+.donutChartBox {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+}
+
+.donutLegend {
+    flex: 1 1 auto !important;
+    min-width: 120px !important;
+}
+
+@media (max-width: 1400px) {
+    .legendItem {
+        white-space: normal !important;
+        line-height: 1.2;
+        max-width: 90px;
+    }
+}

@@ -15,7 +15,10 @@ sap.ui.define([
         onInit: function () {
             document.body.classList.remove("sapUiSizeCozy");
             document.body.classList.add("sapUiSizeCompact");
-            document.documentElement.classList.add("orderLinkScale");
+            // document.documentElement.classList.add("orderLinkScale");
+
+            // change#fontsizeincrease1st
+            this.getView().addStyleClass("orderLinkScale");
 
             var oView = this.getView();
 
@@ -354,7 +357,11 @@ sap.ui.define([
                 clearInterval(this._oRefreshInterval);
                 this._oRefreshInterval = null;
             }
-            document.documentElement.classList.remove("orderLinkScale");
+            // document.documentElement.classList.remove("orderLinkScale");
+
+            // change#fontsizeincrease1st
+            this.getView().removeStyleClass("orderLinkScale");
+            
         }
     };
 

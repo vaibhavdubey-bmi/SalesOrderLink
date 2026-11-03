@@ -931,7 +931,7 @@ sap.ui.define([
            var aRows = (aItems || []).filter(function (oRow) {
 
             var vParamValue = Number(
-                that._pick(oRow, ["param_value"]) || 0
+                that._pick(oRow, ["VARIANCE"]) || 0
             );
 
             return (
@@ -1025,7 +1025,7 @@ sap.ui.define([
                             oMaterial,
                             oField,
                             oValueBox,
-                            that._createLockedCheckBox()
+                           // that._createLockedCheckBox()
                         ]
                     });
 
@@ -1086,7 +1086,7 @@ sap.ui.define([
 
 
         _onFieldCheckBoxSelect: function () {
-            var oSelectAll = this._byFragId("selectAllCheckBox");
+            var oSelectAll = this._byFragId("selectAllCheckBx");
             var aAll = this._getAllFieldCheckBoxes();
 
             if (oSelectAll) {

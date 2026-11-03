@@ -68,6 +68,7 @@
                     text="{i18n>fieldsWillBeUpdated}"
                     class="confirmDialogIntro sapUiMediumMarginTop sapUiSmallMarginBottom"/>
 
+                <!-- change#checkboxonlinkdoc -->
                 <!-- SELECT ALL (hidden by the controller when there is nothing to select) -->
                 <HBox
                     id="selectAllRow"
