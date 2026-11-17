@@ -4,8 +4,9 @@ sap.ui.define([
     "sap/m/Text",
     "sap/m/ObjectNumber",
     "sap/ui/core/HTML",
-    "sap/base/security/encodeXML"
-], function (HBox, VBox, Text, ObjectNumber, HTML, encodeXML) {
+    "sap/base/security/encodeXML",
+    "sap/ui/comp/state/UIState"
+], function (HBox, VBox, Text, ObjectNumber, HTML, encodeXML, UIState) {
     "use strict";
 
     // i18n helper - set in onInit (needs the view to reach the "i18n" model of the app)
@@ -61,6 +62,45 @@ sap.ui.define([
 
             var oSmartFilterBar = aFilterBars[0];
 
+            // ---- keep List Report filters across an app reload ----
+            var FILTER_KEY = "SOL_ListReportFilters";
+            // true only when we are coming back from an Object Page action
+            var bRestoreFilters = sessionStorage.getItem("RefreshAfterAction") === "X";
+            // the initial load below already runs process + Go, so the flag can be cleared
+            if (bRestoreFilters) { sessionStorage.removeItem("RefreshAfterAction"); }
+
+            function saveFilters() {
+                try {
+                    var oUiState = oSmartFilterBar.getUiState({ allFilters: false });
+                    sessionStorage.setItem(FILTER_KEY, JSON.stringify({
+                        selectionVariant: oUiState.getSelectionVariant()
+                    }));
+                } catch (e) { /* never block the app because of this */ }
+            }
+
+            function restoreFilters() {
+                try {
+                    var sSaved = sessionStorage.getItem(FILTER_KEY);
+                    if (!sSaved) { return; }
+                    var oSaved = JSON.parse(sSaved);
+                    oSmartFilterBar.setUiState(
+                        new UIState({ selectionVariant: oSaved.selectionVariant }),
+                        { replace: true, strictMode: false }
+                    );
+                } catch (e) { /* ignore */ }
+            }
+
+            if (bRestoreFilters) {
+                if (oSmartFilterBar.isInitialised && oSmartFilterBar.isInitialised()) {
+                    restoreFilters();
+                } else {
+                    oSmartFilterBar.attachInitialized(restoreFilters);
+                }
+                // smartVariantManagement applies the default variant after init -> restore again once
+                oSmartFilterBar.attachEventOnce("afterVariantLoad", restoreFilters);
+            }
+            // ---------------------------------------------------------
+
             // FIX: true while a Go press fired by our own process callback is pending,
             // so that search does not trigger the confidence process a second time.
             var bProcessTriggeredGo = false;
@@ -77,7 +117,7 @@ sap.ui.define([
                 }
             }
 
-            function triggerConfidenceProcess(fnSuccess, fnError) {
+            function runConfidenceProcess(fnSuccess, fnError) {
                 $.ajax({
                     url: "/sap/opu/odata/sap/ZODATA_QTO_CONFIDENCE_SRV/",
                     method: "GET",
@@ -110,12 +150,93 @@ sap.ui.define([
                 });
             }
 
-            this._oRefreshInterval = setInterval(function () {
-                if (sessionStorage.getItem("RefreshAfterAction") === "X") {
-                    sessionStorage.removeItem("RefreshAfterAction");
-                    triggerConfidenceProcess(pressGoAfterProcess);
+            // PERFORMANCE: at page open several things ask for the confidence process at the
+            // same time (initial load, Fiori Elements' own first search, Go). Instead of running
+            // the backend process once per caller, all callers that arrive while it is running
+            // share ONE run and are all notified when it finishes.
+            var aProcessWaiters = null;   // null = process not running
+
+            function triggerConfidenceProcess(fnSuccess, fnError) {
+                if (aProcessWaiters) {
+                    aProcessWaiters.push({ ok: fnSuccess, err: fnError });
+                    return;
                 }
-            }, 1000);
+                aProcessWaiters = [{ ok: fnSuccess, err: fnError }];
+
+                var bFinished = false;
+                function finish(bOk) {
+                    if (bFinished) { return; }
+                    bFinished = true;
+                    var aWaiters = aProcessWaiters;
+                    aProcessWaiters = null;
+                    aWaiters.forEach(function (oWaiter) {
+                        var fn = bOk ? oWaiter.ok : oWaiter.err;
+                        if (fn) {
+                            try { fn(); } catch (e) { console.error(e); }
+                        }
+                    });
+                }
+
+                runConfidenceProcess(function () { finish(true); }, function () { finish(false); });
+
+                // safety net: never stay "running" forever if a request hangs
+                setTimeout(function () { finish(false); }, 60000);
+            }
+
+            // Object Page asks for a data refresh (no reload -> filters stay as they are)
+            var bRefreshing = false;
+            var fnSilentRefresh = null;   // assigned below, once updateKpis exists
+
+            // wait until the List Report is really displayed again (hash no longer points to
+            // the object page), so the Go read does not overlap with the read Fiori Elements
+            // starts itself while navigating back
+            function whenListVisible(fnCallback) {
+                var iTries = 0;
+                (function check() {
+                    var bOnObjectPage = /&\/ZC_QTO_SO_QT\(/.test(window.location.hash || "");
+                    if (!bOnObjectPage || iTries++ >= 20) {
+                        setTimeout(fnCallback, 200);
+                        return;
+                    }
+                    setTimeout(check, 100);
+                })();
+            }
+
+            // PERFORMANCE: the rows are refreshed IMMEDIATELY. The (slow) backend confidence
+            // process no longer blocks the list: after Reset / Reject / Link it runs in the
+            // background and the list + KPIs are refreshed quietly once it has finished.
+            function refreshAfterAction(sChannelId, sEventId, oEventData) {
+                if (bRefreshing) { return; }
+                bRefreshing = true;
+                try { sessionStorage.removeItem("RefreshAfterAction"); } catch (e) { /* ignore */ }
+
+                // plain "Return to list" sends full === false: nothing changed -> no confidence process
+                var bFull = !(oEventData && oEventData.full === false);
+
+                whenListVisible(function () {
+                    bRefreshing = false;
+                    pressGoAfterProcess();   // Go reuses the filter values already in the filter bar
+
+                    if (bFull) {
+                        triggerConfidenceProcess(function () {
+                            if (fnSilentRefresh) { fnSilentRefresh(); }
+                        }, null);
+                    }
+                });
+
+                // safety reset if a request never returns
+                setTimeout(function () { bRefreshing = false; }, 30000);
+            }
+            // never keep two subscriptions (e.g. if this controller is initialised twice)
+            if (window.__qtoListNeedsRefresh) {
+                sap.ui.getCore().getEventBus().unsubscribe(
+                    "OrderLink", "listNeedsRefresh", window.__qtoListNeedsRefresh, window.__qtoListNeedsRefreshCtx);
+            }
+            window.__qtoListNeedsRefresh = refreshAfterAction;
+            window.__qtoListNeedsRefreshCtx = this;
+            this._fnListNeedsRefresh = refreshAfterAction;
+            sap.ui.getCore().getEventBus().subscribe(
+                "OrderLink", "listNeedsRefresh", this._fnListNeedsRefresh, this);
 
             setTimeout(function () {
                 var aTitles = oView.findAggregatedObjects(
@@ -231,10 +352,83 @@ sap.ui.define([
 
                 var oModel = oView.getModel();
 
-                function updateKpis(aFilters, sStatus) {
+                // PERFORMANCE: the KPI read loads ALL rows. If the same read is already running
+                // (e.g. at page open) do not start it again; if the filters changed meanwhile,
+                // run the latest one once after the current read.
+                var oKpiInFlight = null;
+                var oKpiPending = null;
+
+                function kpiSignature(aFilters, sStatus) {
+                    try { return JSON.stringify([aFilters || [], sStatus || ""]); }
+                    catch (e) { return "u" + Date.now() + Math.random(); }   // cannot compare -> never skip
+                }
+
+                // PERFORMANCE: the KPI/charts only use these fields -> do not download all columns.
+                // Only fields that exist in the service metadata are selected (a missing one would
+                // otherwise make the whole request fail); if the metadata is not available, no $select.
+                var KPI_FIELDS = ["status", "Confidence",
+                    "so_paymentTerm", "qt_paymentTerm", "so_incoTerm", "qt_incoTerm",
+                    "so_salesResponsibleIdName", "qt_salesResponsibleIdName",
+                    "so_currency", "qt_currency"];
+                var sKpiSelect = null;
+
+                // fingerprint of what the background confidence process can change (status + confidence of every row)
+                var sLastKpiSig = null;
+                function kpiResultSignature(aResults) {
+                    return aResults.map(function (r) { return r.status + "|" + r.Confidence; }).join(",");
+                }
+
+                function kpiUrlParameters() {
+                    var mParams = { "$top": "10000000" };
+                    try {
+                        if (sKpiSelect === null) {
+                            sKpiSelect = "";
+                            var oMeta = oModel.getMetaModel && oModel.getMetaModel();
+                            var oSet = oMeta && oMeta.getODataEntitySet && oMeta.getODataEntitySet("ZC_QTO_SO_QT");
+                            var oType = oSet && oMeta.getODataEntityType(oSet.entityType);
+                            if (oType && oType.property) {
+                                var aExisting = KPI_FIELDS.filter(function (sField) {
+                                    return oType.property.some(function (oProp) { return oProp.name === sField; });
+                                });
+                                if (aExisting.length > 0) { sKpiSelect = aExisting.join(","); }
+                            }
+                            if (!sKpiSelect) { sKpiSelect = null; }   // not available yet -> try again next time
+                        }
+                        if (sKpiSelect) { mParams["$select"] = sKpiSelect; }
+                    } catch (e) { /* no $select */ }
+                    return mParams;
+                }
+
+                // fnAfter (optional): called with (newFingerprint, fingerprintBeforeThisRead) after the read
+                function updateKpis(aFilters, sStatus, fnAfter) {
+                    var sSig = kpiSignature(aFilters, sStatus);
+                    if (oKpiInFlight) {
+                        if (fnAfter) {
+                            // must run AFTER the read that is running now (that one may still hold pre-process data)
+                            oKpiPending = { aFilters: aFilters, sStatus: sStatus, fnAfter: fnAfter };
+                        } else if (oKpiInFlight.sig === sSig) {
+                            console.log("KPI read skipped (same read already running)");
+                        } else {
+                            oKpiPending = { aFilters: aFilters, sStatus: sStatus,
+                                fnAfter: oKpiPending && oKpiPending.fnAfter };   // latest wins, keep a waiting fnAfter
+                        }
+                        return;
+                    }
+                    oKpiInFlight = { sig: sSig };
+                    var sBaseline = sLastKpiSig;
+
+                    var fnKpiDone = function () {
+                        oKpiInFlight = null;
+                        if (oKpiPending) {
+                            var oNext = oKpiPending;
+                            oKpiPending = null;
+                            updateKpis(oNext.aFilters, oNext.sStatus, oNext.fnAfter);
+                        }
+                    };
+
                     var mReadOptions = {
                         // FIX: service pages at 100 rows by default; read all rows for the KPIs/charts
-                        urlParameters: { "$top": "10000000" },
+                        urlParameters: kpiUrlParameters(),
                         success: function (oData) {
                             var aResults = oData.results || [];
 
@@ -269,8 +463,20 @@ sap.ui.define([
                             renderMatchStatusChart(oStatusChartHtml, iTotal, iNew, iReviewed, iRejected, iNewPct, iRevPct, iRejPct);
                             renderConfidenceChart(oConfidenceChartHtml, aResults);
                             renderDiscrepancyChart(oDiscrepancyChartHtml, aResults);
+
+                            var sNewSig = kpiResultSignature(aResults);
+                            if (fnAfter) {
+                                try { fnAfter(sNewSig, sBaseline); } catch (e) { console.error(e); }
+                            }
+                            sLastKpiSig = sNewSig;
                         }
                     };
+
+                    var fnKpiSuccess = mReadOptions.success;
+                    mReadOptions.success = function (oData) {
+                        try { fnKpiSuccess(oData); } finally { fnKpiDone(); }
+                    };
+                    mReadOptions.error = function () { fnKpiDone(); };
 
                     if (aFilters && aFilters.length > 0) {
                         mReadOptions.filters = aFilters;
@@ -284,31 +490,83 @@ sap.ui.define([
                 );
 
                 var aCurrentFilters = [];
+
+                // quiet refresh after the background confidence process: reload the table rows
+                // and the KPIs with the filters that are currently active (no Go press, no overlay reset)
+                fnSilentRefresh = function () {
+                    try {
+                        var aFilters = aCurrentFilters || [];
+                        var sStatus = (oSmartFilterBar.getFilterData() || {}).status || "";
+                        // refresh the KPIs quietly (no overlay). The table is only reloaded when the background
+                        // process really changed status / confidence - otherwise the user would see a second,
+                        // pointless reload of a list that is already correct.
+                        updateKpis(aFilters, sStatus, function (sNewSig, sBaseline) {
+                            if (sBaseline !== null && sNewSig === sBaseline) {
+                                console.log("Confidence process changed nothing -> table not reloaded");
+                                return;
+                            }
+                            var oInner = oSmartTable && oSmartTable.getTable && oSmartTable.getTable();
+                            var oBinding = oInner && (oInner.getBinding("items") || oInner.getBinding("rows"));
+                            if (oBinding) { oBinding.refresh(); }
+                        });
+                    } catch (e) { console.error(e); }
+                };
+                var oHookedTable = null;
+                var oStatusObserver = null;
+                var oObservedDom = null;
+
+                function applyStatusColors(oRoot) {
+                    (oRoot || document).querySelectorAll('td[data-sap-ui-column*="status"] .sapMText').forEach(function (oStatus) {
+                        var sText = oStatus.textContent.trim();
+                        var sCls = "";
+                        // backend value (EN) or its translated text
+                        if (sText === "New" || sText === _fnText("statusNew")) { sCls = "statusNew"; }
+                        else if (sText === "Reviewed" || sText === _fnText("statusReviewed")) { sCls = "statusReviewed"; }
+                        else if (sText === "Rejected" || sText === _fnText("statusRejected")) { sCls = "statusRejected"; }
+
+                        ["statusNew", "statusReviewed", "statusRejected"].forEach(function (sC) {
+                            if (sC !== sCls && oStatus.classList.contains(sC)) { oStatus.classList.remove(sC); }
+                        });
+                        if (sCls && !oStatus.classList.contains(sCls)) { oStatus.classList.add(sCls); }
+                    });
+                }
+
+                // PERFORMANCE: a MutationObserver runs before the browser paints, so the pill
+                // colours are set in the same frame the rows are rendered (no plain-text flash).
+                // Only class attributes are changed, and attributes are not observed -> no loop.
+                function watchStatusColumn(oInnerTable) {
+                    var oDom = oInnerTable && oInnerTable.getDomRef();
+                    if (!oDom) { return; }
+                    if (oDom !== oObservedDom) {
+                        if (oStatusObserver) { oStatusObserver.disconnect(); }
+                        oObservedDom = oDom;
+                        oStatusObserver = new MutationObserver(function () { applyStatusColors(oDom); });
+                        oStatusObserver.observe(oDom, { childList: true, subtree: true, characterData: true });
+                    }
+                    applyStatusColors(oDom);
+                }
+
                 if (oSmartTable) {
                     oSmartTable.attachBeforeRebindTable(function (oEvent) {
                         var mBindingParams = oEvent.getParameter("bindingParams");
                         aCurrentFilters = mBindingParams.filters || [];
+
+                        // attach the listeners ONCE per inner table instance (before, a new one was added on every rebind)
                         var oInnerTable = oSmartTable.getTable();
-                        if (oInnerTable) {
-                            oInnerTable.attachUpdateFinished(function () {
-                                applyStatusColors();
-                            });
-                        }
+                        if (!oInnerTable || oInnerTable === oHookedTable) { return; }
+                        oHookedTable = oInnerTable;
+                        oInnerTable.addEventDelegate({
+                            onAfterRendering: function () { watchStatusColumn(oInnerTable); }
+                        });
+                        oInnerTable.attachUpdateFinished(function () { watchStatusColumn(oInnerTable); });
+                        watchStatusColumn(oInnerTable);
                     });
                 }
 
-                function applyStatusColors() {
-                    document.querySelectorAll('td[data-sap-ui-column*="status"] .sapMText').forEach(function (oStatus) {
-                        var sText = oStatus.textContent.trim();
-                        oStatus.classList.remove("statusNew", "statusReviewed", "statusRejected");
-                        // backend value (EN) or its translated text
-                        if (sText === "New" || sText === _fnText("statusNew")) oStatus.classList.add("statusNew");
-                        else if (sText === "Reviewed" || sText === _fnText("statusReviewed")) oStatus.classList.add("statusReviewed");
-                        else if (sText === "Rejected" || sText === _fnText("statusRejected")) oStatus.classList.add("statusRejected");
-                    });
-                }
+                if (bRestoreFilters) { restoreFilters(); }
 
                 oSmartFilterBar.attachSearch(function () {
+                    saveFilters();
                     var aFilters = aCurrentFilters || [];
                     var oFilterData = oSmartFilterBar.getFilterData();
                     var sStatus = oFilterData.status || "";
@@ -332,30 +590,36 @@ sap.ui.define([
                 triggerConfidenceProcess(pressGoAfterProcess);
 
                  //change#intialload
-        // Fallback initial load
-        setTimeout(function () {
+        // Fallback initial load - only if nothing is loading right now, so it never
+        // duplicates a load that is still running (the KPI read of all rows can be slow)
+        function fallbackInitialGo(iTry) {
+            if (bDataLoaded && iOverallTotal !== 0) { return; }
 
-            if (!bDataLoaded || iOverallTotal === 0) {
-
-                var oGoButton = sap.ui.getCore().byId(
-                    "com.bmi.orderquotematch.project1::sap.suite.ui.generic.template.ListReport.view.ListReport::ZC_QTO_SO_QT--listReportFilter-btnGo"
-                );
-
-                if (oGoButton) {
-                    console.log("INITIAL FALLBACK GO");
-                    oGoButton.firePress();
-                }
+            if ((oKpiInFlight || aProcessWaiters) && iTry < 4) {
+                setTimeout(function () { fallbackInitialGo(iTry + 1); }, 3000);
+                return;
             }
 
-        }, 3000);
+            var oGoButton = sap.ui.getCore().byId(
+                "com.bmi.orderquotematch.project1::sap.suite.ui.generic.template.ListReport.view.ListReport::ZC_QTO_SO_QT--listReportFilter-btnGo"
+            );
+
+            if (oGoButton) {
+                console.log("INITIAL FALLBACK GO");
+                oGoButton.firePress();
+            }
+        }
+
+        setTimeout(function () { fallbackInitialGo(0); }, 3000);
 
             }, 1000);
         },
 
         onExit: function () {
-            if (this._oRefreshInterval) {
-                clearInterval(this._oRefreshInterval);
-                this._oRefreshInterval = null;
+            if (this._fnListNeedsRefresh) {
+                sap.ui.getCore().getEventBus().unsubscribe(
+                    "OrderLink", "listNeedsRefresh", this._fnListNeedsRefresh, this);
+                this._fnListNeedsRefresh = null;
             }
             // document.documentElement.classList.remove("orderLinkScale");
 

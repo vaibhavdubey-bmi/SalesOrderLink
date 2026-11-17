@@ -8,7 +8,7 @@
  <m:ObjectStatus text="{i18n>legendExact}" state="Success" icon="sap-icon://circle-task-2"/>
  <m:ObjectStatus text="{i18n>legendPossible}" state="Warning" icon="sap-icon://circle-task-2"/>
  <m:ObjectStatus text="{i18n>legendNoMatch}" state="Error" icon="sap-icon://circle-task-2"/>
- <m:ObjectStatus text="{i18n>legendNotMaintained}" state="Information" icon="sap-icon://circle-task-2"/>
+ <!-- <m:ObjectStatus text="{i18n>legendNotMaintained}" state="Information" icon="sap-icon://circle-task-2"/> -->
  </m:HBox>
  </m:HBox>
  <m:HBox class="lineMatchGroupRow" width="100%">
@@ -67,11 +67,14 @@
  <m:Text text="{= ${so_material_description} || ${so_material_Description} || ''}" wrapping="true" maxLines="3" width="100%"/>
  <m:HBox width="100%" alignItems="Center" justifyContent="End" class="lmCell">
  <m:customData>
- <core:CustomData key="match" writeToDom="true" value="{parts: [{path: 'so_unitQty'}, {path: 'qt_unitQty'}], formatter: '.formatter.getQtyCellClass'}"/>
+
+ <!-- change#openqtycompare -->
+ <core:CustomData key="match" writeToDom="true" value="{parts: [{path: 'so_unitQty'}, {path: 'open_Qty'}], formatter: '.formatter.getQtyCellClass'}"/>
  </m:customData>
 
  <m:Text text="{parts: [{path: 'so_unitQty'}, {path: 'so_unitQtyUom'}], formatter: '.formatter.formatQtyUnit'}"/>
- <m:ObjectStatus icon="sap-icon://circle-task-2" class="lmDot" state="{parts: [{path: 'so_unitQty'}, {path: 'qt_unitQty'}], formatter: '.formatter.getQtyState'}"/>
+ <!-- change#openqtycompare -->
+ <m:ObjectStatus icon="sap-icon://circle-task-2" class="lmDot" state="{parts: [{path: 'so_unitQty'}, {path: 'open_Qty'}], formatter: '.formatter.getQtyState'}"/>
  </m:HBox>
  <!-- S.BASE QTY (sales order base quantity) -->
  <!-- <m:Text text="{parts: [{path: 'so_convert_Qty'}, {path: 'so_baseUoM'}], formatter: '.formatter.formatQtyUnit'}" width="100%" textAlign="End" class="lmBaseQty"/> -->
@@ -98,19 +101,42 @@
  <m:ObjectStatus icon="sap-icon://circle-task-2" class="lmDot" state="{parts: [{path: 'material'}, {path: 'qt_material'}], formatter: '.formatter.getLineState'}"/>
  </m:HBox>
  <m:Text text="{= ${qt_material_description} || ${qt_material_Description} || ''}" wrapping="true" maxLines="3" width="100%"/>
- <m:HBox width="100%" alignItems="Center" justifyContent="End" class="lmCell">
- <m:customData>
- <core:CustomData key="match" writeToDom="true" value="{parts: [{path: 'so_unitQty'}, {path: 'qt_unitQty'}], formatter: '.formatter.getQtyCellClass'}"/>
- </m:customData>
- <m:Text text="{parts: [{path: 'qt_unitQty'}, {path: 'qt_unitQtyUom'}], formatter: '.formatter.formatQtyUnit'}"/>
- <m:ObjectStatus icon="sap-icon://circle-task-2" class="lmDot" state="{parts: [{path: 'so_unitQty'}, {path: 'qt_unitQty'}], formatter: '.formatter.getQtyState'}"/>
- </m:HBox>
+<!-- change#openqtycompare -->
+ 
+ <m:Text
+    text="{parts: [{path: 'qt_unitQty'}, {path: 'qt_unitQtyUom'}],
+    formatter: '.formatter.formatQtyUnit'}"/>
+
+
  <!-- Q.BASE QTY (quotation base quantity) change#rbaseqty -->
  <!-- <m:Text text="{parts: [{path: 'qt_convert_Qty'}, {path: 'qt_baseUoM'}], formatter: '.formatter.formatQtyUnit'}" width="100%" textAlign="End" class="lmBaseQty"/> -->
-<m:Text
+
+ <!-- change#openqtycompare -->
+
+<m:HBox width="100%" alignItems="Center" justifyContent="End" class="lmCell">
+
+    <m:customData>
+        <core:CustomData key="match" writeToDom="true"
+            value="{parts: [{path: 'so_unitQty'}, {path: 'open_Qty'}],
+            formatter: '.formatter.getQtyCellClass'}"/>
+    </m:customData>
+
+    <m:Text
+        text="{parts: [{path: 'open_Qty'}, {path: 'qt_unitQtyUom'}],
+        formatter: '.formatter.formatQtyUnit'}"/>
+
+    <m:ObjectStatus
+        icon="sap-icon://circle-task-2"
+        class="lmDot"
+        state="{parts: [{path: 'so_unitQty'}, {path: 'open_Qty'}],
+        formatter: '.formatter.getQtyState'}"/>
+
+</m:HBox>
+
+<!-- <m:Text
  text="{parts: [{path: 'open_Qty'}, {path: 'qt_unitQtyUom'}],
  formatter: '.formatter.formatQtyUnit'}"
- class="lmRemQty"/>
+ class="lmRemQty"/> -->
 
 <!-- change#align -->
 

@@ -15,7 +15,7 @@
                 <m:ObjectStatus text="{i18n>legendExact}" state="Success" icon="sap-icon://circle-task-2"/>
                 <m:ObjectStatus text="{i18n>legendPossible}" state="Warning" icon="sap-icon://circle-task-2"/>
                 <m:ObjectStatus text="{i18n>legendNoMatch}" state="Error" icon="sap-icon://circle-task-2"/>
-                <m:ObjectStatus text="{i18n>legendNotMaintained}" state="Information" icon="sap-icon://circle-task-2"/>
+                <!-- <m:ObjectStatus text="{i18n>legendNotMaintained}" state="Information" icon="sap-icon://circle-task-2"/> -->
             </m:HBox>
         </m:HBox>
 
@@ -87,6 +87,7 @@
                         <m:Text text="{i18n>colQty}" width="100%" textAlign="End"/>
                         <!-- <m:Text text="{i18n>colQBaseQty}" width="100%" textAlign="End"/> -->
 
+<!-- change#openqtyreddot -->
 <m:Text text="{i18n>colOpenQty}"
     width="100%"
     textAlign="End"/>
@@ -106,25 +107,26 @@
                                 <m:ObjectStatus icon="sap-icon://circle-task-2" class="lmDot" state="Error"/>
                             </m:HBox>
                             <m:Text text="{material_Description}" wrapping="true" maxLines="3" width="100%"/>
-                            <m:HBox width="100%" alignItems="Center" justifyContent="End" class="lmCell">
-                                <m:customData>
-                                    <core:CustomData key="match" value="lmMatchError" writeToDom="true"/>
-                                </m:customData>
-                                <!-- <m:Text text="{parts: [{path: 'remainingQty'}, {path: 'baseUom'}], formatter: '.formatter.formatQtyUnit'}"/> -->
 
-<m:Text text="{parts: [{path: 'targetQty'}, {path: 'targetUom'}],
+                            <!-- change#openqtyreddot -->
+
+                            <m:Text text="{parts: [{path: 'targetQty'}, {path: 'targetUom'}],
 formatter: '.formatter.formatQtyUnit'}"/>
 
-                                <m:ObjectStatus icon="sap-icon://circle-task-2" class="lmDot" state="Error"/>
-                            </m:HBox>
-                            <!-- <m:Text text="{parts: [{path: 'qt_convert_Qty'}, {path: 'qt_baseUoM'}], formatter: '.formatter.formatQtyUnit'}" width="100%" textAlign="End" class="lmBaseQty"/> -->
+<m:HBox width="100%" alignItems="Center" justifyContent="End" class="lmCell">
+    <m:customData>
+        <core:CustomData key="match" value="lmMatchError" writeToDom="true"/>
+    </m:customData>
 
-<m:Text
-    text="{parts: [{path: 'open_Qty'}, {path: 'targetUom'}],
-    formatter: '.formatter.formatQtyUnit'}"
-    width="100%"
-    textAlign="End"
-    class="lmOpenQty"/>
+    <m:Text
+        text="{parts: [{path: 'open_Qty'}, {path: 'targetUom'}],
+        formatter: '.formatter.formatQtyUnit'}"/>
+
+    <m:ObjectStatus
+        icon="sap-icon://circle-task-2"
+        class="lmDot"
+        state="Error"/>
+</m:HBox>
 
                             <m:HBox width="100%" alignItems="Center" justifyContent="End" class="lmCell">
                                 <m:customData>

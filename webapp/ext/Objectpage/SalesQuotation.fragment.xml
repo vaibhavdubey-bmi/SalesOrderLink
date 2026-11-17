@@ -103,6 +103,55 @@
                         </m:HBox>
                     </m:HBox>
 
+                    <!-- change#newrowblue -->
+                    <!-- Shipping Condition -->
+                    <m:HBox class="comparisonRow">
+    <m:customData>
+        <core:CustomData key="rowmatch" value="{match>/shippingConditionState}" writeToDom="true"/>
+    </m:customData>
+    <m:Text text="SHIPPING CONDITION"/>
+    <m:HBox class="comparisonValueGroup" alignItems="Center" justifyContent="End">
+        <m:Text text="{= ${so_shippingCondtIdName} || '-'}" class="comparisonValue"/>
+        <m:ObjectStatus icon="sap-icon://circle-task-2" state="{match>/shippingConditionState}" class="matchIndicator"/>
+    </m:HBox>
+</m:HBox>
+
+                   <!-- Customer Reference / PO Number  -->
+                    <m:HBox class="comparisonRow">
+    <m:customData>
+        <core:CustomData key="rowmatch" value="{match>/customerReferenceState}" writeToDom="true"/>
+    </m:customData>
+    <m:Text text="CUSTOMER REFERENCE"/>
+    <m:HBox class="comparisonValueGroup" alignItems="Center" justifyContent="End">
+        <m:Text text="{= ${customerReference} || '-'}" class="comparisonValue"/>
+        <m:ObjectStatus icon="sap-icon://circle-task-2" state="{match>/customerReferenceState}" class="matchIndicator"/>
+    </m:HBox>
+</m:HBox>
+
+                    <!-- Pricing Partner -->
+                    <m:HBox class="comparisonRow">
+    <m:customData>
+        <core:CustomData key="rowmatch" value="{match>/pricingPartnerState}" writeToDom="true"/>
+    </m:customData>
+    <m:Text text="PRICING PARTNER"/>
+    <m:HBox class="comparisonValueGroup" alignItems="Center" justifyContent="End">
+        <m:Text text="{= ${pricingPartnerIdName} || '-'}" class="comparisonValue"/>
+        <m:ObjectStatus icon="sap-icon://circle-task-2" state="{match>/pricingPartnerState}" class="matchIndicator"/>
+    </m:HBox>
+</m:HBox>
+
+                    <!-- Object Partner -->
+                    <m:HBox class="comparisonRow">
+    <m:customData>
+        <core:CustomData key="rowmatch" value="{match>/objectPartnerState}" writeToDom="true"/>
+    </m:customData>
+    <m:Text text="OBJECT PARTNER"/>
+    <m:HBox class="comparisonValueGroup" alignItems="Center" justifyContent="End">
+        <m:Text text="{= ${objectPartnerIdName} || '-'}" class="comparisonValue"/>
+        <m:ObjectStatus icon="sap-icon://circle-task-2" state="{match>/objectPartnerState}" class="matchIndicator"/>
+    </m:HBox>
+</m:HBox>
+
                     <m:HBox id="paymentTermsRow" class="comparisonRow">
                         <m:customData>
                             <core:CustomData key="rowmatch" value="{match>/paymentTermState}" writeToDom="true"/>
@@ -261,6 +310,56 @@
                         </m:HBox>
                     </m:HBox>
 
+                    <!-- change#newrowblue -->
+                    <!-- QUOTATION PANEL -->
+                    <!-- Shipping Condition -->
+
+                    <m:HBox class="comparisonRow">
+    <m:customData>
+        <core:CustomData key="rowmatch" value="{match>/shippingConditionState}" writeToDom="true"/>
+    </m:customData>
+    <m:Text text="SHIPPING CONDITION"/>
+    <m:HBox class="comparisonValueGroup" alignItems="Center" justifyContent="End">
+        <m:Text text="{= ${qt_shippingCondtIdName} || '-'}" class="comparisonValue"/>
+        <m:ObjectStatus icon="sap-icon://circle-task-2" state="{match>/shippingConditionState}" class="matchIndicator"/>
+    </m:HBox>
+</m:HBox>
+
+                    <!-- Customer Reference / PO Number -->
+                    <m:HBox class="comparisonRow">
+    <m:customData>
+        <core:CustomData key="rowmatch" value="{match>/customerReferenceState}" writeToDom="true"/>
+    </m:customData>
+    <m:Text text="CUSTOMER REFERENCE"/>
+    <m:HBox class="comparisonValueGroup" alignItems="Center" justifyContent="End">
+        <m:Text text="{= ${qt_customerReference} || '-'}" class="comparisonValue"/>
+        <m:ObjectStatus icon="sap-icon://circle-task-2" state="{match>/customerReferenceState}" class="matchIndicator"/>
+    </m:HBox>
+</m:HBox>
+
+                   <!-- Pricing Partner  -->
+                   <m:HBox class="comparisonRow">
+    <m:customData>
+        <core:CustomData key="rowmatch" value="{match>/pricingPartnerState}" writeToDom="true"/>
+    </m:customData>
+    <m:Text text="PRICING PARTNER"/>
+    <m:HBox class="comparisonValueGroup" alignItems="Center" justifyContent="End">
+        <m:Text text="{= ${qt_pricingPartnerIdName} || '-'}" class="comparisonValue"/>
+        <m:ObjectStatus icon="sap-icon://circle-task-2" state="{match>/pricingPartnerState}" class="matchIndicator"/>
+    </m:HBox>
+</m:HBox>
+
+                    <!-- Object Partner -->
+                    <m:HBox class="comparisonRow">
+    <m:customData>
+        <core:CustomData key="rowmatch" value="{match>/objectPartnerState}" writeToDom="true"/>
+    </m:customData>
+    <m:Text text="OBJECT PARTNER"/>
+    <m:HBox class="comparisonValueGroup" alignItems="Center" justifyContent="End">
+        <m:Text text="{= ${qt_objectPartnerIdName} || '-'}" class="comparisonValue"/>
+        <m:ObjectStatus icon="sap-icon://circle-task-2" state="{match>/objectPartnerState}" class="matchIndicator"/>
+    </m:HBox>
+</m:HBox>
 
                     <m:HBox id="paymentTermsQtRow" class="comparisonRow">
                         <m:customData>
