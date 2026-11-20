@@ -240,7 +240,16 @@ sap.ui.define([
                     oResetBtn.setIcon("sap-icon://reset");
 
                     oResetBtn.attachPress(function () {
-                        that._returnToList(true);   // Reset changes data -> full refresh
+                        // The status is read NOW, before the action runs and changes it.
+                        // Rejected entry  -> stay on this entry (refresh it), so the user can link right away.
+                        // Any other entry -> as before: refresh the list and go back to it.
+                        var oResetCtx = that.getView().getBindingContext();
+                        if (that._isRejectedCtx(oResetCtx)) {
+                            that._afterReset();
+                        } else {
+                            // status "New": go back to the list without the banner; other statuses: with banner
+                            that._returnToList(true, that._isNewCtx(oResetCtx));   // Reset changes data -> full refresh
+                        }
                     });
 
                     oResetBtn.data("resetAttached", true);
@@ -426,7 +435,7 @@ sap.ui.define([
                 };
                 var aT = mTitles[sAction];
 
-                this._renderActionBanner(
+                this._renderActionBannerOnList(
                     sAction,
                     this._getTextOrDefault(aT[0], aT[1]),
                     [
@@ -435,6 +444,36 @@ sap.ui.define([
                     ]
                 );
             } catch (e) { /* a message must never break the action */ }
+        },
+
+
+        // The data of the banner is collected right away (the entry is still open), but the banner itself is only
+        // shown once the app has left the object page, so it appears on the list page and not on the entry page
+        // while the app is still navigating back. If the app has not left the entry after 8 s the banner is shown
+        // anyway, so the information is never lost.
+        _renderActionBannerOnList: function (sType, sTitle, aItems) {
+            var that = this;
+            var iStart = Date.now();
+
+            if (window.__qtoBannerTimer) {
+                clearInterval(window.__qtoBannerTimer);
+                window.__qtoBannerTimer = null;
+            }
+
+            window.__qtoBannerTimer = setInterval(function () {
+                var bOnObjectPage = /&\/ZC_QTO_SO_QT\(/.test(window.location.hash || "");
+                var bTimeout = (Date.now() - iStart) > 8000;
+
+                if (bOnObjectPage && !bTimeout) { return; }   // still on the entry -> keep waiting
+
+                clearInterval(window.__qtoBannerTimer);
+                window.__qtoBannerTimer = null;
+
+                // short pause so that the list page is already visible
+                setTimeout(function () {
+                    that._renderActionBanner(sType, sTitle, aItems);
+                }, 400);
+            }, 100);
         },
 
 
@@ -539,6 +578,17 @@ sap.ui.define([
                 var oData = oCtx && oCtx.getObject && oCtx.getObject();
                 var sStatus = oData && oData.status;
                 return !!sStatus && (sStatus === "Rejected" || sStatus === this._getText("statusRejected"));
+            } catch (e) {
+                return false;
+            }
+        },
+
+        // true when the entry behind this binding context has the status "New"
+        _isNewCtx: function (oCtx) {
+            try {
+                var oData = oCtx && oCtx.getObject && oCtx.getObject();
+                var sStatus = oData && oData.status;
+                return !!sStatus && (sStatus === "New" || sStatus === this._getText("statusNew"));
             } catch (e) {
                 return false;
             }
@@ -1679,19 +1729,55 @@ sap.ui.define([
         },
 
         // Wait for the action to finish, refresh the list, go back ONCE
-        _returnToList: function (bFull) {
+        _returnToList: function (bFull, bNoMessage) {
             var that = this;
             if (this._bReturning) { return; }
             this._bReturning = true;
 
             this._whenActionDone(function (bSuccess) {
                 that._bReturning = false;
-                if (bFull && bSuccess !== false) {
+                if (bFull && bSuccess !== false && !bNoMessage) {
                     that._showActionMessage("reset");   // Reset = the only caller with bFull === true
                 }
                 that._requestListRefresh(bFull);
                 that._navigateToList();
             });
+        },
+
+        // After Reset the user STAYS on the entry (no jump back to the list), so a wrongly rejected entry can be
+        // reset and linked straight away. Wait for the action, show the banner, refresh this entry so the new
+        // status / buttons are shown, and refresh the list in the background so it is up to date when the user
+        // goes back.
+        _afterReset: function () {
+            var that = this;
+            if (this._bResetting) { return; }
+            this._bResetting = true;
+
+            this._whenActionDone(function (bSuccess) {
+                that._bResetting = false;
+                if (bSuccess === false) { return; }   // action failed -> nothing to refresh
+
+                // no banner here: the user stays on the entry and sees the new status directly
+                that._requestListRefresh(true);       // list is refreshed in place, no navigation
+                that._refreshCurrentEntry();
+            });
+        },
+
+        // Re-reads the entry that is open, so the status and the Reject Link button are up to date
+        _refreshCurrentEntry: function () {
+            var that = this;
+            try {
+                var oBinding = this.getView().getElementBinding();
+                if (oBinding && oBinding.refresh) {
+                    oBinding.refresh(true);
+                } else {
+                    var oModel = this.getView().getModel();
+                    if (oModel && oModel.refresh) { oModel.refresh(true); }
+                }
+            } catch (e) { /* ignore */ }
+
+            // the Reject button state is re-checked once the refreshed data has arrived
+            setTimeout(function () { that._updateRejectButtonState(); }, 800);
         },
 
         // Clears the Fiori Launchpad "unsaved data" flag so the browser does not ask

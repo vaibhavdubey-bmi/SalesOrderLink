@@ -2022,3 +2022,111 @@ button[id*="Reset"] .sapMBtnInner:hover {
     align-items: center;
     min-height: 36px;
 }
+
+/* change#openqtyreddot */
+/* Open Qty dot inside badge */
+.lmOpenQty + .lmDot {
+    margin-left: -8px !important;
+}
+
+/* change#openqtyminimize */
+@media (max-width: 1400px) {
+  /* 1. First block header grid layout */
+  .lineMatchColHead > .lineMatchHalf:nth-child(1) {
+    display: none !important;
+  }
+  .lineMatchColHead > .lineMatchHalf:nth-child(2) {
+    display: grid !important;
+    grid-template-columns: 75px 150px minmax(0, 1fr) 108px 108px 134px !important;
+  }
+
+  /* 2. Set both rows to use the consistent 6-column grid structure */
+  .lineMatchRow .lmColsSO,
+  .lineMatchRow .lmColsQT {
+    display: grid !important;
+    grid-template-columns: 75px 150px minmax(0, 1fr) 108px 108px 134px !important;
+  }
+
+  /* 3. Sales Order row positioning */
+  .lineMatchRow .lmColsSO > :nth-child(1) { grid-column: 1 / 2 !important; } /* Item */
+  .lineMatchRow .lmColsSO > :nth-child(2) { grid-column: 2 / 3 !important; } /* Material */
+  .lineMatchRow .lmColsSO > :nth-child(3) { grid-column: 3 / 4 !important; } /* Description */
+
+  /* When Sales Order row has 6 children (Qty is present) */
+  .lineMatchRow .lmColsSO > :nth-child(4):not(:nth-last-child(2)) { grid-column: 4 / 5 !important; } /* Qty */
+  .lineMatchRow .lmColsSO > :nth-child(5):not(:last-child) { grid-column: 5 / 6 !important; } /* Open Qty */
+  .lineMatchRow .lmColsSO > :nth-child(6) { grid-column: 6 / 7 !important; } /* Unit Price */
+
+  /* When Sales Order row has 5 children (Qty is missing -> 4th child is Open Qty, 5th is Unit Price) */
+  .lineMatchRow .lmColsSO > :nth-child(4):nth-last-child(2) { grid-column: 5 / 6 !important; } /* Open Qty */
+  .lineMatchRow .lmColsSO > :nth-child(5):last-child { grid-column: 6 / 7 !important; } /* Unit Price */
+
+  /* 4. Quote row standard alignment */
+  .lineMatchRow .lmColsQT > :nth-child(1) { grid-column: 1 / 2 !important; }
+  .lineMatchRow .lmColsQT > :nth-child(2) { grid-column: 2 / 3 !important; }
+  .lineMatchRow .lmColsQT > :nth-child(3) { grid-column: 3 / 4 !important; }
+  .lineMatchRow .lmColsQT > :nth-child(4) { grid-column: 4 / 5 !important; } /* Qty */
+  .lineMatchRow .lmColsQT > :nth-child(5) { grid-column: 5 / 6 !important; } /* Open Qty */
+  .lineMatchRow .lmColsQT > :nth-child(6) { grid-column: 6 / 7 !important; } /* Unit Price */
+
+  /* 5. Second block: Completely hide headers on both sides when minimized */
+  .umSideSO > .umColHead,
+  .umSideQT > .umColHead {
+    display: none !important;
+  }
+
+/* 6. Right-align Open Qty contents under the header */
+  .lineMatchRow .lmColsSO > :nth-child(4):nth-last-child(2),
+  .lineMatchRow .lmColsSO > :nth-child(5):not(:last-child),
+  .lineMatchRow .lmColsQT > :nth-child(5) {
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+  }
+}
+
+/* change#1stdate */
+
+/* force Order Date to stay on one line */
+.sapMListTblCell .sapMText {
+    white-space: nowrap !important;
+}
+
+/* Order Date column */
+th[data-sap-ui-column*="OrderDate"],
+td[data-sap-ui-column*="OrderDate"] {
+    min-width: 140px !important;
+    width: 140px !important;
+}
+
+td[data-sap-ui-column*="OrderDate"] .sapMText {
+    white-space: nowrap !important;
+}
+
+/* change#customername */
+
+th[data-sap-ui-column$="customerIdName"],
+td[data-sap-ui-column$="customerIdName"] {
+    min-width: 280px !important;
+    width: 280px !important;
+    max-width: 280px !important;
+}
+
+td[data-sap-ui-column$="customerIdName"] .sapMText {
+    white-space: nowrap !important;
+}
+
+/******** change#customernamefix ********/
+
+th[data-sap-ui-column$="customerIdName"],
+td[data-sap-ui-column$="customerIdName"] {
+    min-width: 320px !important;
+    width: 320px !important;
+    max-width: 320px !important;
+}
+
+td[data-sap-ui-column$="customerIdName"] .sapMText {
+    overflow: visible !important;
+    text-overflow: clip !important;
+    white-space: nowrap !important;
+}

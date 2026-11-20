@@ -12,6 +12,117 @@ sap.ui.define([
     // i18n helper - set in onInit (needs the view to reach the "i18n" model of the app)
     var _fnText = function (sKey) { return sKey; };
 
+    // ---------------------------------------------------------------------------------------------
+    // Translated DISPLAY text for backend values. The backend values themselves (the filter keys,
+    // the data in the model) are never changed - only the text the user reads.
+    //   field "status"          -> New / Reviewed / Rejected
+    //   field "Confidence_band" -> PERFECT / HIGH / MEDIUM / LOW MATCH
+    // ---------------------------------------------------------------------------------------------
+    var VALUE_TEXT_KEYS = {
+        "status": {
+            "New": "statusNew",
+            "Reviewed": "statusReviewed",
+            "Rejected": "statusRejected"
+        },
+        "Confidence_band": {
+            "PERFECT MATCH": "confBandPerfect",
+            "HIGH MATCH": "confBandHigh",
+            "MEDIUM MATCH": "confBandMedium",
+            "LOW MATCH": "confBandLow"
+        }
+    };
+
+    // backend value (any upper/lower case) -> translated text; undefined when there is nothing to translate
+    function translateValue(sField, vValue) {
+        var mMap = VALUE_TEXT_KEYS[sField];
+        if (!mMap || typeof vValue !== "string") { return undefined; }
+        var sUp = vValue.trim().toUpperCase();
+        var sBackend = Object.keys(mMap).filter(function (s) { return s.toUpperCase() === sUp; })[0];
+        if (!sBackend) { return undefined; }
+        var sText = _fnText(mMap[sBackend]);
+        return (sText && sText !== mMap[sBackend]) ? sText : undefined;   // key returned = text missing in i18n
+    }
+
+    // translated text -> backend value (safety net: a filter must always carry the backend value)
+    function toBackendValue(sField, vValue) {
+        var mMap = VALUE_TEXT_KEYS[sField];
+        if (!mMap || typeof vValue !== "string") { return vValue; }
+        var sUp = vValue.trim().toUpperCase();
+        var aKeys = Object.keys(mMap);
+        if (aKeys.some(function (s) { return s.toUpperCase() === sUp; })) { return vValue; }   // already a backend value
+        var sFound = aKeys.filter(function (s) {
+            var sText = _fnText(mMap[s]);
+            return sText && sText !== mMap[s] && sText.toUpperCase() === sUp;
+        })[0];
+        return sFound !== undefined ? sFound : vValue;
+    }
+
+    // walks the (nested) filters and replaces a translated text by the backend value
+    function normalizeFilters(aFilters) {
+        try {
+            (aFilters || []).forEach(function (oFilter) {
+                if (!oFilter) { return; }
+                if (oFilter.aFilters) { normalizeFilters(oFilter.aFilters); }
+                if (oFilter.sPath === "status" || oFilter.sPath === "Confidence_band") {
+                    if (oFilter.oValue1 !== undefined) { oFilter.oValue1 = toBackendValue(oFilter.sPath, oFilter.oValue1); }
+                    if (oFilter.oValue2 !== undefined) { oFilter.oValue2 = toBackendValue(oFilter.sPath, oFilter.oValue2); }
+                }
+            });
+        } catch (e) { /* never block the list because of this */ }
+    }
+
+    // dropdown items: key stays the backend value, only the shown text is translated
+    function translateDropdownItems(oControl, sField) {
+        try {
+            (oControl.getItems ? oControl.getItems() : []).forEach(function (oItem) {
+                var sBackend = (oItem.getKey && oItem.getKey()) || oItem.getText();
+                var sText = translateValue(sField, sBackend);
+                if (sText && oItem.getText() !== sText) { oItem.setText(sText); }
+            });
+        } catch (e) { /* ignore */ }
+    }
+
+    // finds the dropdown of a filter field and keeps its items translated (safe to call many times)
+    function hookFilterDropdown(oSmartFilterBar, sField) {
+        var oField = oSmartFilterBar.determineControlByName ? oSmartFilterBar.determineControlByName(sField) : null;
+        if (!oField) { return false; }
+
+        var aInner = oField.getInnerControls ? oField.getInnerControls() : [oField];
+        var bReady = false;   // true once the dropdown exists and its items are bound / available
+
+        aInner.forEach(function (oControl) {
+            if (!oControl || !oControl.getItems) { return; }
+
+            var fnTranslate = function () { translateDropdownItems(oControl, sField); };
+
+            if (!oControl.__qtoTranslateHooked) {
+                oControl.__qtoTranslateHooked = true;
+                oControl.addEventDelegate({
+                    onBeforeRendering: fnTranslate,
+                    onfocusin: fnTranslate,
+                    ontap: fnTranslate,
+                    onsapshow: fnTranslate
+                });
+                if (oControl.attachLoadItems) {
+                    oControl.attachLoadItems(function () { setTimeout(fnTranslate, 0); });
+                }
+            }
+
+            // the items are (re)created when the value list arrives -> translate again afterwards
+            var oBinding = oControl.getBinding("items");
+            if (oBinding && !oBinding.__qtoTranslateHooked) {
+                oBinding.__qtoTranslateHooked = true;
+                oBinding.attachChange(fnTranslate);
+                oBinding.attachDataReceived(fnTranslate);
+            }
+
+            fnTranslate();
+            if (oBinding || oControl.getItems().length > 0) { bReady = true; }
+        });
+
+        return bReady;
+    }
+
     return {
         onInit: function () {
             document.body.classList.remove("sapUiSizeCozy");
@@ -496,7 +607,7 @@ sap.ui.define([
                 fnSilentRefresh = function () {
                     try {
                         var aFilters = aCurrentFilters || [];
-                        var sStatus = (oSmartFilterBar.getFilterData() || {}).status || "";
+                        var sStatus = toBackendValue("status", (oSmartFilterBar.getFilterData() || {}).status) || "";
                         // refresh the KPIs quietly (no overlay). The table is only reloaded when the background
                         // process really changed status / confidence - otherwise the user would see a second,
                         // pointless reload of a list that is already correct.
@@ -515,7 +626,19 @@ sap.ui.define([
                 var oStatusObserver = null;
                 var oObservedDom = null;
 
+                // shows the translated text for a backend value in the table cells (the model data is untouched)
+                function translateCells(oRoot, sSelector, sField) {
+                    (oRoot || document).querySelectorAll(sSelector).forEach(function (oCell) {
+                        var sShown = oCell.textContent.trim();
+                        var sTranslated = translateValue(sField, sShown);
+                        if (sTranslated && sTranslated !== sShown) { oCell.textContent = sTranslated; }
+                    });
+                }
+
                 function applyStatusColors(oRoot) {
+                    translateCells(oRoot, 'td[data-sap-ui-column*="status"] .sapMText', "status");
+                    translateCells(oRoot, 'td[data-sap-ui-column*="confidence_band" i] .sapMText', "Confidence_band");
+
                     (oRoot || document).querySelectorAll('td[data-sap-ui-column*="status"] .sapMText').forEach(function (oStatus) {
                         var sText = oStatus.textContent.trim();
                         var sCls = "";
@@ -549,6 +672,7 @@ sap.ui.define([
                 if (oSmartTable) {
                     oSmartTable.attachBeforeRebindTable(function (oEvent) {
                         var mBindingParams = oEvent.getParameter("bindingParams");
+                        normalizeFilters(mBindingParams.filters);   // filters always carry the backend value, never the translated text
                         aCurrentFilters = mBindingParams.filters || [];
 
                         // attach the listeners ONCE per inner table instance (before, a new one was added on every rebind)
@@ -565,11 +689,31 @@ sap.ui.define([
 
                 if (bRestoreFilters) { restoreFilters(); }
 
+                // Status / Confidence Band dropdowns: translated texts, backend values stay the keys.
+                // The fields may be created a little later -> try for a while; idempotent.
+                function hookFilterDropdowns() {
+                    var bStatus = hookFilterDropdown(oSmartFilterBar, "status");
+                    var bBand = hookFilterDropdown(oSmartFilterBar, "Confidence_band");
+                    return bStatus && bBand;
+                }
+                var iDropdownTries = 0;
+                var oDropdownInterval = setInterval(function () {
+                    iDropdownTries++;
+                    var bBoth = false;
+                    try { bBoth = hookFilterDropdowns(); } catch (e) { console.error(e); }
+                    if (bBoth || iDropdownTries >= 40) { clearInterval(oDropdownInterval); }
+                }, 500);
+                if (oSmartFilterBar.attachAfterVariantLoad) {
+                    oSmartFilterBar.attachAfterVariantLoad(function () {
+                        try { hookFilterDropdowns(); } catch (e) { /* ignore */ }
+                    });
+                }
+
                 oSmartFilterBar.attachSearch(function () {
                     saveFilters();
                     var aFilters = aCurrentFilters || [];
                     var oFilterData = oSmartFilterBar.getFilterData();
-                    var sStatus = oFilterData.status || "";
+                    var sStatus = toBackendValue("status", oFilterData.status) || "";
 
                     // FIX: if this search was caused by our own Go press, the confidence
                     // process has already finished -> just read fresh data.
