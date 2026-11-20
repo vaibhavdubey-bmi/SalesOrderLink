@@ -841,9 +841,10 @@ sap.ui.define([
                     oData.customerIdName,
                     oData.qt_CustomerIdName
                 ),
+                // change#shiptogreen
                 shipToState: formatter.getMatchState(
-                    oData.so_shipToIdName,
-                    oData.qt_shipToIdName
+                   oData.so_shipToIdAddress,
+                    oData.qt_shipToIdAddress
                 ),
                 paymentTermState: formatter.getMatchState(
                     oData.so_paymentTermDescp,

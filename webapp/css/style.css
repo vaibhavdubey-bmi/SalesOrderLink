@@ -1,4 +1,4 @@
-.kpiCardsRow {
+​.kpiCardsRow {
   display: flex !important;
   flex-wrap: nowrap;
   width: 100%;
@@ -2129,4 +2129,46 @@ td[data-sap-ui-column$="customerIdName"] .sapMText {
     overflow: visible !important;
     text-overflow: clip !important;
     white-space: nowrap !important;
+}
+
+/* change#1stscreenfit */
+/* Screen fit - remove right empty space */
+.sapFDynamicPageContent,
+.sapFDynamicPageContentFitContainer,
+.sapUxAPObjectPageWrapper,
+.sapUxAPObjectPageContainer,
+.sapUxAPObjectPageLayout {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+/* Table container stretch */
+.sapUiCompSmartTable,
+.sapUiCompSmartTable .sapUiRespGrid,
+.sapMListTbl {
+    width: 100% !important;
+}
+
+/* Remove fixed widths causing overflow */
+.sapMListTbl,
+.sapMTable {
+    table-layout: auto !important;
+}
+
+/* Customer column can shrink */
+th[data-sap-ui-column$="customerIdName"],
+td[data-sap-ui-column$="customerIdName"] {
+    width: auto !important;
+    min-width: 220px !important;
+    max-width: none !important;
+}
+
+/* Horizontal scroll only when absolutely required */
+.sapMListTblCnt {
+    overflow-x: auto !important;
+}
+
+/* Fill entire page width */
+.sapFDynamicPageActualContent {
+    max-width: 100% !important;
 }
