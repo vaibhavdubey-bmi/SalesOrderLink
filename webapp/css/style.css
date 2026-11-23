@@ -2396,3 +2396,119 @@ td[data-sap-ui-column$="customerIdName"] {
   padding-right: var(--lm-pad) !important;
   box-sizing: border-box;
 }
+
+/* change#retruntolistfix */
+/* Permanent Return to List button styling */
+button[id*="Return_to_list"] .sapMBtnInner {
+    background: #ffffff !important;
+    border: 1px solid #0a6ed1 !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+}
+
+button[id*="Return_to_list"] .sapMBtnContent {
+    color: #0a6ed1 !important;
+    font-weight: 600 !important;
+}
+
+button[id*="Return_to_list"]:hover .sapMBtnInner,
+button[id*="Return_to_list"]:focus .sapMBtnInner,
+button[id*="Return_to_list"] .sapMBtnInner:hover {
+    background: #ffffff !important;
+    border: 1px solid #0a6ed1 !important;
+}
+
+/* Return to List - same look in normal, hover and click */
+button[id*="Return_to_list"] .sapMBtnInner,
+button[id*="Return_to_list"]:hover .sapMBtnInner,
+button[id*="Return_to_list"]:focus .sapMBtnInner,
+button[id*="Return_to_list"]:active .sapMBtnInner {
+    background: #ffffff !important;
+    border: 1px solid #0a6ed1 !important;
+    border-radius: 8px !important;
+    box-shadow:
+        0 0 0 1px #0a6ed1,
+        inset 0 0 0 1px #0a6ed1 !important;
+}
+
+/* Remove Return to List hover/focus effect */
+button[id*="Return_to_list"]:hover .sapMBtnInner,
+button[id*="Return_to_list"]:focus .sapMBtnInner,
+button[id*="Return_to_list"]:active .sapMBtnInner,
+button[id*="Return_to_list"] .sapMBtnInner:hover {
+    background: #ffffff !important;
+    border: 1px solid #0a6ed1 !important;
+    box-shadow:
+        0 0 0 1px #0a6ed1,
+        inset 0 0 0 1px #0a6ed1 !important;
+}
+
+/* Return to List - remove SAP focus ring */
+button[id*="Return_to_list"] .sapMBtnFocusDiv {
+    display: none !important;
+}
+
+/* Return to List - remove SAP focus ring */
+button[id*="Return_to_list"] .sapMBtnFocusDiv {
+    display: none !important;
+}
+
+/* Return to List - remove shadow/hover effects */
+button[id*="Return_to_list"] .sapMBtnInner,
+button[id*="Return_to_list"] .sapMBtnInner:hover,
+button[id*="Return_to_list"] .sapMBtnInner:focus {
+    box-shadow: none !important;
+    filter: none !important;
+    text-shadow: none !important;
+}
+
+/* change#reset&rejectlink */
+button[id*="Reset"] .sapMBtnInner,
+button[id*="Reject_link"] .sapMBtnInner {
+    box-shadow: none !important;
+    filter: none !important;
+    text-shadow: none !important;
+}
+
+/* KPI cards - keep same look on hover */
+.kpiCard:hover {
+    transform: none !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,.08) !important;
+}
+
+/* change#2ndpagesidebysidecard */
+/* Force Sales Order & Quotation cards to stay side-by-side */
+@media (max-width: 1400px) {
+
+    .comparisonGrid {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+    }
+
+    .comparisonGrid > * {
+        flex: 0 0 900px !important;
+        min-width: 900px !important;
+        width: 900px !important;
+    }
+
+    .comparisonCard {
+        width: 100% !important;
+    }
+}
+
+/* Keep comparison header visible while scrolling */
+.comparisonCard .sapMTB {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: #f8fafc !important;
+}
+
+/* Enable touchpad horizontal scrolling */
+.comparisonGrid {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    touch-action: pan-x !important;
+}

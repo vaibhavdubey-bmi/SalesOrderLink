@@ -995,6 +995,10 @@ sap.ui.define([
                 that._toggleSection("lineItemsTitle", "lineItemsContainer", false);
                 that._updateSelectionState();
 
+                // Show loading immediately
+                oDialog.setBusyIndicatorDelay(0);
+                oDialog.setBusy(true);
+
                 oDialog.open();
 
                 that._readLineItems().then(function (aItems) {
@@ -1007,6 +1011,9 @@ sap.ui.define([
 
                     that._fillConfirmLineItems(aItems);
                     that._bLinesLoading = false;
+
+                    // Hide loading after line items are loaded
+                    oDialog.setBusy(false);
 
                      console.log("SETTING LOADING FALSE");
 
