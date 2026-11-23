@@ -2324,3 +2324,75 @@ td[data-sap-ui-column$="customerIdName"] {
 .lineMatchList .lineMatchRow .lmColsQT > .lmCell:nth-child(5) {
   justify-self: end !important;
 }
+
+/* =====================================================================
+   change#um-split : UNMATCHED area - same split-screen / alignment fixes
+   as the Matched card (no new columns here).
+   ===================================================================== */
+
+/* Stacked / split-screen (<=1400px): Sales Order and Quote rows share ONE fluid
+   6-column grid (before: 60px vs 75px first column + Quote description collapsing to 0) */
+@media (max-width: 1400px) {
+  .umSideSO .lmColsU6,
+  .umSideQT .lmColsU6 {
+    grid-template-columns:
+      minmax(40px, 0.5fr)
+      minmax(104px, 1.2fr)
+      minmax(90px, 2.4fr)
+      minmax(84px, 1fr)
+      minmax(84px, 1fr)
+      minmax(126px, 1.4fr) !important;
+    column-gap: 8px !important;
+  }
+  .umSplit {
+    min-width: 640px;     /* below this the card scrolls sideways instead of collapsing columns */
+  }
+}
+@media (max-width: 760px) {
+  .umSideSO .lmColsU6,
+  .umSideQT .lmColsU6 {
+    grid-template-columns:
+      minmax(30px, 0.4fr)
+      minmax(96px, 1.1fr)
+      minmax(86px, 2fr)
+      minmax(76px, 1fr)
+      minmax(76px, 1fr)
+      minmax(118px, 1.3fr) !important;
+    column-gap: 6px !important;
+  }
+  .umRow .lmCell {
+    padding-left: var(--lm-pad);
+    padding-right: var(--lm-pad);
+    gap: 6px;
+  }
+  .umSplit {
+    min-width: 560px;
+  }
+}
+
+/* Quote-side Open Qty cell right-aligned in its column (was left) */
+.umSideQT .umRow.lmColsU6 > .lmCell:nth-child(5) {
+  justify-self: end !important;
+}
+/* Quote-side Qty value (plain text, no cell) right-aligned like the Sales Order Qty */
+.umSideQT .umRow.lmColsU6 > .sapMText:nth-child(4) {
+  display: block !important;
+  width: 100% !important;
+  text-align: right !important;
+  padding-right: var(--lm-pad);
+  box-sizing: border-box;
+}
+
+/* Right-aligned headers (visible on wide screens) sit directly above their values */
+.umSideSO .umColHead .lmColsU6 > :nth-child(4),
+.umSideSO .umColHead .lmColsU6 > :nth-child(5),
+.umSideQT .umColHead .lmColsU6 > :nth-child(4),
+.umSideQT .umColHead .lmColsU6 > :nth-child(5),
+.umSideQT .umColHead .lmColsU6 > :nth-child(6) {
+  justify-content: flex-end !important;
+  justify-content: safe flex-end !important;
+  overflow: visible !important;
+  text-align: right !important;
+  padding-right: var(--lm-pad) !important;
+  box-sizing: border-box;
+}
