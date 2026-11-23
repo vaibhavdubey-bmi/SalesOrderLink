@@ -30,6 +30,7 @@
     class="lmOpenQtyHeadResponsive"/> -->
 
  <m:Text text="{i18n>colUnitPrice}" width="100%" textAlign="End"/>
+ <m:Text text="{= ${i18n>colPerUnit} === 'colPerUnit' ? 'Per Unit' : ${i18n>colPerUnit} }" width="100%" textAlign="End" class="lmPerUnitHead"/>
  </m:HBox>
 
  
@@ -37,7 +38,7 @@
  <!-- <m:Text text="{i18n>colQuoteItem}" width="100%"/> -->
  <!-- change#headeralign -->
  <m:Text
-    text="{i18n>colQuoteItem}"
+    text="{i18n>colItem}"
     width="100%"
     maxLines="1"
     wrapping="false"/>
@@ -47,6 +48,7 @@
  <!-- <m:Text text="{i18n>colQBaseQty}" width="100%" textAlign="End"/> -->
  <m:Text text="{i18n>colOpenQty}" width="100%" textAlign="End"/>
  <m:Text text="{i18n>colUnitPrice}" width="100%" textAlign="End"/>
+ <m:Text text="{= ${i18n>colPerUnit} === 'colPerUnit' ? 'Per Unit' : ${i18n>colPerUnit} }" width="100%" textAlign="End" class="lmPerUnitHead"/>
  </m:HBox>
  </m:HBox>
  <m:List items="{to_ZI_QTO_SO_QT_MATCHED}" noDataText="{i18n>noMatchedItems}" showSeparators="Inner" class="lineMatchList">
@@ -88,6 +90,10 @@
  </m:customData>
  <m:Text text="{parts: [{path: 'so_unit_Price'}, {path: 'so_currency'}], formatter: '.formatter.formatPriceCur'}"/>
  <m:ObjectStatus icon="sap-icon://circle-task-2" class="lmDot" state="{parts: [{path: 'so_unit_Price'}, {path: 'qt_unit_price'}], formatter: '.formatter.getPriceState'}"/>
+ </m:HBox>
+ <!-- change#perunit : SO Per Unit -->
+ <m:HBox width="100%" alignItems="Center" justifyContent="End" class="lmCell lmPerUnit">
+ <m:Text text="{so_perUnitPrice_UoM}"/>
  </m:HBox>
  </m:HBox>
  <!-- QUOTE SIDE (same colours as the sales order side) -->
@@ -146,6 +152,10 @@
  </m:customData>
  <m:Text text="{parts: [{path: 'qt_unit_price'}, {path: 'qt_currency'}], formatter: '.formatter.formatPriceCur'}"/>
  <m:ObjectStatus icon="sap-icon://circle-task-2" class="lmDot" state="{parts: [{path: 'so_unit_Price'}, {path: 'qt_unit_price'}], formatter: '.formatter.getPriceState'}"/>
+ </m:HBox>
+ <!-- change#perunit : QT Per Unit (field name assumed: qt_perUnitPrice_UoM) -->
+ <m:HBox width="100%" alignItems="Center" justifyContent="End" class="lmCell lmPerUnit">
+ <m:Text text="{qt_perUnitPrice_UoM}"/>
  </m:HBox>
  </m:HBox>
  </m:HBox>

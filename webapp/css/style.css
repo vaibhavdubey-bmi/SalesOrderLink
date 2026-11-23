@@ -2172,3 +2172,155 @@ td[data-sap-ui-column$="customerIdName"] {
 .sapFDynamicPageActualContent {
     max-width: 100% !important;
 }
+
+
+/* =====================================================================
+   change#perunit : "Per Unit" column in the MATCHED area (SO + QT)
+   - Matched SO row : item | material | desc | qty | (open-qty gap) | price | PER UNIT
+   - Matched QT row : item | material | desc | qty | open qty | price | PER UNIT
+   Scoped to .lineMatchRow so the Unmatched lists (lmColsU6) are untouched.
+   ===================================================================== */
+.lmPerUnit,
+.lineMatchColHead .lmPerUnitHead {
+  justify-self: end;
+  text-align: right;
+  white-space: nowrap;
+}
+.lineMatchColHead .lmPerUnitHead {
+  justify-content: flex-end !important;      /* header is display:flex (change#quotematerialalign) */
+  justify-content: safe flex-end !important; /* if too narrow, start at the left edge instead of clipping the first letter */
+  overflow: visible !important;
+  white-space: nowrap !important;
+  padding-right: var(--lm-pad);
+  box-sizing: border-box;
+}
+.lineMatchRow .lmColsSO > .lmPerUnit,
+.lineMatchRow .lmColsQT > .lmPerUnit,
+.lineMatchRow .lmColsSO > .lmPerUnitHead,
+.lineMatchRow .lmColsQT > .lmPerUnitHead {
+  grid-column: 7 / 8;
+}
+
+/* Side-by-side layout (>1400px): 7 columns per half */
+@media (min-width: 1401px) {
+  .lineMatchRow .lmColsSO {
+    grid-template-columns:
+      minmax(36px, 0.45fr)
+      minmax(100px, 1.2fr)
+      minmax(82px, 2fr)
+      minmax(78px, 1.05fr)
+      minmax(64px, 1.05fr)
+      minmax(124px, 1.5fr)
+      minmax(84px, 0.9fr);
+  }
+  .lineMatchRow .lmColsQT {
+    grid-template-columns:
+      minmax(44px, 0.5fr)
+      minmax(100px, 1.15fr)
+      minmax(82px, 1.8fr)
+      minmax(78px, 1fr)
+      minmax(78px, 1fr)
+      minmax(130px, 1.5fr)
+      minmax(84px, 0.9fr);
+  }
+}
+
+/* Stacked / split-screen layout (<=1400px): SO and QT rows share ONE fluid
+   7-column grid (same template as the header) so that every column keeps a
+   readable minimum - Description no longer collapses - and the card scrolls
+   sideways only when even the minimums do not fit. */
+@media (max-width: 1400px) {
+  .lineMatchRow .lmColsSO,
+  .lineMatchRow .lmColsQT,
+  .lineMatchColHead > .lineMatchHalf.lmColsQT:nth-child(2) {
+    grid-template-columns:
+      minmax(40px, 0.5fr)
+      minmax(104px, 1.2fr)
+      minmax(90px, 2.4fr)
+      minmax(84px, 1fr)
+      minmax(84px, 1fr)
+      minmax(126px, 1.4fr)
+      minmax(80px, 0.9fr) !important;
+    column-gap: 8px !important;
+  }
+  /* SO price moves to col 6 (the older nth-child rules would put it in col 5) */
+  .lineMatchList .lineMatchRow .lmColsSO > .lmSOUnitPrice.lmCell {
+    grid-column: 6 / 7 !important;
+  }
+  .lineMatchList .lineMatchRow .lmColsSO > .lmPerUnit.lmCell,
+  .lineMatchList .lineMatchRow .lmColsQT > .lmPerUnit.lmCell,
+  .lineMatchColHead .lmColsQT > .lmPerUnitHead {
+    grid-column: 7 / 8 !important;
+  }
+  /* header row and data rows must be exactly the same width, otherwise the
+     fr columns of the two grids are different when the card scrolls */
+  .lineMatchCard .lineMatchRow {
+    min-width: 700px;
+  }
+  .lineMatchRow .lineMatchHalf.lmColsSO,
+  .lineMatchRow .lineMatchHalf.lmColsQT {
+    min-width: 0;
+  }
+}
+
+/* Narrow (<=760px): slightly smaller minimums + tighter cell padding */
+@media (max-width: 760px) {
+  .lineMatchRow .lmColsSO,
+  .lineMatchRow .lmColsQT,
+  .lineMatchColHead > .lineMatchHalf.lmColsQT:nth-child(2) {
+    grid-template-columns:
+      minmax(30px, 0.4fr)
+      minmax(96px, 1.1fr)
+      minmax(86px, 2fr)
+      minmax(76px, 1fr)
+      minmax(76px, 1fr)
+      minmax(118px, 1.3fr)
+      minmax(72px, 0.9fr) !important;
+    column-gap: 6px !important;
+  }
+  .lineMatchRow .lmCell {
+    padding-left: var(--lm-pad);
+    padding-right: var(--lm-pad);
+    gap: 6px;
+  }
+  .lineMatchCard .lineMatchRow {
+    min-width: 620px;
+  }
+}
+
+/* =====================================================================
+   change#perunit-align : right-align the numeric headers of the MATCHED
+   area so each header sits directly above its value.
+   (Header cells are display:flex from change#quotematerialalign, so
+   text-align has no effect - justify-content is what moves the text.)
+   Header right edge = value right edge (same --lm-pad on both).
+   ===================================================================== */
+.lineMatchColHead .lmColsSO > :nth-child(4),
+.lineMatchColHead .lmColsSO > :nth-child(5),
+.lineMatchColHead .lmColsSO > :nth-child(6),
+.lineMatchColHead .lmColsQT > :nth-child(4),
+.lineMatchColHead .lmColsQT > :nth-child(5),
+.lineMatchColHead .lmColsQT > :nth-child(6),
+.lineMatchColHead .lmColsQT > :nth-child(7) {
+  justify-content: flex-end !important;
+  justify-content: safe flex-end !important;
+  overflow: visible !important;
+  text-align: right !important;
+  padding-right: var(--lm-pad) !important;
+  box-sizing: border-box;
+}
+
+/* Quote-side Qty value ("10 PC") is a plain text (no cell): right-align it
+   the same way so it lines up with the QTY header and the SO Qty value */
+.lineMatchList .lineMatchRow .lmColsQT > .sapMText:nth-child(4) {
+  display: block !important;
+  width: 100% !important;
+  text-align: right !important;
+  padding-right: var(--lm-pad);
+  box-sizing: border-box;
+}
+
+/* change#perunit-align : Quote-side Open Qty cell sits at the right of its column, like Unit Price */
+.lineMatchList .lineMatchRow .lmColsQT > .lmCell:nth-child(5) {
+  justify-self: end !important;
+}

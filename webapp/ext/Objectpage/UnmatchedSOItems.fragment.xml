@@ -69,7 +69,9 @@
                 </m:List>
             </m:VBox>
 
-            <!-- UNMATCHED QUOTE ITEMS -->
+            <!-- UNMATCHED 
+            
+            S -->
             <m:VBox class="umSide umSideQT">
                 <m:HBox class="umGroupHead" alignItems="End">
                     <m:Text text="{i18n>unmatchedQuoteItems}" class="lineMatchGroup lineMatchGroupUnmatched"/>
@@ -80,7 +82,8 @@
                         <!-- <m:Text text="{i18n>colQuoteItem}" width="100%"/> -->
 
                         <!-- change#headeralign -->
-                        <m:Text text="{i18n>colQuoteItem}" width="100%" wrapping="false"/>
+                        <!-- change#quoteitemtoitem -->
+                        <m:Text text="{i18n>colItem}" width="100%" wrapping="false"/>
 
                         <m:Text text="{i18n>colMaterial}" width="100%"/>
                         <m:Text text="{i18n>colDescription}" width="100%"/>
