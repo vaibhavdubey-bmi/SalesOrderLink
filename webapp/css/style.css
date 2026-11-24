@@ -1,4 +1,4 @@
-​.kpiCardsRow {
+.kpiCardsRow {
   display: flex !important;
   flex-wrap: nowrap;
   width: 100%;
@@ -2511,4 +2511,197 @@ button[id*="Reject_link"] .sapMBtnInner {
     overflow-x: auto !important;
     overflow-y: hidden !important;
     touch-action: pan-x !important;
+}
+
+/* ============================================================
+   change#validonerow : VALID FROM (left)  <---- gap ---->  VALID TO (right)
+   ============================================================ */
+.comparisonRow.comparisonRowDual {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-between !important;   /* FROM pair -> left, TO pair -> right */
+  column-gap: 40px;                            /* minimum gap between the two pairs */
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* each pair = label + date, side by side */
+.comparisonRow.comparisonRowDual > .comparisonDualItem {
+  display: flex !important;
+  flex: 0 0 auto !important;
+  align-items: center !important;
+  gap: 12px;                                   /* space between label and its date */
+  width: auto !important;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* VALID FROM pair: left aligned */
+.comparisonRow.comparisonRowDual > .comparisonDualItem:first-child {
+  justify-content: flex-start !important;
+  margin-right: auto;
+}
+
+/* VALID TO pair: right aligned */
+.comparisonRow.comparisonRowDual > .comparisonDualItem:last-child {
+  justify-content: flex-end !important;
+  margin-left: auto;
+}
+
+.comparisonRow.comparisonRowDual .comparisonDualItem .comparisonDualLabel {
+  font-weight: 600 !important;
+  color: #374151 !important;
+  white-space: nowrap !important;
+  text-align: left !important;
+  width: auto !important;
+}
+
+.comparisonRow.comparisonRowDual .comparisonDualItem .comparisonDualValue {
+  font-weight: 700 !important;
+  color: #1f2937 !important;
+  font-size: inherit !important;
+  white-space: nowrap !important;
+  text-align: left !important;
+  width: auto !important;
+}
+
+@media (max-width: 700px) {
+  .comparisonRow.comparisonRowDual {
+    column-gap: 16px;
+  }
+}
+
+/* ============================================================
+   change#alignfix : keep each LABEL and its VALUE on the same line
+   (top-alignment + different line-heights made them drift apart
+   at browser zoom levels such as 80%). Baseline alignment keeps the
+   first line of text level, even when a long value wraps.
+   The VALID FROM / VALID TO row is not affected (it has its own rule).
+   ============================================================ */
+.comparisonRow {
+  align-items: baseline;
+}
+.comparisonRow > .comparisonValueGroup {
+  align-items: baseline;
+}
+
+/* =====================================================================
+   change#perunit-before-price : MATCHED card
+   col 6 = PER UNIT (narrow), col 7 = UNIT PRICE (wide)
+   (placed last on purpose: it overrides the older column rules above)
+   ===================================================================== */
+.lineMatchCard.lineMatchCard .lineMatchRow .lineMatchHalf.lmColsSO > :nth-child(5) { grid-column: 6 / 7 !important; } /* SO per unit */
+.lineMatchCard.lineMatchCard .lineMatchRow .lineMatchHalf.lmColsSO > :nth-child(6) { grid-column: 7 / 8 !important; } /* SO price    */
+.lineMatchCard.lineMatchCard .lineMatchRow .lineMatchHalf.lmColsQT > :nth-child(6) { grid-column: 6 / 7 !important; } /* QT per unit */
+.lineMatchCard.lineMatchCard .lineMatchRow .lineMatchHalf.lmColsQT > :nth-child(7) { grid-column: 7 / 8 !important; } /* QT price    */
+
+@media (min-width: 1401px) {
+  .lineMatchCard .lineMatchRow .lmColsSO {
+    grid-template-columns:
+      minmax(36px, 0.45fr)
+      minmax(100px, 1.2fr)
+      minmax(82px, 2fr)
+      minmax(78px, 1.05fr)
+      minmax(64px, 1.05fr)
+      minmax(84px, 0.9fr)
+      minmax(124px, 1.5fr);
+  }
+  .lineMatchCard .lineMatchRow .lmColsQT {
+    grid-template-columns:
+      minmax(44px, 0.5fr)
+      minmax(100px, 1.15fr)
+      minmax(82px, 1.8fr)
+      minmax(78px, 1fr)
+      minmax(78px, 1fr)
+      minmax(84px, 0.9fr)
+      minmax(130px, 1.5fr);
+  }
+}
+@media (max-width: 1400px) {
+  .lineMatchCard .lineMatchRow .lineMatchHalf.lmColsSO,
+  .lineMatchCard .lineMatchRow .lineMatchHalf.lmColsQT {
+    grid-template-columns:
+      minmax(40px, 0.5fr)
+      minmax(104px, 1.2fr)
+      minmax(90px, 2.4fr)
+      minmax(84px, 1fr)
+      minmax(84px, 1fr)
+      minmax(80px, 0.9fr)
+      minmax(126px, 1.4fr) !important;
+  }
+}
+@media (max-width: 760px) {
+  .lineMatchCard .lineMatchRow .lineMatchHalf.lmColsSO,
+  .lineMatchCard .lineMatchRow .lineMatchHalf.lmColsQT {
+    grid-template-columns:
+      minmax(30px, 0.4fr)
+      minmax(96px, 1.1fr)
+      minmax(86px, 2fr)
+      minmax(76px, 1fr)
+      minmax(76px, 1fr)
+      minmax(72px, 0.9fr)
+      minmax(118px, 1.3fr) !important;
+  }
+}
+
+/* =====================================================================
+   change#um-pair : UNMATCHED card = one row per item
+   Sales Order (left) | Quote (right), same layout as the Matched card
+   ===================================================================== */
+.lmColsP {
+  grid-template-columns:
+    minmax(40px, 0.5fr)
+    minmax(100px, 1.15fr)
+    minmax(70px, 2fr)
+    minmax(78px, 1fr)
+    minmax(78px, 1fr)
+    minmax(124px, 1.4fr);
+  column-gap: 8px;
+  align-items: center;
+}
+.lmColsP > :nth-child(4),
+.lmColsP > :nth-child(5),
+.lmColsP > :nth-child(6) {
+  justify-self: end;
+}
+.lmColsP > :not(.lmCell):nth-child(4),
+.lmColsP > :not(.lmCell):nth-child(5),
+.lmColsP > :not(.lmCell):nth-child(6) {
+  width: 100%;
+  text-align: right;
+  padding-right: var(--lm-pad);
+  box-sizing: border-box;
+}
+/* "Open Qty" header above the SO half is only shown when stacked (SO has no open qty) */
+.umOpenHeadStacked {
+  visibility: hidden;
+}
+/* a side without an item: keep its column (side by side) / drop it (stacked) */
+.lineMatchRow .lineMatchHalf[data-empty="true"] > * {
+  visibility: hidden;
+}
+@media (max-width: 1400px) {
+  .lmColsP {
+    grid-template-columns:
+      minmax(40px, 0.5fr)
+      minmax(104px, 1.2fr)
+      minmax(90px, 2.4fr)
+      minmax(84px, 1fr)
+      minmax(84px, 1fr)
+      minmax(126px, 1.4fr);
+  }
+  .umOpenHeadStacked {
+    visibility: visible;
+  }
+  .lineMatchRow .lineMatchHalf[data-empty="true"] {
+    display: none !important;
+  }
+  .lineMatchList .lineMatchRow > .lmColsP:nth-child(2) {
+    --side-accent: #c026d3;
+    --side-bg: #fdf2f8;
+  }
+  .lineMatchList .lineMatchRow > .lmColsP:nth-child(2)::before {
+    content: "Unmatched Quote";
+  }
 }

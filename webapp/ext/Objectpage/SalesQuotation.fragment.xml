@@ -81,25 +81,14 @@
                         </m:HBox>
                     </m:HBox>
 
-                     <m:HBox class="comparisonRow">
+                                    <m:HBox class="comparisonRow">
                         <m:customData>
                             <core:CustomData key="rowmatch" value="{match>/totalValueState}" writeToDom="true"/>
                         </m:customData>
                         <m:Text text="{i18n>totalValue}"/>
                         <m:HBox class="comparisonValueGroup" alignItems="Center" justifyContent="End">
-                            <m:Text text="{= ${so_total_value} || '-'}" class="comparisonValue"/>
+                            <m:Text text="{parts: [{path: 'so_total_value'}, {path: 'so_currency'}], formatter: '.formatter.formatAmountCur'}" class="comparisonValue"/>
                             <m:ObjectStatus icon="sap-icon://circle-task-2" state="{match>/totalValueState}" class="matchIndicator"/>
-                        </m:HBox>
-                    </m:HBox>
-
-                      <m:HBox id="currencySoRow" class="comparisonRow">
-                        <m:customData>
-                            <core:CustomData key="rowmatch" value="{match>/currencyState}" writeToDom="true"/>
-                        </m:customData>
-                        <m:Text text="{i18n>currency}"/>
-                        <m:HBox class="comparisonValueGroup" alignItems="Center" justifyContent="End">
-                            <m:Text text="{= ${so_currency} || '-'}" class="comparisonValue"/>
-                            <m:ObjectStatus icon="sap-icon://circle-task-2" state="{match>/currencyState}" class="matchIndicator"/>
                         </m:HBox>
                     </m:HBox>
 
@@ -184,6 +173,8 @@
                     </m:HBox>
 
 
+
+
                     <!-- <m:HBox class="comparisonRow">
                         <m:customData>
                             <core:CustomData key="rowmatch" value="{match>/valueWithoutTaxState}" writeToDom="true"/>
@@ -213,7 +204,6 @@
                         <m:Text text=" "/>
                         <m:Text text=" "/>
                     </m:HBox>
-
 
                     <m:HBox class="comparisonRow">
                         <m:Text text=" "/>
@@ -286,29 +276,20 @@
                     </m:HBox>
 
 
-                    <m:HBox class="comparisonRow">
+                         <m:HBox class="comparisonRow">
                         <m:customData>
                             <core:CustomData key="rowmatch" value="{match>/totalValueState}" writeToDom="true"/>
                         </m:customData>
                         <m:Text text="{i18n>totalValue}"/>
                         <m:HBox class="comparisonValueGroup" alignItems="Center" justifyContent="End">
-                            <m:Text text="{= ${qt_total_value} || '-'}" class="comparisonValue"/>
+                            <m:Text text="{parts: [{path: 'qt_total_value'}, {path: 'qt_currency'}], formatter: '.formatter.formatAmountCur'}" class="comparisonValue"/>
                             <m:ObjectStatus icon="sap-icon://circle-task-2" state="{match>/totalValueState}" class="matchIndicator"/>
                         </m:HBox>
                     </m:HBox>
 
-                    
 
-                    <m:HBox id="currencyQtRow" class="comparisonRow">
-                        <m:customData>
-                            <core:CustomData key="rowmatch" value="{match>/currencyState}" writeToDom="true"/>
-                        </m:customData>
-                        <m:Text text="{i18n>currency}"/>
-                        <m:HBox class="comparisonValueGroup" alignItems="Center" justifyContent="End">
-                            <m:Text text="{= ${qt_currency} || '-'}" class="comparisonValue"/>
-                            <m:ObjectStatus icon="sap-icon://circle-task-2" state="{match>/currencyState}" class="matchIndicator"/>
-                        </m:HBox>
-                    </m:HBox>
+
+                
 
                     <!-- change#newrowblue -->
                     <!-- QUOTATION PANEL -->
@@ -393,19 +374,21 @@
                     </m:HBox>
                     
 
-                    <m:HBox class="comparisonRow">
-                        <m:Text text="{i18n>validFrom}"/>
-                        <m:HBox class="comparisonValueGroup comparisonValueGroupNoDot" alignItems="Center" justifyContent="End">
-                            <m:Text text="{ path: 'validFrom', formatter: '.formatter.formatDate' }" class="comparisonValue"/>
+                    <!-- change#validonerow : VALID FROM and VALID TO in ONE line -->
+                    <m:HBox class="comparisonRow comparisonRowDual">
+                        <m:HBox class="comparisonDualItem" alignItems="Center" justifyContent="Start">
+                            <m:Text text="{i18n>validFrom}" class="comparisonDualLabel"/>
+                            <m:Text text="{ path: 'validFrom', formatter: '.formatter.formatDate' }" class="comparisonValue comparisonDualValue"/>
+                        </m:HBox>
+                        <m:HBox class="comparisonDualItem" alignItems="Center" justifyContent="Start">
+                            <m:Text text="{i18n>validTo}" class="comparisonDualLabel"/>
+                            <m:Text text="{ path: 'validTo', formatter: '.formatter.formatDate' }" class="comparisonValue comparisonDualValue"/>
                         </m:HBox>
                     </m:HBox>
 
-
                     <m:HBox class="comparisonRow">
-                        <m:Text text="{i18n>validTo}"/>
-                        <m:HBox class="comparisonValueGroup comparisonValueGroupNoDot" alignItems="Center" justifyContent="End">
-                            <m:Text text="{ path: 'validTo', formatter: '.formatter.formatDate' }" class="comparisonValue"/>
-                        </m:HBox>
+                        <m:Text text=" "/>
+                        <m:Text text=" "/>
                     </m:HBox>
 
                 </m:VBox>

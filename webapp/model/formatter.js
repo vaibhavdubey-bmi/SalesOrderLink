@@ -101,6 +101,32 @@ sap.ui.define([
             return "Error";
         },
 
+        /*
+         * Ship-To colour based on the address match score (adrc_score)
+         *   25      -> Success (green)
+         *   1 - 24  -> Warning (yellow)
+         *   0       -> Error   (red)
+         * If adrc_score is not delivered -> falls back to the old text comparison.
+         */
+        getShipToState: function (vScore, vSoAddress, vQtAddress) {
+
+            var n = toNumber(vScore);
+
+            if (isNaN(n)) {
+                return oFormatter.getMatchState(vSoAddress, vQtAddress);
+            }
+
+            if (n >= 25) {
+                return "Success";
+            }
+
+            if (n > 0) {
+                return "Warning";
+            }
+
+            return "Error";
+        },
+
         getRowClass: function (soValue, qtValue) {
             var sState = oFormatter.getMatchState(
                 soValue,
@@ -223,6 +249,27 @@ sap.ui.define([
                 maxFractionDigits: 3,
                 groupingEnabled: true
             }).format(Number(vPrice));
+
+                        return sCur
+                ? s + " " + sCur
+                : s;
+        },
+
+        /*
+         * Amount + currency, value kept exactly as delivered (no grouping)
+         * 1430.00 + EUR -> "1430.00 EUR"
+         */
+        formatAmountCur: function (vAmount, sCur) {
+
+            if (
+                vAmount === undefined ||
+                vAmount === null ||
+                String(vAmount).trim() === ""
+            ) {
+                return "-";
+            }
+
+            var s = String(vAmount).trim();
 
             return sCur
                 ? s + " " + sCur

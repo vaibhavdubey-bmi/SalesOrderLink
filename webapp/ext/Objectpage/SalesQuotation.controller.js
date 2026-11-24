@@ -68,6 +68,7 @@ sap.ui.define([
 
             oView.attachModelContextChange(function () {
                 this._refreshMatchModel();
+                this._loadUnmatchedPairs();   // change#um-pair
                 this._updateRejectButtonState();
             }.bind(this));
 
@@ -841,9 +842,10 @@ sap.ui.define([
                     oData.customerIdName,
                     oData.qt_CustomerIdName
                 ),
-                // change#shiptogreen
-                shipToState: formatter.getMatchState(
-                   oData.so_shipToIdAddress,
+                // change#shiptoscore
+                shipToState: formatter.getShipToState(
+                    oData.adrc_score,
+                    oData.so_shipToIdAddress,
                     oData.qt_shipToIdAddress
                 ),
                 paymentTermState: formatter.getMatchState(
@@ -884,11 +886,14 @@ sap.ui.define([
                     oData.qt_objectPartnerIdName
                 ),
 
-                totalValueState: formatter.getMatchState(
-                    oData.so_total_value,
-                    oData.qt_total_value,
-                    true
-                ),
+                    // currency is no longer a separate row: a currency mismatch must still turn Total Value red
+                totalValueState: (formatter.getMatchState(oData.so_currency, oData.qt_currency) === "Error")
+                    ? "Error"
+                    : formatter.getMatchState(
+                        oData.so_total_value,
+                        oData.qt_total_value,
+                        true
+                    ),
                 valueWithoutTaxState: formatter.getMatchState(
                     oData.so_netValue,
                     oData.qt_netValue,
@@ -1671,6 +1676,7 @@ sap.ui.define([
             BusyIndicator.hide();
 
             this._refreshMatchModel();
+            this._loadUnmatchedPairs();   // change#um-pair
 
             setTimeout(function () {
                 var oTitleButton = document.getElementById("shellAppTitle-button");
@@ -1679,6 +1685,19 @@ sap.ui.define([
                     oTitleButton.style.display = "none";
                 }
             }, 1000);
+
+            // change#mousehorizontalscroll
+        document.querySelectorAll(".comparisonGrid").forEach(function (oGrid) {
+            oGrid.addEventListener("wheel", function (e) {
+                if (oGrid.scrollWidth > oGrid.clientWidth) {
+                    e.preventDefault();
+                    oGrid.scrollLeft += e.deltaY;
+                }
+            }, { passive: false });
+        });
+
+        
+
         },
 
 
@@ -1771,6 +1790,58 @@ sap.ui.define([
             });
         },
 
+        // change#um-pair : builds ONE row per item number for the Unmatched card
+        // (Sales Order item left | Quote item right) into the JSON model "um" (/rows).
+        // The two unmatched lists are separate navigations, so they are read here and merged.
+        _loadUnmatchedPairs: function (bForce) {
+            var oView = this.getView();
+            var oCtx = oView.getBindingContext();
+            var oModel = oView.getModel();
+            if (!oCtx || !oModel) { return; }
+
+            var sPath = oCtx.getPath();
+            if (!bForce && this._sUmPath === sPath) { return; }
+            this._sUmPath = sPath;
+
+            var fnRead = function (sNav) {
+                return new Promise(function (resolve) {
+                    oModel.read(sPath + "/" + sNav, {
+                        success: function (oRes) { resolve((oRes && oRes.results) || []); },
+                        error: function () { resolve([]); }
+                    });
+                });
+            };
+            var fnNum = function (s) { var n = parseInt(s, 10); return isNaN(n) ? 0 : n; };
+
+            Promise.all([
+                fnRead("to_ZI_QTO_FILTER_SO_UNMATCH"),
+                fnRead("to_ZI_QTO_FILTER_QT_UNMATCH")
+            ]).then(function (a) {
+                var mRows = {};
+                var fnAdd = function (o, sSide) {
+                    var k = String(fnNum(o.item));
+                    var n = 0;
+                    // same item number twice on one side -> own row
+                    while (mRows[k] && mRows[k][sSide]) { k = fnNum(o.item) + "#" + (++n); }
+                    mRows[k] = mRows[k] || { item: o.item };
+                    mRows[k][sSide] = o;
+                };
+                a[0].forEach(function (o) { fnAdd(o, "so"); });
+                a[1].forEach(function (o) { fnAdd(o, "qt"); });
+
+                var aRows = Object.keys(mRows)
+                    .map(function (k) { return mRows[k]; })
+                    .sort(function (x, y) { return fnNum(x.item) - fnNum(y.item); });
+
+                var oUm = oView.getModel("um");
+                if (oUm) {
+                    oUm.setData({ rows: aRows });
+                } else {
+                    oView.setModel(new JSONModel({ rows: aRows }), "um");
+                }
+            });
+        },
+
         // Re-reads the entry that is open, so the status and the Reject Link button are up to date
         _refreshCurrentEntry: function () {
             var that = this;
@@ -1785,7 +1856,10 @@ sap.ui.define([
             } catch (e) { /* ignore */ }
 
             // the Reject button state is re-checked once the refreshed data has arrived
-            setTimeout(function () { that._updateRejectButtonState(); }, 800);
+            setTimeout(function () {
+                that._updateRejectButtonState();
+                that._loadUnmatchedPairs(true);   // change#um-pair
+            }, 800);
         },
 
         // Clears the Fiori Launchpad "unsaved data" flag so the browser does not ask
