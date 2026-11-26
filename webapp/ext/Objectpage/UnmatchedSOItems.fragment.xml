@@ -5,110 +5,113 @@
         Sales Order item (left) | Quotation item (right), same layout as the Matched card.
         Rows come from the JSON model "um" (/rows), built in SalesQuotation.controller.js
         (_loadUnmatchedPairs) from to_ZI_QTO_FILTER_SO_UNMATCH + to_ZI_QTO_FILTER_QT_UNMATCH.
-        A side without a counterpart stays empty. No counterpart => every cell is "No match" (red).
+        A side without an item stays completely empty (no dots, no background).
+        Layout classes are the "ol*" family (see css/style.css, block change#ol-final).
         The facet ZI_QTO_FILTER_QT_UNMATCH is replaced by an empty fragment and hidden by CSS.
     -->
-    <m:VBox width="100%" class="lineMatchCard">
-        <m:HBox justifyContent="SpaceBetween" alignItems="Center" class="lineMatchHeader">
+    <m:VBox width="100%" class="olCard olCardU">
+        <m:HBox justifyContent="SpaceBetween" alignItems="Center" class="olCardHead">
             <m:Title text="{i18n>lineItemDetails}" level="H4"/>
-            <m:HBox class="lineMatchLegend">
+            <m:HBox class="olLegend">
                 <m:ObjectStatus text="{i18n>legendExact}" state="Success" icon="sap-icon://circle-task-2"/>
                 <m:ObjectStatus text="{i18n>legendPossible}" state="Warning" icon="sap-icon://circle-task-2"/>
                 <m:ObjectStatus text="{i18n>legendNoMatch}" state="Error" icon="sap-icon://circle-task-2"/>
             </m:HBox>
         </m:HBox>
 
-        <m:HBox class="lineMatchGroupRow" width="100%">
-            <m:Text text="{i18n>unmatchedSalesOrderItems}" class="lineMatchGroup lineMatchGroupSO"/>
-            <m:Text text="{i18n>unmatchedQuoteItems}" class="lineMatchGroup lineMatchGroupUnmatched"/>
+        <m:HBox class="olGroups" width="100%">
+            <m:Text text="{i18n>unmatchedSalesOrderItems}" class="olGroup olGroupSO"/>
+            <m:Text text="{i18n>unmatchedQuoteItems}" class="olGroup olGroupUN"/>
         </m:HBox>
 
-        <m:HBox class="lineMatchRow lineMatchColHead" width="100%">
-            <m:HBox class="lineMatchHalf lmColsP" width="100%">
-                <m:Text text="{i18n>colItem}" width="100%"/>
-                <m:Text text="{i18n>colMaterial}" width="100%"/>
-                <m:Text text="{i18n>colDescription}" width="100%"/>
-                <m:Text text="{i18n>colQty}" width="100%" textAlign="End"/>
-                <m:Text text="{i18n>colOpenQty}" width="100%" textAlign="End" class="umOpenHeadStacked"/>
-                <m:Text text="{i18n>colUnitPrice}" width="100%" textAlign="End"/>
+        <m:HBox class="olRow olHeadRow" width="100%">
+            <m:HBox class="olSide olSideSO" width="100%">
+                <m:HBox class="olH olHL" width="100%"><m:Text text="{i18n>colItem}"/></m:HBox>
+                <m:HBox class="olH olHL" width="100%"><m:Text text="{i18n>colMaterial}"/></m:HBox>
+                <m:HBox class="olH olHL" width="100%"><m:Text text="{i18n>colDescription}"/></m:HBox>
+                <m:HBox class="olH olHRD" width="100%"><m:Text text="{i18n>colQty}"/></m:HBox>
+                <m:HBox class="olH olHRD olHopen" width="100%"><m:Text text="{i18n>colOpenQty}"/></m:HBox>
+                <m:HBox class="olH olHRD" width="100%"><m:Text text="{i18n>colUnitPrice}"/></m:HBox>
             </m:HBox>
-            <m:HBox class="lineMatchHalf lmColsP" width="100%">
-                <m:Text text="{i18n>colItem}" width="100%" wrapping="false"/>
-                <m:Text text="{i18n>colMaterial}" width="100%"/>
-                <m:Text text="{i18n>colDescription}" width="100%"/>
-                <m:Text text="{i18n>colQty}" width="100%" textAlign="End"/>
-                <m:Text text="{i18n>colOpenQty}" width="100%" textAlign="End"/>
-                <m:Text text="{i18n>colUnitPrice}" width="100%" textAlign="End"/>
+            <m:HBox class="olSide olSideQT" width="100%">
+                <m:HBox class="olH olHL" width="100%"><m:Text text="{i18n>colItem}"/></m:HBox>
+                <m:HBox class="olH olHL" width="100%"><m:Text text="{i18n>colMaterial}"/></m:HBox>
+                <m:HBox class="olH olHL" width="100%"><m:Text text="{i18n>colDescription}"/></m:HBox>
+                <m:HBox class="olH olHR" width="100%"><m:Text text="{i18n>colQty}"/></m:HBox>
+                <m:HBox class="olH olHRD" width="100%"><m:Text text="{i18n>colOpenQty}"/></m:HBox>
+                <m:HBox class="olH olHRD" width="100%"><m:Text text="{i18n>colUnitPrice}"/></m:HBox>
             </m:HBox>
         </m:HBox>
 
-        <m:List items="{um>/rows}" noDataText="{i18n>noUnmatchedSOItems}" showSeparators="Inner" class="lineMatchList umList">
+        <m:List items="{um>/rows}" noDataText="{i18n>noUnmatchedSOItems}" showSeparators="Inner" class="olList">
             <m:CustomListItem>
-                <m:HBox class="lineMatchRow" width="100%">
-
+                <m:HBox class="olRow" width="100%">
                     <!-- UNMATCHED SALES ORDER (left) -->
-                    <m:HBox class="lineMatchHalf lmColsP" width="100%">
+                    <m:HBox class="olSide olSideSO" width="100%">
                         <m:customData>
-                            <core:CustomData key="empty" value="{= !${um>so} }" writeToDom="true"/>
+                            <core:CustomData key="empty" writeToDom="true" value="{= ${um>so} ? false : true }"/>
                         </m:customData>
-                        <m:Text text="{um>so/item}" width="100%"/>
-                        <m:HBox width="100%" alignItems="Center" class="lmCell">
-                            <m:customData>
-                                <core:CustomData key="match" value="lmMatchError" writeToDom="true"/>
-                            </m:customData>
-                            <m:Text text="{um>so/material}"/>
-                            <m:ObjectStatus icon="sap-icon://circle-task-2" class="lmDot" state="Error"/>
+                        <m:HBox class="olC olL" width="100%" alignItems="Center"><m:Text text="{um>so/item}"/></m:HBox>
+                        <m:HBox class="olC olMat" width="100%" alignItems="Center">
+                        <m:customData>
+                        <core:CustomData key="match" writeToDom="true" value="lmMatchError"/>
+                        <core:CustomData key="has" writeToDom="true" value="{= ${um>so/material} === null || ${um>so/material} === undefined || ${um>so/material} === '' ? false : true }"/>
+                        </m:customData>
+                        <m:Text text="{um>so/material}"/>
+                        <m:ObjectStatus icon="sap-icon://circle-task-2" class="olDot" state="Error" visible="{= ${um>so/material} === null || ${um>so/material} === undefined || ${um>so/material} === '' ? false : true }"/>
                         </m:HBox>
-                        <m:Text text="{um>so/material_Description}" wrapping="true" maxLines="3" width="100%"/>
-                        <m:HBox width="100%" alignItems="Center" justifyContent="End" class="lmCell">
-                            <m:customData>
-                                <core:CustomData key="match" value="lmMatchError" writeToDom="true"/>
-                            </m:customData>
-                            <m:Text text="{parts: [{path: 'um>so/unitQty'}, {path: 'um>so/unitQtyUom'}], formatter: '.formatter.formatQtyUnit'}"/>
-                            <m:ObjectStatus icon="sap-icon://circle-task-2" class="lmDot" state="Error"/>
+                        <m:HBox class="olC olL olDesc" width="100%" alignItems="Center"><m:Text text="{um>so/material_Description}" wrapping="true" maxLines="3"/></m:HBox>
+                        <m:HBox class="olC olR" width="100%" alignItems="Center">
+                        <m:customData>
+                        <core:CustomData key="match" writeToDom="true" value="lmMatchError"/>
+                        <core:CustomData key="has" writeToDom="true" value="{= ${um>so/unitQty} === null || ${um>so/unitQty} === undefined || ${um>so/unitQty} === '' ? false : true }"/>
+                        </m:customData>
+                        <m:Text text="{parts: [{path: 'um>so/unitQty'}, {path: 'um>so/unitQtyUom'}], formatter: '.formatter.formatQtyUnit'}"/>
+                        <m:ObjectStatus icon="sap-icon://circle-task-2" class="olDot" state="Error" visible="{= ${um>so/unitQty} === null || ${um>so/unitQty} === undefined || ${um>so/unitQty} === '' ? false : true }"/>
                         </m:HBox>
-                        <!-- open-qty gap (sales order has no open qty) -->
-                        <m:HBox width="100%"/>
-                        <m:HBox width="100%" alignItems="Center" justifyContent="End" class="lmCell">
-                            <m:customData>
-                                <core:CustomData key="match" value="lmMatchError" writeToDom="true"/>
-                            </m:customData>
-                            <m:Text text="{parts: [{path: 'um>so/unit_Price'}, {path: 'um>so/currency'}], formatter: '.formatter.formatPriceCur'}"/>
-                            <m:ObjectStatus icon="sap-icon://circle-task-2" class="lmDot" state="Error"/>
+                        <m:HBox class="olC olGap" width="100%"/>
+                        <m:HBox class="olC olR" width="100%" alignItems="Center">
+                        <m:customData>
+                        <core:CustomData key="match" writeToDom="true" value="lmMatchError"/>
+                        <core:CustomData key="has" writeToDom="true" value="{= ${um>so/unit_Price} === null || ${um>so/unit_Price} === undefined || ${um>so/unit_Price} === '' ? false : true }"/>
+                        </m:customData>
+                        <m:Text text="{parts: [{path: 'um>so/unit_Price'}, {path: 'um>so/currency'}], formatter: '.formatter.formatPriceCur'}"/>
+                        <m:ObjectStatus icon="sap-icon://circle-task-2" class="olDot" state="Error" visible="{= ${um>so/unit_Price} === null || ${um>so/unit_Price} === undefined || ${um>so/unit_Price} === '' ? false : true }"/>
                         </m:HBox>
                     </m:HBox>
-
                     <!-- UNMATCHED QUOTE (right) -->
-                    <m:HBox class="lineMatchHalf lmColsP" width="100%">
+                    <m:HBox class="olSide olSideQT" width="100%">
                         <m:customData>
-                            <core:CustomData key="empty" value="{= !${um>qt} }" writeToDom="true"/>
+                            <core:CustomData key="empty" writeToDom="true" value="{= ${um>qt} ? false : true }"/>
                         </m:customData>
-                        <m:Text text="{um>qt/item}" width="100%"/>
-                        <m:HBox width="100%" alignItems="Center" class="lmCell">
-                            <m:customData>
-                                <core:CustomData key="match" value="lmMatchError" writeToDom="true"/>
-                            </m:customData>
-                            <m:Text text="{um>qt/material}"/>
-                            <m:ObjectStatus icon="sap-icon://circle-task-2" class="lmDot" state="Error"/>
+                        <m:HBox class="olC olL" width="100%" alignItems="Center"><m:Text text="{um>qt/item}"/></m:HBox>
+                        <m:HBox class="olC olMat" width="100%" alignItems="Center">
+                        <m:customData>
+                        <core:CustomData key="match" writeToDom="true" value="lmMatchError"/>
+                        <core:CustomData key="has" writeToDom="true" value="{= ${um>qt/material} === null || ${um>qt/material} === undefined || ${um>qt/material} === '' ? false : true }"/>
+                        </m:customData>
+                        <m:Text text="{um>qt/material}"/>
+                        <m:ObjectStatus icon="sap-icon://circle-task-2" class="olDot" state="Error" visible="{= ${um>qt/material} === null || ${um>qt/material} === undefined || ${um>qt/material} === '' ? false : true }"/>
                         </m:HBox>
-                        <m:Text text="{um>qt/material_Description}" wrapping="true" maxLines="3" width="100%"/>
-                        <m:Text text="{parts: [{path: 'um>qt/targetQty'}, {path: 'um>qt/targetUom'}], formatter: '.formatter.formatQtyUnit'}"/>
-                        <m:HBox width="100%" alignItems="Center" justifyContent="End" class="lmCell">
-                            <m:customData>
-                                <core:CustomData key="match" value="lmMatchError" writeToDom="true"/>
-                            </m:customData>
-                            <m:Text text="{parts: [{path: 'um>qt/open_Qty'}, {path: 'um>qt/targetUom'}], formatter: '.formatter.formatQtyUnit'}"/>
-                            <m:ObjectStatus icon="sap-icon://circle-task-2" class="lmDot" state="Error"/>
+                        <m:HBox class="olC olL olDesc" width="100%" alignItems="Center"><m:Text text="{um>qt/material_Description}" wrapping="true" maxLines="3"/></m:HBox>
+                        <m:HBox class="olC olR" width="100%" alignItems="Center"><m:Text text="{parts: [{path: 'um>qt/targetQty'}, {path: 'um>qt/targetUom'}], formatter: '.formatter.formatQtyUnit'}"/></m:HBox>
+                        <m:HBox class="olC olR" width="100%" alignItems="Center">
+                        <m:customData>
+                        <core:CustomData key="match" writeToDom="true" value="lmMatchError"/>
+                        <core:CustomData key="has" writeToDom="true" value="{= ${um>qt/open_Qty} === null || ${um>qt/open_Qty} === undefined || ${um>qt/open_Qty} === '' ? false : true }"/>
+                        </m:customData>
+                        <m:Text text="{parts: [{path: 'um>qt/open_Qty'}, {path: 'um>qt/targetUom'}], formatter: '.formatter.formatQtyUnit'}"/>
+                        <m:ObjectStatus icon="sap-icon://circle-task-2" class="olDot" state="Error" visible="{= ${um>qt/open_Qty} === null || ${um>qt/open_Qty} === undefined || ${um>qt/open_Qty} === '' ? false : true }"/>
                         </m:HBox>
-                        <m:HBox width="100%" alignItems="Center" justifyContent="End" class="lmCell">
-                            <m:customData>
-                                <core:CustomData key="match" value="lmMatchError" writeToDom="true"/>
-                            </m:customData>
-                            <m:Text text="{parts: [{path: 'um>qt/unit_Price'}, {path: 'um>qt/currency'}], formatter: '.formatter.formatPriceCur'}"/>
-                            <m:ObjectStatus icon="sap-icon://circle-task-2" class="lmDot" state="Error"/>
+                        <m:HBox class="olC olR" width="100%" alignItems="Center">
+                        <m:customData>
+                        <core:CustomData key="match" writeToDom="true" value="lmMatchError"/>
+                        <core:CustomData key="has" writeToDom="true" value="{= ${um>qt/unit_Price} === null || ${um>qt/unit_Price} === undefined || ${um>qt/unit_Price} === '' ? false : true }"/>
+                        </m:customData>
+                        <m:Text text="{parts: [{path: 'um>qt/unit_Price'}, {path: 'um>qt/currency'}], formatter: '.formatter.formatPriceCur'}"/>
+                        <m:ObjectStatus icon="sap-icon://circle-task-2" class="olDot" state="Error" visible="{= ${um>qt/unit_Price} === null || ${um>qt/unit_Price} === undefined || ${um>qt/unit_Price} === '' ? false : true }"/>
                         </m:HBox>
                     </m:HBox>
-
                 </m:HBox>
             </m:CustomListItem>
         </m:List>

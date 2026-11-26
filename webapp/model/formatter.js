@@ -31,6 +31,10 @@ sap.ui.define([
         return Number(s);
     }
 
+    function sameNum(a, b) {
+        return Math.abs(a - b) < 1e-9;
+    }
+
     var oFormatter = {
 
         getMatchState: function (value1, value2, bAllowPossible) {
@@ -157,47 +161,54 @@ sap.ui.define([
             );
         },
 
-         //matched field qty change#yellow
-        getQtyState: function (v1, v2) {
+        /*
+         * Quantity: OR qty vs open ZCQ qty
+         * Success = equal            (green)
+         * Warning = OR < open ZCQ    (yellow)
+         * None    = OR > open ZCQ    (grey, not possible to link)
+         * Error   = value missing    (red, check)
+         */
+        getQtyState: function (vOrQty, vOpenQty) {
+            var n1 = toNumber(vOrQty);
+            var n2 = toNumber(vOpenQty);
 
-            var sState = oFormatter.getMatchState(v1, v2, false);
-
-            if (sState === "Error") {
-                return "Warning";
+            if (isNaN(n1) || isNaN(n2)) {
+                return (normalize(vOrQty) || normalize(vOpenQty)) ? "Error" : "Information";
             }
-
-            return sState;
+            if (sameNum(n1, n2)) {
+                return "Success";
+            }
+            return n1 < n2 ? "Warning" : "None";
         },
 
-         //matched field qty change#yellow
-            getQtyCellClass: function (v1, v2) {
-
-                var sState = oFormatter.getMatchState(v1, v2, false);
-
-                if (sState === "Error") {
-                    sState = "Warning";
-                }
-
-                var mClass = {
-                    "Success": "lmMatchSuccess",
-                    "Warning": "lmMatchWarning",
-                    "Information": "lmMatchInfo"
-                };
-
-                return mClass[sState] || "";
-            },
-
+        getQtyCellClass: function (v1, v2) {
+            var mClass = {
+                "Success": "lmMatchSuccess",
+                "Warning": "lmMatchWarning",
+                "None": "lmMatchGrey",
+                "Error": "lmMatchError",
+                "Information": "lmMatchInfo"
+            };
+            return mClass[oFormatter.getQtyState(v1, v2)] || "";
+        },
 
         /*
-         * Used for Unit Price
-         * Allows Possible Match / Warning
+         * Unit price: OR price vs ZCQ price
+         * Success = exact match          (green)
+         * Warning = not exact, ZCQ lower (yellow)
+         * Error   = not exact, OR lower  (red)
          */
-        getPriceState: function (v1, v2) {
-            return oFormatter.getMatchState(
-                v1,
-                v2,
-                true
-            );
+        getPriceState: function (vOrPrice, vZcqPrice) {
+            var n1 = toNumber(vOrPrice);
+            var n2 = toNumber(vZcqPrice);
+
+            if (isNaN(n1) || isNaN(n2)) {
+                return (normalize(vOrPrice) || normalize(vZcqPrice)) ? "Error" : "Information";
+            }
+            if (sameNum(n1, n2)) {
+                return "Success";
+            }
+            return n2 < n1 ? "Warning" : "Error";
         },
 
         /*
@@ -300,7 +311,8 @@ sap.ui.define([
                 "Success": "lmMatchSuccess",
                 "Warning": "lmMatchWarning",
                 "Error": "lmMatchError",
-                "Information": "lmMatchInfo"
+                "Information": "lmMatchInfo",
+                "None": "lmMatchGrey"
             };
 
             return mClass[sState] || "";
@@ -311,13 +323,13 @@ sap.ui.define([
          * Allows Warning / Possible Match
          */
         getPriceCellClass: function (v1, v2) {
-
-            return oFormatter.getCellClass(
-                v1,
-                v2,
-                true
-            );
-            
+            var mClass = {
+                "Success": "lmMatchSuccess",
+                "Warning": "lmMatchWarning",
+                "Error": "lmMatchError",
+                "Information": "lmMatchInfo"
+            };
+            return mClass[oFormatter.getPriceState(v1, v2)] || "";
         },
 
         /*

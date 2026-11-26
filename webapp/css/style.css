@@ -1622,6 +1622,32 @@ html.orderLinkScale {
   margin: 0.5rem 0 1rem 0 !important;
   gap: 12px;
 }
+
+/* change#align-analytics : lower cards (Match Status / Confidence / Top Mismatch) use the
+   SAME 3-column grid as the KPI cards above (Total / New / Reviewed):
+   same container width, same 12px gap, three equal columns -> left and right edges line up.
+   (The controller gives each lower card width:32% + SpaceBetween, which never matches
+   the KPI row's flex:1 + 12px gap; width:auto + flex:1 1 0 below overrides that.) */
+.analyticsCardsRow {
+  display: flex !important;
+  flex-wrap: nowrap;
+  justify-content: flex-start !important;
+  width: 100%;
+}
+.analyticsCardsRow > .analyticsCard {
+  flex: 1 1 0 !important;
+  width: auto !important;
+  min-width: 0;
+  box-sizing: border-box;
+}
+/* same responsive behaviour as the KPI row (see .kpiCardsRow / .kpiCard media queries) */
+@media (max-width: 1000px) {
+  .analyticsCardsRow { flex-wrap: wrap; gap: 10px; }
+  .analyticsCardsRow > .analyticsCard { flex: 1 1 calc(50% - 5px) !important; }
+}
+@media (max-width: 600px) {
+  .analyticsCardsRow > .analyticsCard { flex: 1 1 100% !important; }
+}
 /* .analyticsCard {
   background: #ffffff !important;
   border: 1px solid #d9d9d9 !important;
@@ -2587,121 +2613,284 @@ button[id*="Reject_link"] .sapMBtnInner {
 }
 
 /* =====================================================================
-   change#perunit-before-price : MATCHED card
-   col 6 = PER UNIT (narrow), col 7 = UNIT PRICE (wide)
-   (placed last on purpose: it overrides the older column rules above)
+   change#ol-final : MATCHED + UNMATCHED line-item cards  (class family "ol*")
+   ---------------------------------------------------------------------
+   * Header and data rows share ONE grid per side  -> headers sit exactly over values
+   * Every cell fills its column (same width in every row)
+   * Text columns: left.  Number columns: right.
+   * Status dots live in a FIXED slot at the right end of the cell -> all dots of a
+     column are on one vertical line (no left/right zig-zag)
+   * A cell without a value on its side: no dot, no background
+   * Per Unit sits AFTER Unit Price
    ===================================================================== */
-.lineMatchCard.lineMatchCard .lineMatchRow .lineMatchHalf.lmColsSO > :nth-child(5) { grid-column: 6 / 7 !important; } /* SO per unit */
-.lineMatchCard.lineMatchCard .lineMatchRow .lineMatchHalf.lmColsSO > :nth-child(6) { grid-column: 7 / 8 !important; } /* SO price    */
-.lineMatchCard.lineMatchCard .lineMatchRow .lineMatchHalf.lmColsQT > :nth-child(6) { grid-column: 6 / 7 !important; } /* QT per unit */
-.lineMatchCard.lineMatchCard .lineMatchRow .lineMatchHalf.lmColsQT > :nth-child(7) { grid-column: 7 / 8 !important; } /* QT price    */
+.olCard {
+  --ol-pad: 8px;            /* horizontal padding inside each cell / header */
+  --ol-in-gap: 6px;         /* space between value and dot */
+  --ol-dot: 0.9rem;         /* width of the dot slot (= icon size) */
+  background: #ffffff;
+  border: 1px solid #d7dce3;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  container-type: inline-size;
+  container-name: olcard;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.olCard:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+.olCardHead {
+  padding: 14px 20px;
+  background: #f8f9fb;
+  border-bottom: 1px solid #e3e7ed;
+}
+.olCardHead .sapMTitle { font-size: 1rem; font-weight: 600; color: #1f2937; }
+.olLegend { gap: 18px; flex-wrap: wrap; }
+.olLegend .sapMObjStatusText { font-size: 0.75rem; color: #4b5563; }
 
-@media (min-width: 1401px) {
-  .lineMatchCard .lineMatchRow .lmColsSO {
-    grid-template-columns:
-      minmax(36px, 0.45fr)
-      minmax(100px, 1.2fr)
-      minmax(82px, 2fr)
-      minmax(78px, 1.05fr)
-      minmax(64px, 1.05fr)
-      minmax(84px, 0.9fr)
-      minmax(124px, 1.5fr);
-  }
-  .lineMatchCard .lineMatchRow .lmColsQT {
-    grid-template-columns:
-      minmax(44px, 0.5fr)
-      minmax(100px, 1.15fr)
-      minmax(82px, 1.8fr)
-      minmax(78px, 1fr)
-      minmax(78px, 1fr)
-      minmax(84px, 0.9fr)
-      minmax(130px, 1.5fr);
-  }
+/* two halves: Sales Order | Quote */
+.olGroups,
+.olRow {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: 40px;
+  align-items: center;
+  padding: 8px 20px;
+  box-sizing: border-box;
+  min-width: 0;
 }
-@media (max-width: 1400px) {
-  .lineMatchCard .lineMatchRow .lineMatchHalf.lmColsSO,
-  .lineMatchCard .lineMatchRow .lineMatchHalf.lmColsQT {
-    grid-template-columns:
-      minmax(40px, 0.5fr)
-      minmax(104px, 1.2fr)
-      minmax(90px, 2.4fr)
-      minmax(84px, 1fr)
-      minmax(84px, 1fr)
-      minmax(80px, 0.9fr)
-      minmax(126px, 1.4fr) !important;
-  }
+.olGroups > *, .olRow > * { min-width: 0; }
+.olGroups { padding-top: 16px; padding-bottom: 0; }
+.olGroup {
+  display: block;
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  padding-bottom: 6px;
+  border-bottom: 2px solid currentColor;
 }
-@media (max-width: 760px) {
-  .lineMatchCard .lineMatchRow .lineMatchHalf.lmColsSO,
-  .lineMatchCard .lineMatchRow .lineMatchHalf.lmColsQT {
-    grid-template-columns:
-      minmax(30px, 0.4fr)
-      minmax(96px, 1.1fr)
-      minmax(86px, 2fr)
-      minmax(76px, 1fr)
-      minmax(76px, 1fr)
-      minmax(72px, 0.9fr)
-      minmax(118px, 1.3fr) !important;
-  }
-}
+.olGroupSO { color: #1d5fd1 !important; }
+.olGroupQT, .olGroupUN { color: #7c3aed !important; }
 
-/* =====================================================================
-   change#um-pair : UNMATCHED card = one row per item
-   Sales Order (left) | Quote (right), same layout as the Matched card
-   ===================================================================== */
-.lmColsP {
-  grid-template-columns:
-    minmax(40px, 0.5fr)
-    minmax(100px, 1.15fr)
-    minmax(70px, 2fr)
-    minmax(78px, 1fr)
-    minmax(78px, 1fr)
-    minmax(124px, 1.4fr);
+/* column header row */
+.olHeadRow {
+  background: #f3f4f6;
+  border-top: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
+  margin-top: 8px;
+}
+.olH {
+  display: flex !important;
+  align-items: center;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 6px var(--ol-pad);
+  overflow: hidden;
+}
+.olH .sapMText {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: #8a94a3;
+  line-height: 1.25;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.olHL  { justify-content: flex-start; text-align: left; }
+.olHR  { justify-content: flex-end;   text-align: right; }
+/* number column that carries a dot: header ends where the VALUE ends (before the dot slot) */
+.olHRD {
+  justify-content: flex-end;
+  text-align: right;
+  padding-right: calc(var(--ol-pad) + var(--ol-in-gap) + var(--ol-dot));
+}
+.olHopen { visibility: hidden; }   /* Sales Order has no Open Qty (shown only when stacked) */
+
+/* list */
+.olList .sapMLIB { height: auto !important; }
+.olList .sapMLIBContent { padding: 0 !important; }
+.olList .sapMLIB:hover { background: #fafbfc; }
+
+/* one half = one grid; header and rows use the same template */
+.olSide {
+  display: grid !important;
   column-gap: 8px;
   align-items: center;
-}
-.lmColsP > :nth-child(4),
-.lmColsP > :nth-child(5),
-.lmColsP > :nth-child(6) {
-  justify-self: end;
-}
-.lmColsP > :not(.lmCell):nth-child(4),
-.lmColsP > :not(.lmCell):nth-child(5),
-.lmColsP > :not(.lmCell):nth-child(6) {
   width: 100%;
-  text-align: right;
-  padding-right: var(--lm-pad);
+  min-width: 0;
+}
+.olSide > * { min-width: 0; }
+
+/* Matched:   Item | Material | Description | Qty | Open Qty | Unit Price | Per Unit */
+.olCardM .olSideSO {
+  grid-template-columns: minmax(30px, .4fr) minmax(110px, 1.15fr) minmax(64px, 2.2fr) minmax(116px, 1fr) minmax(20px, .25fr) minmax(128px, 1.2fr) minmax(60px, .8fr);
+}
+.olCardM .olSideQT {
+  grid-template-columns: minmax(30px, .4fr) minmax(110px, 1.15fr) minmax(64px, 2fr) minmax(80px, .9fr) minmax(116px, 1fr) minmax(128px, 1.2fr) minmax(60px, .8fr);
+}
+/* Unmatched: Item | Material | Description | Qty | Open Qty | Unit Price */
+.olCardU .olSideSO {
+  grid-template-columns: minmax(30px, .4fr) minmax(110px, 1.15fr) minmax(64px, 2.2fr) minmax(116px, 1fr) minmax(20px, .25fr) minmax(128px, 1.2fr);
+}
+.olCardU .olSideQT {
+  grid-template-columns: minmax(30px, .4fr) minmax(110px, 1.15fr) minmax(64px, 2fr) minmax(80px, .9fr) minmax(116px, 1fr) minmax(128px, 1.2fr);
+}
+
+/* cells */
+.olC {
+  display: flex !important;
+  align-items: center;
+  gap: var(--ol-in-gap);
+  width: 100%;
+  min-width: 0;
+  min-height: 32px;
+  padding: 4px var(--ol-pad);
   box-sizing: border-box;
+  border-radius: 6px;
 }
-/* "Open Qty" header above the SO half is only shown when stacked (SO has no open qty) */
-.umOpenHeadStacked {
-  visibility: hidden;
+.olC > * { min-width: 0; }
+.olL   { justify-content: flex-start; text-align: left; }
+.olR   { justify-content: flex-end;   text-align: right; }
+.olMat { justify-content: space-between; text-align: left; }   /* value left, dot on the right edge */
+.olC .sapMText {
+  font-size: 0.875rem;
+  line-height: 1.25;
+  color: #1f2937;
+  white-space: nowrap;
 }
-/* a side without an item: keep its column (side by side) / drop it (stacked) */
-.lineMatchRow .lineMatchHalf[data-empty="true"] > * {
-  visibility: hidden;
+.olDesc .sapMText { white-space: normal; overflow-wrap: anywhere; word-break: break-word; }
+.olDesc > * { flex: 1 1 auto; }
+
+/* the dot: fixed slot, always the last item of the cell */
+.olC .olDot {
+  flex: 0 0 var(--ol-dot) !important;
+  width: var(--ol-dot);
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 1em;
+  line-height: 1 !important;
 }
-@media (max-width: 1400px) {
-  .lmColsP {
-    grid-template-columns:
-      minmax(40px, 0.5fr)
-      minmax(104px, 1.2fr)
-      minmax(90px, 2.4fr)
-      minmax(84px, 1fr)
-      minmax(84px, 1fr)
-      minmax(126px, 1.4fr);
+.olC .olDot .sapMObjStatusIcon,
+.olC .olDot .sapUiIcon {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 1em;
+  height: 1em;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 0.9rem !important;
+  line-height: 1em !important;
+}
+
+/* match colours (same palette as before) */
+.olC[data-match="lmMatchSuccess"] { background-color: #eef8ef; }
+.olC[data-match="lmMatchWarning"] { background-color: #fff8cc; }
+.olC[data-match="lmMatchError"]   { background-color: #fff0f0; }
+.olC[data-match="lmMatchInfo"]    { background-color: #eef5ff; }
+.olC[data-match="lmMatchSuccess"] .sapMText { color: #2e7d32 !important; font-weight: 700 !important; }
+.olC[data-match="lmMatchWarning"] .sapMText { color: #d4b106 !important; font-weight: 700 !important; }
+.olC[data-match="lmMatchError"]   .sapMText { color: #c62828 !important; font-weight: 700 !important; }
+.olC[data-match="lmMatchInfo"]    .sapMText { color: #1565c0 !important; font-weight: 700 !important; }
+
+/* no value on this side: no background, no dot */
+.olC[data-has="false"] { background-color: transparent !important; }
+.olC[data-has="false"] .olDot { display: none !important; }
+/* a whole side without an item (Unmatched card): keep the column, show nothing */
+.olSide[data-empty="true"] > * { visibility: hidden; }
+
+/* ---- responsive: stack when the CARD is narrower than the two halves need ---- */
+@container olcard (max-width: 1379px) {
+  /* ---- STACKED: card too narrow for two halves -> Sales Order row above its Quote row ---- */
+  .olGroups { display: none !important; }
+  .olRow, .olHeadRow { grid-template-columns: minmax(0, 1fr); row-gap: 6px; min-width: 700px; padding-left: 14px; padding-right: 14px; }
+  .olHeadRow > .olSideQT { display: none !important; }
+  .olHopen { visibility: visible; }
+  .olCardM .olSide {
+    grid-template-columns: minmax(30px, .4fr) minmax(110px, 1.15fr) minmax(90px, 2.2fr) minmax(116px, 1fr) minmax(116px, 1fr) minmax(128px, 1.2fr) minmax(60px, .8fr);
   }
-  .umOpenHeadStacked {
-    visibility: visible;
+  .olCardU .olSide {
+    grid-template-columns: minmax(30px, .4fr) minmax(110px, 1.15fr) minmax(90px, 2.2fr) minmax(116px, 1fr) minmax(116px, 1fr) minmax(128px, 1.2fr);
   }
-  .lineMatchRow .lineMatchHalf[data-empty="true"] {
-    display: none !important;
+  .olList .olRow > .olSide::before {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+    padding: 3px 10px;
+    border-left: 3px solid var(--side-accent);
+    border-radius: 4px;
+    background: var(--side-bg);
+    color: var(--side-accent);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    line-height: 1.4;
+    text-transform: uppercase;
   }
-  .lineMatchList .lineMatchRow > .lmColsP:nth-child(2) {
-    --side-accent: #c026d3;
-    --side-bg: #fdf2f8;
-  }
-  .lineMatchList .lineMatchRow > .lmColsP:nth-child(2)::before {
-    content: "Unmatched Quote";
+  .olList .olRow > .olSideSO { --side-accent: #1d5fd1; --side-bg: #e8f0fe; }
+  .olList .olRow > .olSideSO::before { content: "Sales Order"; }
+  .olCardM .olList .olRow > .olSideQT { --side-accent: #7c3aed; --side-bg: #f3e8ff; }
+  .olCardM .olList .olRow > .olSideQT::before { content: "Matched Quote"; }
+  .olCardU .olList .olRow > .olSideQT { --side-accent: #c026d3; --side-bg: #fdf2f8; }
+  .olCardU .olList .olRow > .olSideQT::before { content: "Unmatched Quote"; }
+  .olList .olRow > .olSide[data-empty="true"] { display: none !important; }
+}
+
+/* change#legend-grey */
+.olC[data-match="lmMatchGrey"] { background-color: #f0f0f0; }
+.olC[data-match="lmMatchGrey"] .sapMText { color: #6b7280 !important; font-weight: 700 !important; }
+.lmMatchGrey,
+.lmCell[data-match="lmMatchGrey"] { background-color: #f0f0f0 !important; }
+.olC .olDot.sapMObjStatusNone .sapUiIcon,
+.olLegend .sapMObjStatusNone .sapUiIcon { color: #8a8d91 !important; }
+.olLegend .sapMObjStatusNone .sapMObjStatusText { color: #4b5563 !important; }
+
+
+/* browsers without container queries: fall back to the viewport width */
+@supports not (container-type: inline-size) {
+  @media (max-width: 1650px) {
+    /* ---- STACKED: card too narrow for two halves -> Sales Order row above its Quote row ---- */
+    .olGroups { display: none !important; }
+    .olRow, .olHeadRow { grid-template-columns: minmax(0, 1fr); row-gap: 6px; min-width: 700px; padding-left: 14px; padding-right: 14px; }
+    .olHeadRow > .olSideQT { display: none !important; }
+    .olHopen { visibility: visible; }
+    .olCardM .olSide {
+      grid-template-columns: minmax(30px, .4fr) minmax(110px, 1.15fr) minmax(90px, 2.2fr) minmax(116px, 1fr) minmax(116px, 1fr) minmax(128px, 1.2fr) minmax(60px, .8fr);
+    }
+    .olCardU .olSide {
+      grid-template-columns: minmax(30px, .4fr) minmax(110px, 1.15fr) minmax(90px, 2.2fr) minmax(116px, 1fr) minmax(116px, 1fr) minmax(128px, 1.2fr);
+    }
+    .olList .olRow > .olSide::before {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      margin-bottom: 4px;
+      padding: 3px 10px;
+      border-left: 3px solid var(--side-accent);
+      border-radius: 4px;
+      background: var(--side-bg);
+      color: var(--side-accent);
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      line-height: 1.4;
+      text-transform: uppercase;
+    }
+    .olList .olRow > .olSideSO { --side-accent: #1d5fd1; --side-bg: #e8f0fe; }
+    .olList .olRow > .olSideSO::before { content: "Sales Order"; }
+    .olCardM .olList .olRow > .olSideQT { --side-accent: #7c3aed; --side-bg: #f3e8ff; }
+    .olCardM .olList .olRow > .olSideQT::before { content: "Matched Quote"; }
+    .olCardU .olList .olRow > .olSideQT { --side-accent: #c026d3; --side-bg: #fdf2f8; }
+    .olCardU .olList .olRow > .olSideQT::before { content: "Unmatched Quote"; }
+    .olList .olRow > .olSide[data-empty="true"] { display: none !important; }
   }
 }
