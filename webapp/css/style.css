@@ -2894,3 +2894,10 @@ button[id*="Reject_link"] .sapMBtnInner {
     .olList .olRow > .olSide[data-empty="true"] { display: none !important; }
   }
 }
+
+/* KPI cards - remove shadow */
+.kpiCard,
+.kpiCard:hover {
+    box-shadow: none !important;
+    transform: none !important;
+}
